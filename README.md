@@ -8,5 +8,5 @@ Recordly is developed on the Ruby on Rails framework using Test-Driven Developme
 
 ## Live
 
-Recordly can be interacted with live at https://obscure-fjord-54052.herokuapp.com/.
+Recordly can be interacted with live at https://afternoon-plateau-41840.herokuapp.com/.
 
