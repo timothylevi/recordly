@@ -23,6 +23,8 @@ module Recordly
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
 
+    # Generate .js files instead of .coffee files when generator is used
+    # source: http://stackoverflow.com/questions/8722195/how-can-i-completely-disable-coffeescript-in-a-rails-3-1-app#comment38470456_22933820
     config.generators.javascript_engine :js
   end
 end
