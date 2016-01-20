@@ -1,6 +1,11 @@
 require 'test_helper'
 
 class StaticPagesControllerTest < ActionController::TestCase
+  test "should route root to home page" do
+    opts = { :controller => 'static_pages', :action => 'home'}
+    assert_recognizes opts, '/'
+  end
+
   test "should get home" do
     get :home
     assert_response :success
