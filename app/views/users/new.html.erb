@@ -1,0 +1,23 @@
+<header>
+  <h2>Log in or join Recordly.</h2>
+  <p>Store your record collection information in the cloud!</p>
+</header>
+
+<%= form_for(@user) do |f| %>
+  <h3>Join</h3>
+  <%= render 'shared/error_messages' %>
+  
+  <%= f.label :name %>
+  <%= f.text_field :name, class: "form-control" %>
+  
+  <%= f.label :email %>
+  <%= f.email_field :email, class: "form-control" %>
+  
+  <%= f.label :password %>
+  <%= f.password_field :password, class: "form-control" %>
+  
+  <%= f.label :password_confirmation, "Confirmation" %>
+  <%= f.password_field :password_confirmation, class: "form-control" %>
+  
+  <%= f.submit "Join Recordly", class: "btn btn-primary" %>
+<% end %>

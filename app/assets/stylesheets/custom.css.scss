@@ -1,6 +1,15 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+$alert-success-background: black;
+$alert-success-foreground: white;
+$alert-failure-background: orange;
+$alert-failure-foreground: red;
+$alert-hooray-background: green;
+$alert-hooray-foreground: yellow;
+
+
+/* Header Styles */
 .site-header {}
 .site-header-logo,
 .site-header-logo-add,
@@ -24,4 +33,43 @@
 }
 .site-nav-link a {}
 
+/* Content General Styles */
 .content {}
+
+/* Form Styles */
+.content {
+  label, input {
+    display: block;
+  }
+}
+
+/* Alert Styles */
+.alert {
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 1rem 0.5rem;
+}
+.alert.alert-success {
+  background-color: $alert-success-background;
+  color: $alert-success-foreground;
+}
+.alert.alert-hooray {
+  background-color: $alert-hooray-background;
+  color: $alert-hooray-foreground;
+}
+.alert.alert-failure {
+  background-color: $alert-failure-background;
+  color: $alert-failure-foreground;
+}
+.alert h2 {
+  padding: 0;
+  margin: 0;
+  font-size: 1.5rem;
+  display: inline-block;
+  text-transform: capitalize;
+}
+
+.alert p {
+  display: inline-block;
+}
