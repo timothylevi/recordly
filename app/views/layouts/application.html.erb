@@ -7,8 +7,24 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <header>
+    <h1>Recordly</h1>
+    <a href="#add">+ Add Music</a>
+    <input type="text" placeholder="Type for search"></input>
 
-<%= yield %>
+    <nav>
+      <ul>
+        <li><a href="/favorites">Favorites</a></li>
+        <li><a href="/songs">Songs</a></li>
+        <li><a href="/albums">Albums</a></li>
+        <li><a href="/artists">Artists</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <%= yield %>
+  </main>
 
 </body>
 </html>
