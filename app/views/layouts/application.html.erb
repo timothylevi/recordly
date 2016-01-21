@@ -5,24 +5,12 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+  <%= render 'layouts/shim' %>
 </head>
 <body>
-  <header>
-    <h1>Recordly</h1>
-    <a href="#add">+ Add Music</a>
-    <input type="text" placeholder="Type for search"></input>
+  <%= render 'layouts/header' %>
 
-    <nav>
-      <ul>
-        <li><a href="/favorites">Favorites</a></li>
-        <li><a href="/songs">Songs</a></li>
-        <li><a href="/albums">Albums</a></li>
-        <li><a href="/artists">Artists</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main>
+  <main class="content">
     <%= yield %>
   </main>
 

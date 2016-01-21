@@ -1,0 +1,27 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+.site-header {}
+.site-header-logo,
+.site-header-logo-add,
+.site-header-logo-search {
+  margin: 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+.site-header-logo { font-size: 3rem; }
+.site-header-logo-link {}
+.site-header-add { font-size: 1.5rem; }
+.site-header-search {}
+
+.site-nav {}
+.site-nav-links {
+  list-style-type: none;
+  padding: 0;
+}
+.site-nav-link {
+  display: inline-block;
+}
+.site-nav-link a {}
+
+.content {}
