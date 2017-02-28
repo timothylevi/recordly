@@ -10,21 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20170228064941) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "alembic_version", primary_key: "version_num", id: :string, limit: 32, force: :cascade do |t|
-  end
-
-  create_table "user", force: :cascade do |t|
-    t.datetime "updated_at",             null: false
-    t.string   "email",      limit: 80,  null: false
-    t.string   "password",   limit: 128, null: false
-    t.datetime "created_at",             null: false
-    t.string   "name",       limit: 80
-    t.index ["email"], name: "user_email_key", unique: true, using: :btree
+  create_table "users", force: :cascade do |t|
+    t.string   "name"
+    t.string   "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
