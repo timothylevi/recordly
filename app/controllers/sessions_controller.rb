@@ -4,7 +4,6 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by(email: params[:session][:email].downcase)
-    puts 'what?', User.all
     if user && user.authenticate(params[:session][:password])
       log_in user
       flash[:success] = "You're logged in!"
