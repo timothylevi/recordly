@@ -1,8 +1,7 @@
 require 'test_helper'
 
 class UsersRegisterTest < ActionDispatch::IntegrationTest
-  # TODO: Fix test
-  test "Valid registration" do
+  test "valid registration" do
     get new_user_path
 
     assert_difference 'User.count' do
@@ -18,10 +17,10 @@ class UsersRegisterTest < ActionDispatch::IntegrationTest
 
     follow_redirect!
     assert_template 'artist/index'
+    assert is_logged_in?
   end
 
-  # TODO: Fix test
-  test "Invalid registration" do
+  test "invalid registration" do
     get new_user_path
 
     assert_no_difference 'User.count' do
