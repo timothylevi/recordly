@@ -1,7 +1,5 @@
 default: &default
   adapter: postgresql
-  username: tim
-  password:
   host: localhost
 
 development:

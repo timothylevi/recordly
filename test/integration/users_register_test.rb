@@ -1,0 +1,40 @@
+require 'test_helper'
+
+class UsersRegisterTest < ActionDispatch::IntegrationTest
+  # TODO: Fix test
+  test "Valid registration" do
+    get new_user_path
+
+    assert_difference 'User.count' do
+      post users_path, params: {
+        user: {
+          name: "User",
+          email: "user@example.com",
+          password: "password",
+          password_confirmation: "password"
+        }
+      }
+    end
+
+    follow_redirect!
+    assert_template 'artist/index'
+  end
+
+  # TODO: Fix test
+  test "Invalid registration" do
+    get new_user_path
+
+    assert_no_difference 'User.count' do
+      post users_path, params: {
+        user: {
+          name: "",
+          email: "user@example.com",
+          password: nil,
+          password_confirmation: nil
+        }
+      }
+    end
+
+    assert_template 'users/new'
+  end
+end
