@@ -1,4 +1,4 @@
-class Artist < ApplicationRecord
+class Album < ApplicationRecord
   has_attached_file :avatar, styles: {
     thumb: '100x100>',
     square: '200x200#',
@@ -9,5 +9,5 @@ class Artist < ApplicationRecord
   validates :name, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 255 }
   validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
 
-  has_and_belongs_to_many :albums
+  has_and_belongs_to_many :artists
 end
