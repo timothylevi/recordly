@@ -9,5 +9,5 @@ class Artist < ApplicationRecord
   validates :name, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 255 }
   validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
 
-  has_and_belongs_to_many :albums
+  has_and_belongs_to_many :albums, join_table: :artists_albums
 end

@@ -1,12 +1,10 @@
-require 'uri'
-require 'base64'
-
 class ArtistsController < ApplicationController
+  include ApplicationHelper
+
   def index
     @props = {
-      artists: Artist.all.map { |artist| artist_api(artist)},
+      artists: Artist.all.map { |artist| artist_api(artist) },
       artist: Artist.new,
-      form: true
     }
   end
 
@@ -45,14 +43,5 @@ class ArtistsController < ApplicationController
 
     def artist_params
       params.require(:artist).permit(:avatar, :name, :id)
-    end
-
-    def artist_api(artist)
-      return {
-        id: artist.id,
-        name: artist.name,
-        avatar: artist.avatar.url(:square),
-        errors: artist.errors.full_messages
-      }
     end
 end

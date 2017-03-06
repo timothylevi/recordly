@@ -1,116 +1,94 @@
 import React, { PropTypes } from 'react';
-import Artist from './Artist.jsx';
+import { BaseResourceList } from './Base.jsx';
+import Artist, { ARTIST_PROP_TYPES } from './Artist.jsx';
 
-export default class Artists extends React.Component {
+const ARTISTS_PROP_TYPES = PropTypes.arrayOf(ARTIST_PROP_TYPES);
+
+class Artists extends BaseResourceList {
   static propTypes = {
-    artists: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number,
-      name: PropTypes.string,
-      created_at: PropTypes.string,
-      updated_at: PropTypes.string
-    })),
-    artist: PropTypes.shape({
-      id: PropTypes.number,
-      name: PropTypes.string,
-      created_at: PropTypes.string,
-      updated_at: PropTypes.string
-    })
+    // Configuration
+    disableNew: PropTypes.bool,
+    disableEdit: PropTypes.bool,
+    disableFilter: PropTypes.bool,
+    disableSelect: PropTypes.bool,
+
+    // Data
+    artists: ARTISTS_PROP_TYPES,
+    artist: ARTIST_PROP_TYPES,
+    selectedArtists: ARTISTS_PROP_TYPES
   };
 
   constructor(props, _railsContext) {
     super(props);
 
     this.state = {
-      artists: props.artists,
-      selectedArtist: {},
-      filteredArtists: []
+      artists: this.mergeArtistState(props.artists, props.selectedArtists),
+      filteredResources: []
     };
 
-    this.filterMask = {};
+    this.resource = "artists";
 
-    this.handleArtistAdd = this.handleArtistAdd.bind(this);
-    this.handleArtistDelete = this.handleArtistDelete.bind(this);
-    this.handleArtistSelect = this.handleArtistSelect.bind(this);
-    this.handleFilter = this.handleFilter.bind(this);
+    this.mergeArtistState = this.mergeArtistState.bind(this);
   }
 
-  // Not event handlers, just handling business from them
-  handleArtistAdd(artist) {
-    const artists = this.state.artists;
-    artists.push(artist);
+  mergeArtistState(artists, selectedArtists) {
+    if (!selectedArtists) return artists;
 
-    this.setState({ artists });
-  }
+    var artistHash = selectedArtists.reduce(function(hsh, obj, index) {
+      obj.selected = true;
+      hsh[obj.name] = obj;
+      return hsh;
+    }, {});
 
-  handleArtistDelete(artistId) {
-    const artists = this.state.artists.map(function(artist) {
-      if (artist.id === artistId) artist.deleted = true;
-
-      return artist;
+    return artists.map(function(artist) {
+      return artistHash.hasOwnProperty(artist.name) ? artistHash[artist.name] : artist;
     });
-
-    this.setState({ artists });
   }
 
-  handleArtistSelect(artistId) {
-    const artists = this.state.artists.map(function(artist) {
-      artist.selected = artist.id === artistId;
-
-      return artist;
-    });
-
-    this.setState({ artists });
-  }
-
-  handleFilter(event) {
-    event.preventDefault();
-
-    const filterMask = this.filterMask.value.toLowerCase();
-    const artists = this.state.artists.filter(function(artist) {
-      return artist.name.toLowerCase().includes(filterMask);
-    });
-
-    debugger;
-    this.setState({ filteredArtists: artists });
-  }
-
-  getArtistList(artists) {
+  composeResourceList(artists) {
     const _this = this;
     if (!artists || !artists.length) return null;
 
     const artistItems = artists.map(function(artist, index) {
       return <Artist
-        form={false}
         artist={artist}
-        key={artist.id + index}
-        handleArtistDelete={_this.handleArtistDelete}
-        handleArtistSelect={_this.handleArtistSelect} />;
+        key={index}
+        handleResourceDelete={_this.handleResourceDelete}
+        handleResourceSelect={_this.handleResourceSelect}
+        disableEdit={_this.props.disableEdit}
+        disableSelect={_this.props.disableSelect} />;
     });
 
     return artistItems;
   }
 
   getNewArtist(artist) {
-    return <Artist form={true} artist={artist} handleArtistAdd={this.handleArtistAdd}/>;
+    if (this.props.disableNew || this.filterMask.value) return null;
+
+    return <Artist form={true} artist={artist} handleResourceAdd={this.handleResourceAdd}/>;
+  }
+
+  getSelectedArtistIds() {
+    return this.state.artists.filter(function(artist) {
+      return artist.selected;
+    }).map(function(artist) {
+      return artist.id;
+    });
   }
 
   render() {
-    const artists = this.filterMask.value ? null : this.getArtistList(this.state.artists);
-    const newArtist = this.filterMask.value ? null : this.getNewArtist(this.props.artist);
-    const filteredArtists = this.filterMask.value ? this.getArtistList(this.state.filteredArtists) : null;
+    const artists = this.filterMask.value ? null : this.composeResourceList(this.state.artists);
+    const newArtist = this.getNewArtist(this.props.artist);
+    const artistFilter = this.getResourceFilter(this.state.filteredResources);
 
     return (
       <ul>
-        <input
-          type="search"
-          name="filter"
-          placeholder="Filter artists"
-          onChange={this.handleFilter}
-          ref={(filterMask) => { this.filterMask = filterMask; }}/>
-        {filteredArtists}
+        {artistFilter}
         {newArtist}
         {artists}
       </ul>
     );
   }
 }
+
+export { Artists as default, ARTISTS_PROP_TYPES };

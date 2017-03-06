@@ -7,7 +7,8 @@ class Album < ApplicationRecord
   path: "avatar/:id/:style/:basename.:extension"
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 255 }
+  validates :artists, presence: true
   validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
 
-  has_and_belongs_to_many :artists
+  has_and_belongs_to_many :artists, join_table: :artists_albums
 end
