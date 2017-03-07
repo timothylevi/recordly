@@ -6,6 +6,17 @@ export function registerHandlers(handlers) {
   }
 }
 
+export class Page extends React.Component {
+  render() {
+    return (
+      <main className={this.props.className + " page"}>
+        <h2 className="page-title">{this.props.title}</h2>
+        {this.props.children}
+      </main>
+    );
+  }
+}
+
 export class BaseResourceList extends React.Component {
   constructor(props) {
     super(props);
@@ -38,6 +49,7 @@ export class BaseResourceList extends React.Component {
   }
 
   handleResourceSelect(objId) {
+    debugger;
     const resources = this.state[this.resource].map(function(resource) {
       if (resource.id === objId) {
         resource.selected = !resource.selected;
@@ -45,8 +57,6 @@ export class BaseResourceList extends React.Component {
 
       return resource;
     });
-
-    console.log(resources)
 
     this.setState({ [this.resource]: resources });
   }
@@ -67,14 +77,15 @@ export class BaseResourceList extends React.Component {
     const filteredResources = this.filterMask.value ? this.composeResourceList(this.state.filteredResources) : null;
 
     return (
-      <div>
+      <div className="resources-filter">
         <input
           type="search"
           name="filter"
           placeholder={`Filter ${this.resource}`}
           onChange={this.handleFilter}
+          className="resources-filter-input"
           ref={(filterMask) => { this.filterMask = filterMask; }}/>
-        {filteredResources}
+        <ul className="resources-filtered-list">{filteredResources}</ul>
       </div>
     );
   }

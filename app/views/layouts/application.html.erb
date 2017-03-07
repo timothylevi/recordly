@@ -4,21 +4,34 @@
     <title>Recordly <%= current_user.name if current_user %></title>
     <%= csrf_meta_tags %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag  "application", media: "all" %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
-    <% flash.each do |message_type, message| %>
-      <div class="alert alert-<%= message_type %>"><%= message %></div>
-    <% end %>
-
-    <%= link_to "Register", new_user_path if !current_user %>
-    <%= link_to "Log in", login_path if !current_user %>
-    <%= link_to "Log out", logout_path, method: :delete if current_user %>
+    <header class="header">
+      <div class="header-nav">
+        <h1 class="header-nav-title">Recordly</h1>
+        <ul class="header-nav-links">
+          <% if current_user %>
+            <li class="header-nav-link <%= 'header-nav-link-active' if current_page?(artists_path) %>"><%= link_to "Artists", artists_path %></li>
+            <li class="header-nav-link <%= 'header-nav-link-active' if current_page?(albums_path) %>"><%= link_to "Albums", albums_path %></li>
+            <li class="header-nav-link"><%= link_to "Log out", logout_path, method: :delete %></li>
+          <% else %>
+            <li class="header-nav-link <%= 'header-nav-link-active' if current_page?(new_user_path) %>"><%= link_to "Register", new_user_path %></li>
+            <li class="header-nav-link <%= 'header-nav-link-active' if current_page?(login_path) %>"><%= link_to "Log in", login_path %></li>
+          <% end %>
+        </ul>
+      </div>
+      <ul class="header-messages">
+        <% flash.each do |message_type, message| %>
+          <li class="header-message header-message-<%= message_type %>"><%= message %></li>
+        <% end %>
+      </ul>
+    </header>
 
     <%= yield %>
 
-    <%= debug(params) if Rails.env.development? %>
+    <!-- <%= debug(params) if Rails.env.development? %> -->
   </body>
 </html>

@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { BaseResourceList } from './Base.jsx';
+import { Page, BaseResourceList } from './Base.jsx';
 import Album, { ALBUM_PROP_TYPES } from './Album.jsx';
 import { ARTISTS_PROP_TYPES } from './Artists.jsx';
 
@@ -43,43 +43,44 @@ class Albums extends BaseResourceList {
 
     return albums.map(function(album, index) {
       return (
-        <Album
-          album={album}
-          artists={_this.props.artists}
-          key={index}
-          disableEdit={_this.props.disableAlbumEdit}
-          handleResourceDelete={_this.handleResourceDelete}
-          handleResourceSelect={_this.handleResourceSelect} />
-        );
+        <li className="resource-item" key={album.id}>
+          <Album
+            album={album}
+            artists={_this.props.artists}
+            disableEdit={_this.props.disableAlbumEdit}
+            handleResourceDelete={_this.handleResourceDelete}
+            handleResourceSelect={_this.handleResourceSelect} />
+        </li>
+      );
     });
   }
 
-  getNewAlbum() {
+  composeNewAlbum() {
     if (this.filterMask.value || this.props.disableNew) return null;
 
     return (
-      <div>
-        <Album
-          form={true}
-          album={this.props.album}
-          artists={this.props.artists}
-          handleResourceAdd={this.handleResourceAdd}
-          artist_ids={this.props.artist_ids} />
-      </div>
+      <Album
+        form={true}
+        album={this.props.album}
+        artists={this.props.artists}
+        handleResourceAdd={this.handleResourceAdd}
+        artist_ids={this.props.artist_ids} />
     );
   }
 
   render() {
-    const albums = this.filterMask.value ? null : this.composeResourceList(this.state.albums);
-    const newAlbum = this.getNewAlbum();
-    const filteredResources = this.getResourceFilter(this.state.filteredResources);
+    const resourceListFilter = null;//this.getResourceFilter(this.state.filteredResources);
+    const resourceList = this.filterMask.value ? null : this.composeResourceList(this.state[this.resource]);
+    const resourceNew = this.composeNewAlbum();
 
     return (
-      <ul>
-        {filteredResources}
-        {albums}
-        {newAlbum}
-      </ul>
+      <Page title={this.resource}>
+        <ul className="resources">
+          {resourceListFilter}
+          <ul className="resources-list">{resourceList}</ul>
+          {resourceNew}
+        </ul>
+      </Page>
     );
   }
 }

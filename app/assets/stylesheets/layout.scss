@@ -1,0 +1,129 @@
+body {
+  margin: 0 0 0 0;
+  background-color: white;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.header {
+  padding: 2rem 0 0 0;
+  background-color: lighten($SUCCESS, 40%);
+
+  .header-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0 2rem 0 2rem;
+
+    .header-nav-title {
+      margin: 0;
+      padding: 0 0 2rem 0;
+      color: darken($SUCCESS, 40%);
+    }
+
+    .header-nav-links {
+      .header-nav-link {
+        display: inline-block;
+        margin: 0 0 0 0.25rem;
+        border-bottom: 0.25rem solid transparent;
+        color: darken($SUCCESS, 40%);
+
+        &.header-nav-link-active {
+          border-bottom: 0.25rem solid $SUCCESS;
+        }
+
+        a {
+          display: inline-block;
+          padding: 0 0 2rem 0;
+          text-decoration: none;
+          color: inherit;
+        }
+      }
+    }
+  }
+
+  .header-messages {
+    .header-message {
+      padding: 0.25rem 2rem;
+      color: white;
+      text-align: right;
+
+      &.header-message-danger {
+        background-color: darken($DANGER, 5%);
+      }
+      &.header-message-info {
+        background-color: darken($INFO, 5%);
+      }
+      &.header-message-warning {
+        background-color: darken($WARNING, 5%);
+      }
+      &.header-message-success {
+        background-color: darken($SUCCESS, 5%);
+      }
+    }
+  }
+}
+
+.page {
+  margin: 0.25rem 0 0 0;
+  padding: 2rem;
+  background-color: lighten($WARNING, 50%);
+  border-top: 0.25rem solid lighten($WARNING, 10%);
+
+  .page-title {
+    margin: 0;
+    text-transform: capitalize;
+  }
+
+  .resources {
+    margin: 2rem 0 0 0;
+    .resources-filter {
+      .resources-filter-input {}
+      .resources-filter-list {}
+    }
+
+    .resources-list {
+      .resource-item {
+        .resource-artist {}
+        .resource-track {}
+        .resource-favorite {}
+      }
+    }
+  }
+}
+
+.resource-album {
+  display: table-row;
+
+  .album-avatar {
+    display: table-cell;
+    background-size: cover;
+    width: 5rem;
+    height: 5rem;
+  }
+
+  .album-name {display: table-cell;}
+  .album-actions {
+    display: table-cell;
+    .album-action {
+      display: inline-block;
+    }
+  }
+  .album-artists {
+    display: table-cell;
+
+    .page-title {
+      display: none;
+    }
+  }
+}
+
+.artist-li {
+  &.artist-li-selected {
+    background-color: red;
+  }
+}

@@ -20,7 +20,6 @@ class Artist extends BaseResource {
     // // Handlers
     // handleResourceAdd: PropTypes.func,
     // handleResourceDelete: PropTypes.func,
-    // handleResourceSelect: PropTypes.func,
 
     // Data
     // artist: ARTIST_PROP_TYPES,
@@ -73,6 +72,15 @@ class Artist extends BaseResource {
   render() {
     if (this.props.artist.deleted) return null;
 
+    if (this.props.format === "li") {
+      const className = "artist-li " + (this.props.artist.selected ? "artist-li-selected" : "") ;
+      return (
+        <li onClick={this.props.handleResourceSelect} className={className}>
+          {this.state.name}
+        </li>
+      );
+    }
+
     const id = this.state.id;
     const name = this.state.name;
     const avatar = this.state.avatar;
@@ -82,8 +90,7 @@ class Artist extends BaseResource {
         disableArtists={this.props.disableArtists}
         albums={this.props.artist.albums}
         album={{}}
-        artist_ids={[this.state.id]}
-      />
+        artist_ids={[this.state.id]} />
     );
 
     if (this.state.form) debugger;
@@ -111,7 +118,7 @@ class Artist extends BaseResource {
     }
 
     return (
-      <div>
+      <div className="resource-artist">
         <div style={{backgroundSize: 'cover', backgroundImage: `url('${avatar}')`, width: "200px", height: "200px" }} />
         Name: {name}
         { this.props.disableArtistEdit ? null : <a onClick={this.handleEdit}>Edit</a> }

@@ -68,20 +68,15 @@ class Album extends BaseResource {
     };
   }
 
-  composeArtistList(artists, selected) {
-    if (!selected) return null;
-
+  composeArtistList(artists, format) {
     return (
       <Artists
         artists={artists}
+        albumArtists={this.props.album.artists}
         artist={{}}
-        disableArtistEdit={true}
-        disableNew={true}
-        disableFilter={true}
-        disableAlbums={true}
-        selectedArtists={this.state.artists}
-        ref={(artists) => this.artistsComponent = artists}
-      />
+        className="album-artists"
+        format={format}
+        ref={(artists) => this.artistsComponent = artists} />
     );
   }
 
@@ -92,8 +87,8 @@ class Album extends BaseResource {
     const name = this.state.name;
     const avatar = this.state.avatar;
     const errors = this.composeErrorList(this.state.errors);
-    const artists = this.composeArtistList(this.state.artists, this.props.album.selected);
-    const formArtists = this.composeArtistList(this.props.artists, true);
+    const albumArtists = this.composeArtistList(this.state.artists, "ul");
+    const formArtists = this.composeArtistList(this.props.artists, "ul");
 
     if (this.state.form) {
       return (
@@ -122,13 +117,14 @@ class Album extends BaseResource {
     }
 
     return (
-      <div>
-        <div style={{backgroundSize: 'cover', backgroundImage: `url('${avatar}')`, width: "200px", height: "200px" }} />
-        Name: {name}
-        { this.props.disableEdit ? null : <a onClick={this.handleEdit}>Edit</a> }
-        { this.props.disableSelect ? null : <a onClick={this.handleSelect}>Select</a> }
-        {artists}
-        { this.props.album.selected ? 'Selected' : null }
+      <div className={"resource-album " + (this.props.album.selected ? "resource-selected" : null) }>
+        <div className="album-avatar" style={{backgroundImage: `url('${avatar}')`}} />
+        <h3 className="album-name">{name}</h3>
+        {albumArtists}
+        <ul className="album-actions">
+          { this.props.disableEdit ? null : <li className="album-action"><a onClick={this.handleEdit}>Edit</a></li> }
+          { this.props.disableSelect ? null : <li className="album-action"><a onClick={this.handleSelect}>Select</a></li> }
+        </ul>
       </div>
     );
   }

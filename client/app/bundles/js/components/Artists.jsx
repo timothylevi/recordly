@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { BaseResourceList } from './Base.jsx';
+import { Page, BaseResourceList } from './Base.jsx';
 import Artist, { ARTIST_PROP_TYPES } from './Artist.jsx';
 
 const ARTISTS_PROP_TYPES = PropTypes.arrayOf(ARTIST_PROP_TYPES);
@@ -19,7 +19,8 @@ class Artists extends BaseResourceList {
   // };
 
   static defaultProps = {
-    disableArtistEdit: false
+    disableArtistEdit: false,
+    albumArtists: []
   };
 
   constructor(props, _railsContext) {
@@ -33,6 +34,10 @@ class Artists extends BaseResourceList {
     this.resource = "artists";
 
     this.mergeArtistState = this.mergeArtistState.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.albumArtists.map(x => x.id).map(this.handleResourceSelect);
   }
 
   mergeArtistState(artists, selectedArtists) {
@@ -50,26 +55,29 @@ class Artists extends BaseResourceList {
     });
   }
 
-  composeResourceList(artists) {
+  composeResourceList(artists, classes) {
     const _this = this;
     if (!artists || !artists.length) return null;
 
     const artistItems = artists.map(function(artist, index) {
-      return <Artist
-        artist={artist}
-        key={artist.id}
-        form={false}
-        handleResourceDelete={_this.handleResourceDelete}
-        handleResourceSelect={_this.handleResourceSelect}
-        disableEdit={_this.props.disableArtistEdit}
-        disableSelect={_this.props.disableSelect}
-        disableAlbums={_this.props.disableAlbums} />;
+      return (
+        <li className="resource-item" key={artist.id}>
+          <Artist
+            artist={artist}
+            form={false}
+            handleResourceDelete={_this.handleResourceDelete}
+            handleResourceSelect={_this.handleResourceSelect}
+            disableEdit={_this.props.disableArtistEdit}
+            disableSelect={_this.props.disableSelect}
+            disableAlbums={_this.props.disableAlbums} />
+        </li>
+      );
     });
 
     return artistItems;
   }
 
-  getNewArtist(artist) {
+  composeNewArtist(artist) {
     if (this.props.disableNew || this.filterMask.value) return null;
 
     return <Artist form={true} artist={artist} handleResourceAdd={this.handleResourceAdd} />;
@@ -84,16 +92,37 @@ class Artists extends BaseResourceList {
   }
 
   render() {
-    const artists = this.filterMask.value ? null : this.composeResourceList(this.state.artists);
-    const newArtist = this.getNewArtist(this.props.artist);
-    const artistFilter = this.getResourceFilter(this.state.filteredResources);
+    const _this = this;
+
+    if (this.props.format === "ul") {
+      function composeArtistLi(resource, index) {
+        return (
+          <Artist
+            format="li"
+            key={resource.id}
+            artist={resource}
+            handleResourceSelect={_this.handleResourceSelect} />
+        );
+      }
+      return (
+        <ul>
+          { this.state[this.resource].map(composeArtistLi) }
+        </ul>
+      );
+    }
+
+    const resourceFilter = null;//this.getResourceFilter(this.state.filteredResources);
+    const resourceList = this.filterMask.value ? null : this.composeResourceList(this.state[this.resource]);
+    const resourceNew = this.composeNewArtist(this.props.artist);
 
     return (
-      <ul>
-        {artistFilter}
-        {newArtist}
-        {artists}
-      </ul>
+      <Page title={this.resource} className={this.props.className}>
+        <div className="resources">
+          {resourceFilter}
+          <ul className="resources-list">{resourceList}</ul>
+          {resourceNew}
+        </div>
+      </Page>
     );
   }
 }
