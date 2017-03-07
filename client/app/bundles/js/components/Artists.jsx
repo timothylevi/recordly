@@ -8,7 +8,7 @@ class Artists extends BaseResourceList {
   // static propTypes = {
   //   // Configuration
   //   disableNew: PropTypes.bool,
-  //   disableEdit: PropTypes.bool,
+  //   disableArtistEdit: PropTypes.bool,
   //   disableFilter: PropTypes.bool,
   //   disableSelect: PropTypes.bool,
   //
@@ -17,6 +17,10 @@ class Artists extends BaseResourceList {
   //   // artist: ARTIST_PROP_TYPES,
   //   selectedArtists: ARTISTS_PROP_TYPES
   // };
+
+  static defaultProps = {
+    disableArtistEdit: false
+  };
 
   constructor(props, _railsContext) {
     super(props);
@@ -57,9 +61,8 @@ class Artists extends BaseResourceList {
         form={false}
         handleResourceDelete={_this.handleResourceDelete}
         handleResourceSelect={_this.handleResourceSelect}
-        disableEdit={_this.props.disableEdit}
+        disableEdit={_this.props.disableArtistEdit}
         disableSelect={_this.props.disableSelect}
-        // disableArtists={true}
         disableAlbums={_this.props.disableAlbums} />;
     });
 
@@ -69,7 +72,7 @@ class Artists extends BaseResourceList {
   getNewArtist(artist) {
     if (this.props.disableNew || this.filterMask.value) return null;
 
-    return <Artist form={true} artist={artist} handleResourceAdd={this.handleResourceAdd} disableEdit={this.props.disableEdit}/>;
+    return <Artist form={true} artist={artist} handleResourceAdd={this.handleResourceAdd} />;
   }
 
   getSelectedArtistIds() {

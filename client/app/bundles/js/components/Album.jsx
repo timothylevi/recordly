@@ -59,11 +59,12 @@ class Album extends BaseResource {
   }
 
   getRequestData(obj) {
+    console.log(this.props.artist_ids || this.artistsComponent.getSelectedArtistIds());
     return {
       id: obj.id,
       name: obj.name,
       avatar: obj.avatar,
-      artist_ids: this.artistsComponent.getSelectedArtistIds()
+      artist_ids: this.props.artist_ids || this.artistsComponent.getSelectedArtistIds()
     };
   }
 
@@ -74,7 +75,7 @@ class Album extends BaseResource {
       <Artists
         artists={artists}
         artist={{}}
-        disableEdit={true}
+        disableArtistEdit={true}
         disableNew={true}
         disableFilter={true}
         disableAlbums={true}
@@ -127,6 +128,7 @@ class Album extends BaseResource {
         { this.props.disableEdit ? null : <a onClick={this.handleEdit}>Edit</a> }
         { this.props.disableSelect ? null : <a onClick={this.handleSelect}>Select</a> }
         {artists}
+        { this.props.album.selected ? 'Selected' : null }
       </div>
     );
   }

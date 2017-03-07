@@ -46,6 +46,8 @@ export class BaseResourceList extends React.Component {
       return resource;
     });
 
+    console.log(resources)
+
     this.setState({ [this.resource]: resources });
   }
 
@@ -135,13 +137,13 @@ export class BaseResource extends React.Component {
   }
 
   handleFileUpload(elName) {
-    function onLoad() {
-      this.setState({ [elName]: reader.result });
-    }
-
     function fileUploadHandler(event) {
       const reader = new FileReader();
       const file = this.formComponent.elements[elName].files[0];
+
+      function onLoad() {
+        this.setState({ [elName]: reader.result });
+      }
 
       reader.addEventListener("load", onLoad.bind(this), false);
       if (file) reader.readAsDataURL(file);

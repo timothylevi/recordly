@@ -14,7 +14,7 @@ class Artist extends BaseResource {
     // Configuration
     // container: PropTypes.string,
     // form: PropTypes.bool,
-    // disableEdit: PropTypes.bool,
+    // disableArtistEdit: PropTypes.bool,
     // disbableSelect: PropTypes.bool,
     //
     // // Handlers
@@ -29,8 +29,9 @@ class Artist extends BaseResource {
 
   static defaultProps = {
     form: false,
-    disableEdit: false,
-    disableArtists: false
+    disableArtistEdit: false,
+    disableArtists: false,
+    disableEdit: false
    };
 
   constructor(props, _railsContext) {
@@ -79,15 +80,15 @@ class Artist extends BaseResource {
     const albums = (
       <Albums
         disableArtists={this.props.disableArtists}
-        disableEdit={true}
-        disableNew={true}
-        disableSelect={true}
         albums={this.props.artist.albums}
         album={{}}
+        artist_ids={[this.state.id]}
       />
     );
 
-    if (this.state.form || !this.props.disableEdit) {
+    if (this.state.form) debugger;
+
+    if (this.state.form && !this.props.disableEdit) {
       return (
         <form ref={(form) => { this.formComponent = form; }}>
           {errors}
@@ -113,7 +114,7 @@ class Artist extends BaseResource {
       <div>
         <div style={{backgroundSize: 'cover', backgroundImage: `url('${avatar}')`, width: "200px", height: "200px" }} />
         Name: {name}
-        { this.props.disableEdit ? null : <a onClick={this.handleEdit}>Edit</a> }
+        { this.props.disableArtistEdit ? null : <a onClick={this.handleEdit}>Edit</a> }
         { this.props.disableSelect ? null : <a onClick={this.handleSelect}>Select</a> }
         {/* TODO: Show albums and tracks here by config */}
         { this.props.artist.selected ? 'Selected' : null }

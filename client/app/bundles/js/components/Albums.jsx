@@ -20,7 +20,9 @@ class Albums extends BaseResourceList {
   };
 
   static defaultProps = {
-    album: {}
+    album: {},
+    disableAlbumEdit: false,
+    disableNew: false
   };
 
   constructor(props, _railsContext) {
@@ -45,6 +47,7 @@ class Albums extends BaseResourceList {
           album={album}
           artists={_this.props.artists}
           key={index}
+          disableEdit={_this.props.disableAlbumEdit}
           handleResourceDelete={_this.handleResourceDelete}
           handleResourceSelect={_this.handleResourceSelect} />
         );
@@ -60,7 +63,8 @@ class Albums extends BaseResourceList {
           form={true}
           album={this.props.album}
           artists={this.props.artists}
-          handleResourceAdd={this.handleResourceAdd} />
+          handleResourceAdd={this.handleResourceAdd}
+          artist_ids={this.props.artist_ids} />
       </div>
     );
   }
