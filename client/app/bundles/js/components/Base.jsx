@@ -61,16 +61,15 @@ export class BaseResourceList extends React.Component {
 
   getResourceFilter(resources) {
     if (this.props.disableFilter) return;
-    const resourcePlural = this.resource + "s";
 
-    const filteredResources = this.filterMask.value ? this.composeResourceList(resources) : null;
+    const filteredResources = this.filterMask.value ? this.composeResourceList(this.state.filteredResources) : null;
 
     return (
       <div>
         <input
           type="search"
           name="filter"
-          placeholder={`Filter ${resourcePlural}`}
+          placeholder={`Filter ${this.resource}`}
           onChange={this.handleFilter}
           ref={(filterMask) => { this.filterMask = filterMask; }}/>
         {filteredResources}
@@ -78,9 +77,8 @@ export class BaseResourceList extends React.Component {
     );
   }
 
-  // Implement in sub classes
   composeResourceList(resources) {
-
+    // Implement in sub classes
   }
 
 };

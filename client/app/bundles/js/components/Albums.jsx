@@ -7,16 +7,20 @@ const ALBUMS_PROP_TYPES = PropTypes.arrayOf(ALBUM_PROP_TYPES);
 
 class Albums extends BaseResourceList {
   static propTypes = {
-    // Configuration
-    disableNew: PropTypes.bool,
-    disableEdit: PropTypes.bool,
-    disableFilter: PropTypes.bool,
-    disableSelect: PropTypes.bool,
+    // // Configuration
+    // disableNew: PropTypes.bool,
+    // disableEdit: PropTypes.bool,
+    // disableFilter: PropTypes.bool,
+    // disableSelect: PropTypes.bool,
+    //
+    // // Data
+    // artists: ARTISTS_PROP_TYPES,
+    // // albums: ALBUMS_PROP_TYPES,
+    // album: ALBUM_PROP_TYPES
+  };
 
-    // Data
-    artists: ARTISTS_PROP_TYPES,
-    albums: ALBUMS_PROP_TYPES,
-    album: ALBUM_PROP_TYPES
+  static defaultProps = {
+    album: {}
   };
 
   constructor(props, _railsContext) {
@@ -40,7 +44,6 @@ class Albums extends BaseResourceList {
         <Album
           album={album}
           artists={_this.props.artists}
-          albumArtists={_this.props.album.artists}
           key={index}
           handleResourceDelete={_this.handleResourceDelete}
           handleResourceSelect={_this.handleResourceSelect} />
@@ -49,7 +52,7 @@ class Albums extends BaseResourceList {
   }
 
   getNewAlbum() {
-    if (this.filterMask.value) return null;
+    if (this.filterMask.value || this.props.disableNew) return null;
 
     return (
       <div>
@@ -63,7 +66,7 @@ class Albums extends BaseResourceList {
   }
 
   render() {
-    const albums = this.filterMask.value ? null :this.composeResourceList(this.state.albums);
+    const albums = this.filterMask.value ? null : this.composeResourceList(this.state.albums);
     const newAlbum = this.getNewAlbum();
     const filteredResources = this.getResourceFilter(this.state.filteredResources);
 

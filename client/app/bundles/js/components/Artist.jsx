@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { BaseResource } from './Base.jsx';
+import Albums, { ALBUMS_PROP_TYPES } from './Albums.jsx';
 
 const ARTIST_PROP_TYPES = PropTypes.shape({
   id: PropTypes.number,
@@ -12,20 +13,25 @@ class Artist extends BaseResource {
   static propTypes = {
     // Configuration
     // container: PropTypes.string,
-    form: PropTypes.bool,
-    disableEdit: PropTypes.bool,
-    disbableSelect: PropTypes.bool,
-
-    // Handlers
-    handleResourceAdd: PropTypes.func,
-    handleResourceDelete: PropTypes.func,
-    handleResourceSelect: PropTypes.func,
+    // form: PropTypes.bool,
+    // disableEdit: PropTypes.bool,
+    // disbableSelect: PropTypes.bool,
+    //
+    // // Handlers
+    // handleResourceAdd: PropTypes.func,
+    // handleResourceDelete: PropTypes.func,
+    // handleResourceSelect: PropTypes.func,
 
     // Data
-    artist: ARTIST_PROP_TYPES
+    // artist: ARTIST_PROP_TYPES,
+    // albums: ALBUMS_PROP_TYPES
   };
 
-  static defaultProps = { form: false };
+  static defaultProps = {
+    form: false,
+    disableEdit: false,
+    disableArtists: false
+   };
 
   constructor(props, _railsContext) {
     super(props);
@@ -70,6 +76,16 @@ class Artist extends BaseResource {
     const name = this.state.name;
     const avatar = this.state.avatar;
     const errors = this.composeErrorList(this.state.errors);
+    const albums = (
+      <Albums
+        disableArtists={this.props.disableArtists}
+        disableEdit={true}
+        disableNew={true}
+        disableSelect={true}
+        albums={this.props.artist.albums}
+        album={{}}
+      />
+    );
 
     if (this.state.form || !this.props.disableEdit) {
       return (
@@ -100,7 +116,8 @@ class Artist extends BaseResource {
         { this.props.disableEdit ? null : <a onClick={this.handleEdit}>Edit</a> }
         { this.props.disableSelect ? null : <a onClick={this.handleSelect}>Select</a> }
         {/* TODO: Show albums and tracks here by config */}
-        { this.props.artist.selected ? "I'm selected!" : null}
+        { this.props.artist.selected ? 'Selected' : null }
+        { this.props.artist.selected && !this.props.disableAlbums ? albums : null}
       </div>
     );
   }

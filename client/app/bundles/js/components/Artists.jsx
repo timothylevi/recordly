@@ -5,18 +5,18 @@ import Artist, { ARTIST_PROP_TYPES } from './Artist.jsx';
 const ARTISTS_PROP_TYPES = PropTypes.arrayOf(ARTIST_PROP_TYPES);
 
 class Artists extends BaseResourceList {
-  static propTypes = {
-    // Configuration
-    disableNew: PropTypes.bool,
-    disableEdit: PropTypes.bool,
-    disableFilter: PropTypes.bool,
-    disableSelect: PropTypes.bool,
-
-    // Data
-    artists: ARTISTS_PROP_TYPES,
-    artist: ARTIST_PROP_TYPES,
-    selectedArtists: ARTISTS_PROP_TYPES
-  };
+  // static propTypes = {
+  //   // Configuration
+  //   disableNew: PropTypes.bool,
+  //   disableEdit: PropTypes.bool,
+  //   disableFilter: PropTypes.bool,
+  //   disableSelect: PropTypes.bool,
+  //
+  //   // Data
+  //   // artists: ARTISTS_PROP_TYPES,
+  //   // artist: ARTIST_PROP_TYPES,
+  //   selectedArtists: ARTISTS_PROP_TYPES
+  // };
 
   constructor(props, _railsContext) {
     super(props);
@@ -32,6 +32,7 @@ class Artists extends BaseResourceList {
   }
 
   mergeArtistState(artists, selectedArtists) {
+    if (!artists) return [];
     if (!selectedArtists) return artists;
 
     var artistHash = selectedArtists.reduce(function(hsh, obj, index) {
@@ -52,11 +53,14 @@ class Artists extends BaseResourceList {
     const artistItems = artists.map(function(artist, index) {
       return <Artist
         artist={artist}
-        key={index}
+        key={artist.id}
+        form={false}
         handleResourceDelete={_this.handleResourceDelete}
         handleResourceSelect={_this.handleResourceSelect}
         disableEdit={_this.props.disableEdit}
-        disableSelect={_this.props.disableSelect} />;
+        disableSelect={_this.props.disableSelect}
+        // disableArtists={true}
+        disableAlbums={_this.props.disableAlbums} />;
     });
 
     return artistItems;
@@ -65,7 +69,7 @@ class Artists extends BaseResourceList {
   getNewArtist(artist) {
     if (this.props.disableNew || this.filterMask.value) return null;
 
-    return <Artist form={true} artist={artist} handleResourceAdd={this.handleResourceAdd}/>;
+    return <Artist form={true} artist={artist} handleResourceAdd={this.handleResourceAdd} disableEdit={this.props.disableEdit}/>;
   }
 
   getSelectedArtistIds() {

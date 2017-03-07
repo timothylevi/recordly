@@ -11,20 +11,20 @@ const ALBUM_PROP_TYPES = PropTypes.shape({
 
 class Album extends BaseResource {
   static propTypes = {
-    // Configuration
-    // container: PropTypes.string,
-    form: PropTypes.bool,
-    disableEdit: PropTypes.bool,
-    disbableSelect: PropTypes.bool,
-
-    // Handlers
-    handleResourceAdd: PropTypes.func,
-    handleResourceDelete: PropTypes.func,
-    handleResourceSelect: PropTypes.func,
-
-    // Data
-    album: ALBUM_PROP_TYPES,
-    artists: ARTISTS_PROP_TYPES
+    // // Configuration
+    // // container: PropTypes.string,
+    // form: PropTypes.bool,
+    // disableEdit: PropTypes.bool,
+    // disbableSelect: PropTypes.bool,
+    //
+    // // Handlers
+    // handleResourceAdd: PropTypes.func,
+    // handleResourceDelete: PropTypes.func,
+    // handleResourceSelect: PropTypes.func,
+    //
+    // // Data
+    // album: ALBUM_PROP_TYPES,
+    // artists: ARTISTS_PROP_TYPES
   };
 
   static defaultProps = { form: false };
@@ -54,7 +54,7 @@ class Album extends BaseResource {
       name: "",
       avatar: "",
       form: true,
-      artists: props.album.artists
+      artists: this.props.album.artists
     });
   }
 
@@ -77,7 +77,9 @@ class Album extends BaseResource {
         disableEdit={true}
         disableNew={true}
         disableFilter={true}
-        disableSelect={true}
+        disableAlbums={true}
+        selectedArtists={this.state.artists}
+        ref={(artists) => this.artistsComponent = artists}
       />
     );
   }
@@ -90,6 +92,7 @@ class Album extends BaseResource {
     const avatar = this.state.avatar;
     const errors = this.composeErrorList(this.state.errors);
     const artists = this.composeArtistList(this.state.artists, this.props.album.selected);
+    const formArtists = this.composeArtistList(this.props.artists, true);
 
     if (this.state.form) {
       return (
@@ -106,13 +109,7 @@ class Album extends BaseResource {
           </div>
           <div>
             <label>Artists</label>
-            <Artists
-              artists={this.props.artists}
-              artist={{}}
-              disableEdit={true}
-              disableNew={true}
-              selectedArtists={this.state.artists}
-              ref={(artists) => this.artistsComponent = artists}/>
+            {formArtists}
           </div>
           <div>
             <input type="submit" value="Save" onClick={this.handleSubmit} />
