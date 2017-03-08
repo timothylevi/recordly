@@ -1,5 +1,5 @@
 import React from 'react';
-import { Resource } from '../shared/Base.jsx';
+import { Resource } from '../shared';
 
 export default class ArtistResourceForm extends Resource {
   constructor(props) {

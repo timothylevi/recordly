@@ -1,4 +1,3 @@
-export Page from './BasePage';
+export Resource from './BaseResource';
 export ResourceList from './BaseResourceList';
 export FilterableResourceList from './FilterableResourceList';
-export Resource from './BaseResource';

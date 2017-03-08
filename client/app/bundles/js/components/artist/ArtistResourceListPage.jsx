@@ -1,6 +1,7 @@
 import React from 'react';
-import { Resource } from './Artist.jsx';
-import { Page, FilterableResourceList } from '../shared/Base.jsx';
+import { Resource } from './index';
+import { FilterableResourceList } from '../shared';
+import { Page } from '../layout';
 
 export default class ArtistResourceListPage extends FilterableResourceList {
   static defaultProps = {

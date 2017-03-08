@@ -1,7 +1,6 @@
 import React from 'react';
-import { Resource } from '../shared/Base.jsx';
+import { Resource } from '../shared';
 // import { ArtistList } from '../artist/Artists.jsx';
-// import { TrackForm } from '../track/Tracks.jsx';
 
 export default class AlbumResource extends Resource {
   static defaultProps = { form: false };

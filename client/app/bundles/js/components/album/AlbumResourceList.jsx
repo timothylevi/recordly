@@ -1,5 +1,5 @@
 import React from 'react';
-import { ResourceList } from '../shared/Base.jsx';
+import { ResourceList } from '../shared';
 
 export default class AlbumResourceList extends ResourceList {
   constructor(props) {
