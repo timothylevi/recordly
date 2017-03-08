@@ -11,4 +11,7 @@ class Album < ApplicationRecord
   validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
 
   has_and_belongs_to_many :artists, join_table: :artists_albums
+  has_many :tracks, inverse_of: :album
+
+  accepts_nested_attributes_for :tracks
 end

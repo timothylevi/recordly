@@ -3,8 +3,8 @@ class ArtistsController < ApplicationController
 
   def index
     @props = {
-      artists: Artist.all.map { |artist| artist_api(artist) },
-      albums: Album.all.map { |album| album_api(album)},
+      artists: Artist.includes(:albums).all.map { |artist| artist_api(artist) },
+      albums: Album.includes(:tracks, :artists).all.map { |album| album_api(album, ["artists"])},
       artist: Artist.new,
     }
   end

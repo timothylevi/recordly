@@ -127,3 +127,9 @@ ul {
     background-color: red;
   }
 }
+
+.album-li {
+  &.album-li-selected {
+    background-color: red;
+  }
+}

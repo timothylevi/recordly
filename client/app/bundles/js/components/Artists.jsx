@@ -1,25 +1,11 @@
 import React, { PropTypes } from 'react';
-import { Page, BaseResourceList } from './Base.jsx';
+import { Page, BaseResourceList, FilterableResourceList } from './Base.jsx';
 import Artist, { ARTIST_PROP_TYPES } from './Artist.jsx';
 
 const ARTISTS_PROP_TYPES = PropTypes.arrayOf(ARTIST_PROP_TYPES);
 
-class Artists extends BaseResourceList {
-  // static propTypes = {
-  //   // Configuration
-  //   disableNew: PropTypes.bool,
-  //   disableArtistEdit: PropTypes.bool,
-  //   disableFilter: PropTypes.bool,
-  //   disableSelect: PropTypes.bool,
-  //
-  //   // Data
-  //   // artists: ARTISTS_PROP_TYPES,
-  //   // artist: ARTIST_PROP_TYPES,
-  //   selectedArtists: ARTISTS_PROP_TYPES
-  // };
-
+class ArtistsPage extends FilterableResourceList {
   static defaultProps = {
-    disableArtistEdit: false,
     albumArtists: []
   };
 
@@ -27,8 +13,7 @@ class Artists extends BaseResourceList {
     super(props);
 
     this.state = {
-      artists: this.mergeArtistState(props.artists, props.selectedArtists),
-      filteredResources: []
+      artists: this.mergeArtistState(props.artists, props.selectedArtists)
     };
 
     this.resource = "artists";
@@ -78,41 +63,16 @@ class Artists extends BaseResourceList {
   }
 
   composeNewArtist(artist) {
-    if (this.props.disableNew || this.filterMask.value) return null;
+    if (this.props.disableNew || this.resourcesFilterMask.value) return null;
 
     return <Artist form={true} artist={artist} handleResourceAdd={this.handleResourceAdd} />;
-  }
-
-  getSelectedArtistIds() {
-    return this.state.artists.filter(function(artist) {
-      return artist.selected;
-    }).map(function(artist) {
-      return artist.id;
-    });
   }
 
   render() {
     const _this = this;
 
-    if (this.props.format === "ul") {
-      function composeArtistLi(resource, index) {
-        return (
-          <Artist
-            format="li"
-            key={resource.id}
-            artist={resource}
-            handleResourceSelect={_this.handleResourceSelect} />
-        );
-      }
-      return (
-        <ul>
-          { this.state[this.resource].map(composeArtistLi) }
-        </ul>
-      );
-    }
-
-    const resourceFilter = null;//this.getResourceFilter(this.state.filteredResources);
-    const resourceList = this.filterMask.value ? null : this.composeResourceList(this.state[this.resource]);
+    const resourceFilter = this.getResourceFilter(this.state.filteredResources);
+    const resourceList = this.resourcesFilterMask.value ? null : this.composeResourceList(this.state[this.resource]);
     const resourceNew = this.composeNewArtist(this.props.artist);
 
     return (
@@ -127,4 +87,42 @@ class Artists extends BaseResourceList {
   }
 }
 
-export { Artists as default, ARTISTS_PROP_TYPES };
+class ArtistsList extends BaseResourceList {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      artists: props.artists
+    }
+
+    this.resource = "artists";
+  }
+
+  getSelectedArtistIds() {
+    return this.state.artists.filter(function(artist) {
+      return artist.selected;
+    }).map(function(artist) {
+      return artist.id;
+    });
+  }
+
+  render() {
+    function composeArtistLi(artist) {
+      const className = "artist-li" + (artist.selected ? " artist-li-selected" : "");
+
+      return (
+        <li key={artist.id} onClick={this.handleResourceSelectWithId(artist.id)} className={className}>
+          <span className="artist-name">{artist.name}</span>
+        </li>
+      );
+    }
+
+    return (
+      <ul>
+        {this.props.artists.map(composeArtistLi.bind(this))}
+      </ul>
+    );
+  }
+}
+
+export { ArtistsPage as default, ArtistsList, ARTISTS_PROP_TYPES };

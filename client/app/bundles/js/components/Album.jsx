@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { BaseResource } from './Base.jsx';
-import Artists, { ARTISTS_PROP_TYPES } from './Artists.jsx';
+import Artists, { ArtistsList, ARTISTS_PROP_TYPES } from './Artists.jsx';
+import TracksForm from './Tracks.jsx';
 
 const ALBUM_PROP_TYPES = PropTypes.shape({
   id: PropTypes.number,
@@ -9,24 +10,98 @@ const ALBUM_PROP_TYPES = PropTypes.shape({
   selected: PropTypes.bool,
 });
 
-class Album extends BaseResource {
-  static propTypes = {
-    // // Configuration
-    // // container: PropTypes.string,
-    // form: PropTypes.bool,
-    // disableEdit: PropTypes.bool,
-    // disbableSelect: PropTypes.bool,
-    //
-    // // Handlers
-    // handleResourceAdd: PropTypes.func,
-    // handleResourceDelete: PropTypes.func,
-    // handleResourceSelect: PropTypes.func,
-    //
-    // // Data
-    // album: ALBUM_PROP_TYPES,
-    // artists: ARTISTS_PROP_TYPES
-  };
+class AlbumNew extends BaseResource {
+  constructor(props) {
+    super(props);
 
+    this.formComponent = {};
+    this.resource = "album";
+
+    this.state = {
+      id: "",
+      name: props.name || "",
+      avatar: props.avatar || "",
+      artists: props.artists || "",
+      errors: props.errors || []
+    }
+  }
+
+  resetForm() {
+    this.setState({
+      id: "",
+      name: "",
+      avatar: "",
+      form: true,
+      artists: this.props.album.artists
+    });
+  }
+
+  composeErrorList(errors) {
+    if (!errors || !errors.length) return null;
+
+    const errorItems = errors.map(function(error, index) {
+      return <li key={index}>{error}</li>
+    });
+
+    return <ul>{errorItems}</ul>;
+  }
+
+  composeArtistList(artists, format) {
+    return (
+      <ArtistsList
+        artists={artists}
+        albumArtists={this.props.album.artists}
+        className="album-artists"
+        format={format}
+        ref={(artists) => this.artistsComponent = artists} />
+    );
+  }
+
+  getRequestData(obj) {
+    return {
+      album: {
+        id: obj.id,
+        name: obj.name,
+        avatar: obj.avatar,
+        tracks_attributes: this.props.track_ids || this.tracksFormComponent.getTrackObjects(),
+        artist_ids: this.props.artist_ids || this.artistsComponent.getSelectedArtistIds()
+      }
+    };
+  }
+
+  render() {
+    const errors = this.composeErrorList(this.state.errors);
+    const formArtists = this.composeArtistList(this.props.artists, "ul");
+    const tracks = <TracksForm album={this.props.album} ref={(form) => this.tracksFormComponent = form}/>;
+
+    return (
+      <form ref={(form) => { this.formComponent = form; }}>
+        {errors}
+        <div>
+          <label>Name</label>
+          <input type="text" name="name" value={this.props.name} onChange={this.handleChange}/>
+        </div>
+        <div>
+          <div style={{backgroundSize: 'cover', backgroundImage: `url('${this.state.avatar}')`, width: "200px", height: "200px" }} />
+          <label>Avatar</label>
+          <input type="file" name="avatar" onChange={this.handleFileUpload("avatar")}/>
+        </div>
+        <div>
+          <label>Artists</label>
+          {formArtists}
+        </div>
+        {tracks}
+        <div>
+          <input type="submit" value="Save" onClick={this.handleSubmit} />
+          <a onClick={this.handleDelete}>Delete</a>
+          <a onClick={this.handleCancel}>Cancel</a>
+        </div>
+      </form>
+    );
+  }
+};
+
+class Album extends BaseResource {
   static defaultProps = { form: false };
 
   constructor(props, _railsContext) {
@@ -48,26 +123,6 @@ class Album extends BaseResource {
     this.artistsComponent = {};
   }
 
-  resetForm() {
-    this.setState({
-      id: "",
-      name: "",
-      avatar: "",
-      form: true,
-      artists: this.props.album.artists
-    });
-  }
-
-  getRequestData(obj) {
-    console.log(this.props.artist_ids || this.artistsComponent.getSelectedArtistIds());
-    return {
-      id: obj.id,
-      name: obj.name,
-      avatar: obj.avatar,
-      artist_ids: this.props.artist_ids || this.artistsComponent.getSelectedArtistIds()
-    };
-  }
-
   composeArtistList(artists, format) {
     return (
       <Artists
@@ -86,35 +141,7 @@ class Album extends BaseResource {
     const id = this.state.id;
     const name = this.state.name;
     const avatar = this.state.avatar;
-    const errors = this.composeErrorList(this.state.errors);
     const albumArtists = this.composeArtistList(this.state.artists, "ul");
-    const formArtists = this.composeArtistList(this.props.artists, "ul");
-
-    if (this.state.form) {
-      return (
-        <form ref={(form) => { this.formComponent = form; }}>
-          {errors}
-          <div>
-            <label>Name</label>
-            <input type="text" name="name" value={name} onChange={this.handleChange}/>
-          </div>
-          <div>
-            <div style={{backgroundSize: 'cover', backgroundImage: `url('${avatar}')`, width: "200px", height: "200px" }} />
-            <label>Avatar</label>
-            <input type="file" name="avatar" onChange={this.handleFileUpload("avatar")}/>
-          </div>
-          <div>
-            <label>Artists</label>
-            {formArtists}
-          </div>
-          <div>
-            <input type="submit" value="Save" onClick={this.handleSubmit} />
-            <a onClick={this.handleDelete}>Delete</a>
-            <a onClick={this.handleCancel}>Cancel</a>
-          </div>
-        </form>
-      );
-    }
 
     return (
       <div className={"resource-album " + (this.props.album.selected ? "resource-selected" : null) }>
@@ -130,4 +157,4 @@ class Album extends BaseResource {
   }
 }
 
-export { Album as default, ALBUM_PROP_TYPES };
+export { Album as default, AlbumNew, ALBUM_PROP_TYPES };

@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { BaseResource } from './Base.jsx';
-import Albums, { ALBUMS_PROP_TYPES } from './Albums.jsx';
+import { AlbumsList, ALBUMS_PROP_TYPES } from './Albums.jsx';
 
 const ARTIST_PROP_TYPES = PropTypes.shape({
   id: PropTypes.number,
@@ -10,22 +10,6 @@ const ARTIST_PROP_TYPES = PropTypes.shape({
 });
 
 class Artist extends BaseResource {
-  static propTypes = {
-    // Configuration
-    // container: PropTypes.string,
-    // form: PropTypes.bool,
-    // disableArtistEdit: PropTypes.bool,
-    // disbableSelect: PropTypes.bool,
-    //
-    // // Handlers
-    // handleResourceAdd: PropTypes.func,
-    // handleResourceDelete: PropTypes.func,
-
-    // Data
-    // artist: ARTIST_PROP_TYPES,
-    // albums: ALBUMS_PROP_TYPES
-  };
-
   static defaultProps = {
     form: false,
     disableArtistEdit: false,
@@ -63,9 +47,11 @@ class Artist extends BaseResource {
 
   getRequestData(obj) {
     return {
-      id: obj.id,
-      name: obj.name,
-      avatar: obj.avatar
+      artist: {
+        id: obj.id,
+        name: obj.name,
+        avatar: obj.avatar
+      }
     };
   }
 
@@ -86,14 +72,8 @@ class Artist extends BaseResource {
     const avatar = this.state.avatar;
     const errors = this.composeErrorList(this.state.errors);
     const albums = (
-      <Albums
-        disableArtists={this.props.disableArtists}
-        albums={this.props.artist.albums}
-        album={{}}
-        artist_ids={[this.state.id]} />
+      <AlbumsList albums={this.props.artist.albums} />
     );
-
-    if (this.state.form) debugger;
 
     if (this.state.form && !this.props.disableEdit) {
       return (

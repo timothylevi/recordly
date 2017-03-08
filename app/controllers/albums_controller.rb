@@ -3,9 +3,9 @@ class AlbumsController < ApplicationController
 
   def index
     @props = {
-      artists: Artist.all.map { |artist| artist_api(artist) },
-      albums: Album.all.map { |album| album_api(album) },
-      album: Album.new,
+      artists: Artist.all.map { |artist| artist_api(artist, ["albums"]) },
+      albums: Album.includes(:artists, :tracks).all.map { |album| album_api(album) },
+      album: Album.new
     }
   end
 
@@ -43,6 +43,6 @@ class AlbumsController < ApplicationController
   private
 
     def album_params
-      params.require(:album).permit(:avatar, :name, :id, artist_ids: [])
+      params.require(:album).permit(:avatar, :name, :id, artist_ids: [], tracks_attributes: [:album_id, :name, :track_num])
     end
 end

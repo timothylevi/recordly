@@ -21,13 +21,10 @@ export class BaseResourceList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.filterMask = {};
-
     registerHandlers.call(this, [
       "handleResourceAdd",
       "handleResourceDelete",
-      "handleResourceSelect",
-      "handleFilter"
+      "handleResourceSelect"
     ]);
   }
 
@@ -49,7 +46,6 @@ export class BaseResourceList extends React.Component {
   }
 
   handleResourceSelect(objId) {
-    debugger;
     const resources = this.state[this.resource].map(function(resource) {
       if (resource.id === objId) {
         resource.selected = !resource.selected;
@@ -61,11 +57,35 @@ export class BaseResourceList extends React.Component {
     this.setState({ [this.resource]: resources });
   }
 
+  handleResourceSelectWithId(objId) {
+    function partialHandleResourceSelect(event) {
+      return this.handleResourceSelect(objId);
+    }
+
+    return partialHandleResourceSelect.bind(this);
+  }
+};
+
+export class FilterableResourceList extends BaseResourceList {
+  constructor(props) {
+    super(props);
+
+    this.resourcesFilterMask = {};
+
+    this.state = {
+      resourcesFilteredList: []
+    };
+
+    registerHandlers.call(this, [
+      "handleFilter"
+    ]);
+  }
+
   handleFilter(event) {
     event.preventDefault();
-    const filterMask = this.filterMask.value.toLowerCase();
+    const resourcesFilterMask = this.resourcesFilterMask.value.toLowerCase();
     const resources = this.state[this.resource].filter(function(resource) {
-      return resource.name.toLowerCase().includes(filterMask);
+      return resource.name.toLowerCase().includes(resourcesFilterMask);
     });
 
     this.setState({ filteredResources: resources });
@@ -74,7 +94,7 @@ export class BaseResourceList extends React.Component {
   getResourceFilter(resources) {
     if (this.props.disableFilter) return;
 
-    const filteredResources = this.filterMask.value ? this.composeResourceList(this.state.filteredResources) : null;
+    const filteredResources = this.resourcesFilterMask.value ? this.composeResourceList(this.state.filteredResources) : null;
 
     return (
       <div className="resources-filter">
@@ -84,7 +104,7 @@ export class BaseResourceList extends React.Component {
           placeholder={`Filter ${this.resource}`}
           onChange={this.handleFilter}
           className="resources-filter-input"
-          ref={(filterMask) => { this.filterMask = filterMask; }}/>
+          ref={(resourcesFilterMask) => { this.resourcesFilterMask = resourcesFilterMask; }}/>
         <ul className="resources-filtered-list">{filteredResources}</ul>
       </div>
     );
@@ -93,7 +113,6 @@ export class BaseResourceList extends React.Component {
   composeResourceList(resources) {
     // Implement in sub classes
   }
-
 };
 
 export class BaseResource extends React.Component {
@@ -196,6 +215,8 @@ export class BaseResource extends React.Component {
       success: success.bind(this),
       error: success.bind(this),
       dataType: 'json',
+      contentType: 'application/json',
+      data: JSON.stringify(form),
       url: form.id ? `/${resources}/${form.id}`: `/${resources}`
     };
 
@@ -205,6 +226,7 @@ export class BaseResource extends React.Component {
 
     function success(data, err) {
       // TODO: Refactor
+      console.log(data);
       if (data.errors.length) {
         data.avatar = this.state.avatar;
         this.setState(data);
@@ -216,19 +238,6 @@ export class BaseResource extends React.Component {
       }
     };
 
-    request.data = { [resource]: form };
-
     return request;
   }
-
-  composeErrorList(errors) {
-    if (!errors || !errors.length) return null;
-
-    const errorItems = errors.map(function(error, index) {
-      return <li key={index}>{error}</li>
-    });
-
-    return <ul>{errorItems}</ul>;
-  }
-
 }
