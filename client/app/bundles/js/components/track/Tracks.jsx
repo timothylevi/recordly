@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { BaseResource } from './Base.jsx';
+import { BaseResource } from '../shared/Base.jsx';
 
 class TracksForm extends BaseResource {
   constructor(props) {

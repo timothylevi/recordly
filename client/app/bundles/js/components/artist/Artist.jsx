@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
-import { BaseResource } from './Base.jsx';
-import { AlbumsList, ALBUMS_PROP_TYPES } from './Albums.jsx';
+import { BaseResource } from '../shared/Base.jsx';
+import { AlbumsList, ALBUMS_PROP_TYPES } from '../album/Albums.jsx';
 
 const ARTIST_PROP_TYPES = PropTypes.shape({
   id: PropTypes.number,

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
-import { Page, BaseResourceList, FilterableResourceList } from './Base.jsx';
 import Album, { AlbumNew, ALBUM_PROP_TYPES } from './Album.jsx';
-import { ARTISTS_PROP_TYPES } from './Artists.jsx';
+import { Page, BaseResourceList, FilterableResourceList } from '../shared/Base.jsx';
+import { ARTISTS_PROP_TYPES } from '../artist/Artists.jsx';
 
 const ALBUMS_PROP_TYPES = PropTypes.arrayOf(ALBUM_PROP_TYPES);
 

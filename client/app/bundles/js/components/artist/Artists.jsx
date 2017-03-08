@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Page, BaseResourceList, FilterableResourceList } from './Base.jsx';
+import { Page, BaseResourceList, FilterableResourceList } from '../shared/Base.jsx';
 import Artist, { ARTIST_PROP_TYPES } from './Artist.jsx';
 
 const ARTISTS_PROP_TYPES = PropTypes.arrayOf(ARTIST_PROP_TYPES);

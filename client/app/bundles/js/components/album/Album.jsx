@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
-import { BaseResource } from './Base.jsx';
-import Artists, { ArtistsList, ARTISTS_PROP_TYPES } from './Artists.jsx';
-import TracksForm from './Tracks.jsx';
+import { BaseResource } from '../shared/Base.jsx';
+import Artists, { ArtistsList, ARTISTS_PROP_TYPES } from '../artist/Artists.jsx';
+import TracksForm from '../track/Tracks.jsx';
 
 const ALBUM_PROP_TYPES = PropTypes.shape({
   id: PropTypes.number,
