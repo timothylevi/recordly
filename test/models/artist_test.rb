@@ -11,8 +11,6 @@ class ArtistTest < ActiveSupport::TestCase
   test "should be valid" do
     valid = @test_artist.valid?
 
-    puts @test_artist.errors.full_messages
-
     assert @test_artist.valid?
   end
 

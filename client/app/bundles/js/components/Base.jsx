@@ -226,7 +226,6 @@ export class BaseResource extends React.Component {
 
     function success(data, err) {
       // TODO: Refactor
-      console.log(data);
       if (data.errors.length) {
         data.avatar = this.state.avatar;
         this.setState(data);

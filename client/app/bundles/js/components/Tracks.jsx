@@ -17,7 +17,6 @@ class TracksForm extends BaseResource {
   }
 
   getTrackObjects() {
-    debugger;
     function getTrackAttributes(track) {
       const trackAttributes = {
         name: track.name,
