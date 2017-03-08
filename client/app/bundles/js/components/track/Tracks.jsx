@@ -1,7 +1,7 @@
-import React, { PropTypes } from 'react';
-import { BaseResource } from '../shared/Base.jsx';
+import React from 'react';
+import { Resource } from '../shared/Base.jsx';
 
-class TracksForm extends BaseResource {
+class TracksForm extends Resource {
   constructor(props) {
     super(props);
 

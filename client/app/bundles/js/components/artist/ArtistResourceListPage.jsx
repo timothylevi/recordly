@@ -1,10 +1,8 @@
-import React, { PropTypes } from 'react';
-import { Page, BaseResourceList, FilterableResourceList } from '../shared/Base.jsx';
-import Artist, { ARTIST_PROP_TYPES } from './Artist.jsx';
+import React from 'react';
+import { Resource } from './Artist.jsx';
+import { Page, FilterableResourceList } from '../shared/Base.jsx';
 
-const ARTISTS_PROP_TYPES = PropTypes.arrayOf(ARTIST_PROP_TYPES);
-
-class ArtistsPage extends FilterableResourceList {
+export default class ArtistResourceListPage extends FilterableResourceList {
   static defaultProps = {
     albumArtists: []
   };
@@ -47,7 +45,7 @@ class ArtistsPage extends FilterableResourceList {
     const artistItems = artists.map(function(artist, index) {
       return (
         <li className="resource-item" key={artist.id}>
-          <Artist
+          <Resource
             artist={artist}
             form={false}
             handleResourceDelete={_this.handleResourceDelete}
@@ -65,7 +63,7 @@ class ArtistsPage extends FilterableResourceList {
   composeNewArtist(artist) {
     if (this.props.disableNew || this.resourcesFilterMask.value) return null;
 
-    return <Artist form={true} artist={artist} handleResourceAdd={this.handleResourceAdd} />;
+    return <Resource form={true} artist={artist} handleResourceAdd={this.handleResourceAdd} />;
   }
 
   render() {
@@ -86,43 +84,3 @@ class ArtistsPage extends FilterableResourceList {
     );
   }
 }
-
-class ArtistsList extends BaseResourceList {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      artists: props.artists
-    }
-
-    this.resource = "artists";
-  }
-
-  getSelectedArtistIds() {
-    return this.state.artists.filter(function(artist) {
-      return artist.selected;
-    }).map(function(artist) {
-      return artist.id;
-    });
-  }
-
-  render() {
-    function composeArtistLi(artist) {
-      const className = "artist-li" + (artist.selected ? " artist-li-selected" : "");
-
-      return (
-        <li key={artist.id} onClick={this.handleResourceSelectWithId(artist.id)} className={className}>
-          <span className="artist-name">{artist.name}</span>
-        </li>
-      );
-    }
-
-    return (
-      <ul>
-        {this.props.artists.map(composeArtistLi.bind(this))}
-      </ul>
-    );
-  }
-}
-
-export { ArtistsPage as default, ArtistsList, ARTISTS_PROP_TYPES };
