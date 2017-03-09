@@ -24,6 +24,7 @@ export default class ArtistResourceList extends ResourceList {
         <Resource
           {...artist}
           key={artist.id}
+          container={this.props.container}
           handleResourceAdd={this.handleResourceAdd}
           handleResourceSelect={this.handleResourceSelect}
           handleResourceDelete={this.handleResourceDelete} />

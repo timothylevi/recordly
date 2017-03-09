@@ -42,8 +42,11 @@ export default class Artist extends Resource {
       );
     }
 
-    const className = "artist-item" + (this.props.selected ? " selected" : "");
-    const albumList = this.composeAlbumList(this.props.albums, !this.props.selected);
+    const isInAlbumContainer = this.props.container === "album";
+    const isSelected = this.props.selected;
+
+    const className = "artist-item" + (isSelected ? " selected" : "");
+    const albumList = this.composeAlbumList(this.props.albums, !isSelected || isInAlbumContainer);
 
     return (
       <li key={this.state.id} onClick={this.handleSelect} className={className}>

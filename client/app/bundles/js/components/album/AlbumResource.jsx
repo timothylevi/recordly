@@ -2,7 +2,7 @@ import React from 'react';
 import { ResourceForm } from './index';
 import { Resource } from '../shared';
 import { ResourceList as TrackList } from '../track';
-// import { ArtistList } from '../artist/Artists.jsx';
+import { ResourceList as ArtistList } from '../artist';
 
 export default class AlbumResource extends Resource {
   static defaultProps = {
@@ -34,6 +34,10 @@ export default class AlbumResource extends Resource {
     return disable ? null : <TrackList tracks={tracks} />;
   }
 
+  composeArtistList(artists, disable) {
+    return disable ? null : <ArtistList artists={artists} container="album" />;
+  }
+
   render() {
     if (this.props.deleted) return null;
 
@@ -50,10 +54,13 @@ export default class AlbumResource extends Resource {
       );
     }
 
+    const isInArtistContainer = this.props.container === "artist";
+    const isSelected = this.props.selected;
+
     const className = "album-item" + (this.props.selected ? " selected" : "");
-    const editControl = this.composeEditControl(this.props.container === "artist");
-    const trackList = this.composeTrackList(this.props.tracks, !this.props.selected);
-    // const albumArtists = this.composeArtistList(this.state.artists, "ul");
+    const editControl = this.composeEditControl(isInArtistContainer);
+    const trackList = this.composeTrackList(this.props.tracks, !isSelected);
+    const artistList = this.composeArtistList(this.props.artists, isInArtistContainer || !isSelected);
 
     return (
       <li key={this.state.id} onClick={this.handleSelect} className={className}>
@@ -65,6 +72,7 @@ export default class AlbumResource extends Resource {
         <div className="album-item-created">{this.state.created_at && this.state.created_at.toString()}</div>
         <div className="album-item-updated">{this.state.updated_at && this.state.updated_at.toString()}</div>
         <div className="album-tracks">
+          {artistList}
           {trackList}
         </div>
       </li>
