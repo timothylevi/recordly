@@ -7,6 +7,11 @@ class User < ApplicationRecord
   validates :password_confirmation, presence: true
   # validates :collection, presence: true
 
+  has_many :favorites
+  has_many :favorite_artists, through: :favorites, source: :favoriteable, source_type: "Artist"
+  has_many :favorite_albums, through: :favorites, source: :favoriteable, source_type: "Album"
+  has_many :favorite_tracks, through: :favorites, source: :favoriteable, source_type: "Track"
+
   has_secure_password
 
   def User.digest(string)
