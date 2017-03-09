@@ -30,6 +30,7 @@ export default class BaseResource extends React.Component {
 
   handleCancel(event) {
     event.preventDefault();
+    event.stopPropagation();
 
     if (this.state.id) {
       this.props.handleResourceCancel();
@@ -39,8 +40,8 @@ export default class BaseResource extends React.Component {
   }
 
   handleChange(event) {
-    event.stopPropagation();
     event.preventDefault();
+    event.stopPropagation();
 
     this.setState({
       [event.target.name]: event.target.value
@@ -49,6 +50,7 @@ export default class BaseResource extends React.Component {
 
   handleDelete(event) {
     event.preventDefault();
+    event.stopPropagation();
 
     function callback(data) {
       this.props.handleResourceDelete(this.state.id);
@@ -78,6 +80,7 @@ export default class BaseResource extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    event.stopPropagation();
 
     function create(data) {
       this.resetForm();

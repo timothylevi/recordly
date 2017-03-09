@@ -11,6 +11,7 @@ export default class AlbumResourceList extends ResourceList {
     super(props)
 
     this.resource = "albums";
+    this.state = { albums: props.albums };
   }
 
   render() {
@@ -19,6 +20,7 @@ export default class AlbumResourceList extends ResourceList {
         <Resource
           {...album}
           key={album.id}
+          formArtists={this.props.formArtists}
           container={this.props.container}
           handleResourceAdd={this.handleResourceAdd}
           handleResourceSelect={this.handleResourceSelect}

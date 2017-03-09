@@ -3,12 +3,17 @@ import { ResourceListForm } from '../shared';
 import { registerHandlers } from '../../helpers';
 
 export default class ArtistResourceListForm extends ResourceListForm {
+  static defauultProps = {
+    artists: [],
+    formArtists: []
+  }
+
   constructor(props) {
     super(props);
 
     this.resource = "artists";
     this.state = {
-      artists: props.artists
+      artists: this.mergeSelected(props.artists, props.formArtists)
     };
 
     registerHandlers.call(this, [
@@ -42,7 +47,7 @@ export default class ArtistResourceListForm extends ResourceListForm {
       artist.selected = false;
       return artist;
     }
-    const resetResources = this.props[this.resource].map(deselectArtist);
+    const resetResources = this.state[this.resource].map(deselectArtist);
 
     this.setState({
       artists: resetResources
@@ -68,7 +73,7 @@ export default class ArtistResourceListForm extends ResourceListForm {
   }
 
   render() {
-    const artistList = this.composeArtistList(this.props.artists);
+    const artistList = this.composeArtistList(this.state.artists);
     return (
       <div>
         {artistList}

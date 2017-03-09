@@ -19,12 +19,12 @@ export default class AlbumResourceListPage extends FilterableResourceList {
 
   composeResourceForm() {
     return (
-      <ResourceForm artists={this.props.artists} handleResourceAdd={this.handleResourceAdd} />
+      <ResourceForm formArtists={this.props.artists} handleResourceAdd={this.handleResourceAdd} />
     );
   }
 
   composeResourceList(albums, disable) {
-    return disable ? null : <ResourceList albums={albums} />;
+    return disable ? null : <ResourceList albums={albums} formArtists={this.props.artists} />;
   }
 
   render() {

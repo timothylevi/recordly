@@ -43,7 +43,7 @@ export default class TrackListForm extends ResourceListForm {
 
   resetForm() {
     this.setState({
-      tracks: [{}]
+      tracks: [{ name: "" }]
     });
   }
 
@@ -57,6 +57,8 @@ export default class TrackListForm extends ResourceListForm {
   }
 
   composeTrackInputsList(tracks) {
+    // TODO: Use a unique key so that when the form resets, the single
+    // input is blank instead of React reusing the track input
     function composeTrackInput(track, index) {
       return (
         <li id={`track-${index}`} key={index} className="track-item">
@@ -64,6 +66,7 @@ export default class TrackListForm extends ResourceListForm {
             name="name"
             type="text"
             className="track-item-name"
+            value={track.name}
             onChange={this.getChangeHandler(index).bind(this)} />
         </li>
       );

@@ -9,7 +9,8 @@ export default class AlbumResource extends Resource {
     id: "",
     name: "",
     avatar: "",
-    artists: []
+    artists: [],
+    tracks: [{}]
   };
 
   constructor(props, _railsContext) {
@@ -20,23 +21,10 @@ export default class AlbumResource extends Resource {
       id: props.id,
       name: props.name,
       avatar: props.avatar,
-      artists: props.artists
+      artists: props.artists,
+      tracks: props.tracks
     };
-
-    // this.artistsComponent = {};
   }
-
-  // composeArtistList(artists, format) {
-  //   return (
-  //     <Artists
-  //       artists={artists}
-  //       albumArtists={this.props.album.artists}
-  //       artist={{}}
-  //       className="album-artists"
-  //       format={format}
-  //       ref={(artists) => this.artistsComponent = artists} />
-  //   );
-  // }
 
   composeEditControl(disable) {
     return disable ? null : <a className="album-item-controls-edit" onClick={this.handleEdit}>Edit</a>;
@@ -53,6 +41,7 @@ export default class AlbumResource extends Resource {
       return (
         <ResourceForm
           {...this.state}
+          formArtists={this.props.formArtists}
           container={this.props.container}
           handleResourceUpdate={this.handleResourceUpdate}
           handleResourceCancel={this.handleResourceCancel}

@@ -23,13 +23,14 @@ export default class BaseResource extends React.Component {
 
   handleEdit(event) {
     event.preventDefault();
+    event.stopPropagation();
 
     this.setState({ form: true });
   }
 
   handleSelect(event) {
-    event.stopPropagation();
     event.preventDefault();
+    event.stopPropagation();
 
     this.props.handleResourceSelect(this.state.id);
   }

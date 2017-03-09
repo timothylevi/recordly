@@ -49,11 +49,11 @@ export default class AlbumResourceForm extends ResourceForm {
     };
   }
 
-  composeArtistsField(artists, disable) {
+  composeArtistsField(artists, formArtists, disable) {
     return disable ? null : (
       <div className="album-artists">
         <label className="album-artists-label">Artists</label>
-        <ArtistListForm artists={artists} ref={(form) => this.artistsFormComponent = form} />
+        <ArtistListForm artists={artists} formArtists={formArtists} ref={(form) => this.artistsFormComponent = form} />
       </div>
     );
   }
@@ -62,14 +62,14 @@ export default class AlbumResourceForm extends ResourceForm {
     return disable ? null : (
       <div className="album-tracks">
         <label className="album-tracks-label">Tracks</label>
-        <TrackListForm ref={(form) => this.tracksFormComponent = form} />
+        <TrackListForm tracks={tracks} ref={(form) => this.tracksFormComponent = form} />
       </div>
     );
   }
 
   render() {
-    const artistsField = this.composeArtistsField(this.props.artists, this.props.container === "artist")
-    const trackFields = this.composeTrackFields();
+    const artistsField = this.composeArtistsField(this.props.artists, this.props.formArtists, this.props.container === "artist")
+    const trackFields = this.composeTrackFields(this.props.tracks);
 
     return (
       <form className="album-form" onClick={this.handleFormClick} ref={(form) => { this.formComponent = form; }}>
