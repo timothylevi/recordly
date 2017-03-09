@@ -11,7 +11,9 @@ module ApplicationHelper
       name: artist.name,
       avatar: artist.avatar.url(:square),
       albums: getAlbums(artist, disabledProps),
-      errors: artist.errors.full_messages
+      errors: artist.errors.full_messages,
+      created_at: artist.created_at,
+      updated_at: artist.updated_at
     }
   end
 
@@ -34,7 +36,9 @@ module ApplicationHelper
       avatar: album.avatar.url(:square),
       artists: getArtists(album, disabledProps),
       tracks: getTracks(album, disabledProps),
-      errors: album.errors.full_messages
+      errors: album.errors.full_messages,
+      created_at: album.created_at,
+      updated_at: album.updated_at
     }
   end
 

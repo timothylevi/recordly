@@ -1,17 +1,15 @@
 import React from 'react';
-import { Resource } from '../shared';
+import { Resource, ResourceForm } from '../shared';
 import { ResourceList as ArtistList } from '../artist';
-import TrackForm from '../track/Tracks.jsx';
+// import { TrackList } from '../track/Tracks.jsx';
 
-export default class AlbumResourceForm extends Resource {
+export default class AlbumResourceForm extends ResourceForm {
   constructor(props) {
     super(props);
 
-    this.formComponent = {};
     this.resource = "album";
-
     this.state = {
-      id: "",
+      id: props.id || "",
       name: props.name || "",
       avatar: props.avatar || "",
       artists: props.artists || "",
@@ -24,60 +22,65 @@ export default class AlbumResourceForm extends Resource {
       id: "",
       name: "",
       avatar: "",
-      form: true,
       artists: this.props.album.artists
     });
   }
 
   composeArtistList(artists, format) {
-    return (
-      <ArtistList
-        artists={artists}
-        albumArtists={this.props.album.artists}
-        className="album-artists"
-        format={format}
-        ref={(artists) => this.artistsComponent = artists} />
-    );
+    return []//(
+  //     <ArtistList
+  //       artists={artists}
+  //       albumArtists={this.props.album.artists}
+  //       className="album-artists"
+  //       format={format}
+  //       ref={(artists) => this.artistsComponent = artists} />
+  //   );
   }
 
-  getRequestData(obj) {
+  buildRequestData(obj) {
     return {
       album: {
         id: obj.id,
         name: obj.name,
         avatar: obj.avatar,
-        tracks_attributes: this.props.track_ids || this.tracksFormComponent.getTrackObjects(),
-        artist_ids: this.props.artist_ids || this.artistsComponent.getSelectedArtistIds()
+        // tracks_attributes: this.props.track_ids || this.tracksFormComponent.getTrackObjects(),
+        // artist_ids: this.props.artist_ids || this.artistsComponent.getSelectedArtistIds()
       }
     };
   }
 
+  composeArtistField(artists, disable) {
+    return disable ? null : (
+      <div className="album-artists">
+        <label className="album-artists-label">Artists</label>
+        <ArtistList artists={artists} />
+      </div>
+    );
+  }
+
   render() {
-    const errors = this.composeErrorList(this.state.errors);
-    const formArtists = this.composeArtistList(this.props.artists, "ul");
-    const tracks = <TrackForm album={this.props.album} ref={(form) => this.tracksFormComponent = form}/>;
+    const artistsField = this.composeArtistField(this.props.artists, this.props.container === "artist")
+    // const formArtists = this.composeArtistList(this.props.artists, "ul");
+    // const tracks = <TrackForm album={this.props.album} ref={(form) => this.tracksFormComponent = form}/>;
 
     return (
-      <form ref={(form) => { this.formComponent = form; }}>
-        {errors}
-        <div>
-          <label>Name</label>
-          <input type="text" name="name" value={this.props.name} onChange={this.handleChange}/>
+      <form className="album-form" onClick={this.handleFormClick} ref={(form) => { this.formComponent = form; }}>
+        {this.composeErrorList(this.state.errors)}
+        <div className="album-name">
+          <label className="album-name-label">Name</label>
+          <input className="album-name-input" type="text" name="name" value={this.state.name} onChange={this.handleChange}/>
         </div>
-        <div>
-          <div style={{backgroundSize: 'cover', backgroundImage: `url('${this.state.avatar}')`, width: "200px", height: "200px" }} />
-          <label>Avatar</label>
-          <input type="file" name="avatar" onChange={this.handleFileUpload("avatar")}/>
+        <div className="album-avatar">
+          <div className="album-avatar-preview" style={{backgroundImage: `url('${this.state.avatar}')`}} />
+          <label className="album-avatar-label" >Avatar</label>
+          <input className="album-avatar-input"  type="file" name="avatar" onChange={this.handleFileUpload("avatar")}/>
         </div>
-        <div>
-          <label>Artists</label>
-          {formArtists}
-        </div>
-        {tracks}
-        <div>
-          <input type="submit" value="Save" onClick={this.handleSubmit} />
-          <a onClick={this.handleDelete}>Delete</a>
-          <a onClick={this.handleCancel}>Cancel</a>
+        {artistsField}
+        {/*tracks*/}
+        <div className="album-controls">
+          <input className="album-controls-save" type="submit" value="Save" onClick={this.handleSubmit} />
+          <a className="album-controls-delete" onClick={this.handleDelete}>Delete</a>
+          <a className="album-controls-cancel" onClick={this.handleCancel}>Cancel</a>
         </div>
       </form>
     );

@@ -23,25 +23,23 @@ export default class FilterableResourceList extends BaseResourceList {
     const resources = this.state[this.resource].filter(function(resource) {
       return resource.name.toLowerCase().includes(resourcesFilterMask);
     });
-
     this.setState({ filteredResources: resources });
   }
 
-  getResourceFilter(resources) {
+  composeResourceFilter(resources) {
     if (this.props.disableFilter) return;
 
-    const filteredResources = this.resourcesFilterMask.value ? this.composeResourceList(this.state.filteredResources) : null;
+    const filteredResources = this.composeResourceList(this.state.filteredResources, !this.resourcesFilterMask.value);
 
     return (
       <div className="resources-filter">
         <input
           type="search"
-          name="filter"
-          placeholder={`Filter ${this.resource}`}
+          placeholder={`Search ${this.resource}`}
           onChange={this.handleFilter}
-          className="resources-filter-input"
+          className="resources-filter-mask"
           ref={(resourcesFilterMask) => { this.resourcesFilterMask = resourcesFilterMask; }}/>
-        <ul className="resources-filtered-list">{filteredResources}</ul>
+        {filteredResources}
       </div>
     );
   }

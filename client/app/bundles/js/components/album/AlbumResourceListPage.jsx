@@ -1,49 +1,38 @@
 import React from 'react';
-import { Resource, ResourceForm, ResourceList } from './index';
+import { ResourceForm, ResourceList } from './index';
 import { FilterableResourceList } from '../shared';
 import { Page } from '../layout';
 
 export default class AlbumResourceListPage extends FilterableResourceList {
-  static defaultProps = {
-    album: {},
-    disableAlbumEdit: false,
-    disableNew: false
-  };
-
   constructor(props, _railsContext) {
     super(props);
 
-    this.state = {
-      albums: props.albums,
-    };
-
     this.resource = "albums";
+    this.state = {
+      albums: props.albums
+    };
   }
 
-  composeNewAlbum() {
-    if (this.resourcesFilterMask.value || this.props.disableNew) return null;
-
+  composeResourceForm() {
     return (
-      <ResourceForm
-        form={true}
-        album={this.props.album}
-        artists={this.props.artists}
-        handleResourceAdd={this.handleResourceAdd}
-        artist_ids={this.props.artist_ids} />
+      <ResourceForm handleResourceAdd={this.handleResourceAdd} />
     );
   }
 
+  composeResourceList(albums, disable) {
+    return disable ? null : <ResourceList albums={albums} />;
+  }
+
   render() {
-    const resourceListFilter = this.getResourceFilter(this.state.filteredResources);
-    const resourceNew = this.composeNewAlbum();
+    const resourceFilter = this.composeResourceFilter(this.state.filteredResources);
+    const resourceList = this.composeResourceList(this.props.albums, this.resourcesFilterMask.value);
+    const resourceForm = this.composeResourceForm();
 
     return (
       <Page title={this.resource}>
-        <ul className="resources">
-          {resourceListFilter}
-          <ResourceList albums={this.state.albums} />
-          {resourceNew}
-        </ul>
+        {resourceFilter}
+        {resourceList}
+        {resourceForm}
       </Page>
     );
   }

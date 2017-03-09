@@ -1,84 +1,54 @@
 import React from 'react';
 import { ResourceForm } from './index';
 import { Resource } from '../shared';
-import { ResourceList as AlbumsList } from '../album';
+import { ResourceList as AlbumList } from '../album';
 
 export default class Artist extends Resource {
-  static defaultProps = {
-    form: false,
-    disableArtistEdit: false,
-    disableArtists: false,
-    disableEdit: false
-   };
-
   constructor(props, _railsContext) {
     super(props);
 
-    this.state = {
-      id: props.artist.id || "",
-      name: props.artist.name || "",
-      avatar: props.artist.avatar || ""
-    };
-
     this.resource = "artist";
-
-    // Refs
-    this.formComponent = {};
-  }
-
-  resetForm() {
-    this.setState({
-      id: "",
-      name: "",
-      avatar: "",
-    });
-  }
-
-  getRequestData(obj) {
-    return {
-      artist: {
-        id: obj.id,
-        name: obj.name,
-        avatar: obj.avatar
-      }
+    this.state = {
+      form: false,
+      id: props.id || "",
+      name: props.name || "",
+      avatar: props.avatar || "",
+      updated_at: props.updatedAt || ""
     };
+  }
+
+  composeAlbumList(albums, disable) {
+    return disable ? null : <AlbumList albums={albums} container={this.resource}/>;
   }
 
   render() {
-    if (this.props.artist.deleted) return null;
+    if (this.props.deleted) return null;
 
-    if (this.props.format === "li") {
-      const className = "artist-li " + (this.props.artist.selected ? "artist-li-selected" : "") ;
+    if (this.state.form) {
       return (
-        <li onClick={this.props.handleResourceSelect} className={className}>
-          {this.state.name}
-        </li>
+        <ResourceForm
+          {...this.state}
+          handleResourceUpdate={this.handleResourceUpdate}
+          handleResourceCancel={this.handleResourceCancel}
+          handleResourceDelete={this.props.handleResourceDelete}
+          ref={(form) => { this.formComponent = form; }} />
       );
     }
 
-    const id = this.state.id;
-    const name = this.state.name;
-    const avatar = this.state.avatar;
-    const albums = (
-      <AlbumsList albums={this.props.artist.albums} />
-    );
-
-    if (this.state.form && !this.props.disableEdit) {
-      return (
-        <ResourceForm {...this.state} ref={(form) => { this.formComponent = form; }} />
-      );
-    }
+    const className = "artist-item" + (this.props.selected ? " selected" : "");
+    const albumList = this.composeAlbumList(this.props.albums, !this.props.selected);
 
     return (
-      <div className="resource-artist">
-        <div style={{backgroundSize: 'cover', backgroundImage: `url('${avatar}')`, width: "200px", height: "200px" }} />
-        Name: {name}
-        { this.props.disableArtistEdit ? null : <a onClick={this.handleEdit}>Edit</a> }
-        { this.props.disableSelect ? null : <a onClick={this.handleSelect}>Select</a> }
-        {/* TODO: Show albums and tracks here by config */}
-        { this.props.artist.selected ? 'Selected' : null }
-        { this.props.artist.selected && !this.props.disableAlbums ? albums : null}
-      </div>
+      <li key={this.state.id} onClick={this.handleSelect} className={className}>
+        <div className="artist-item-controls">
+          <a className="artist-item-controls-edit" onClick={this.handleEdit}>Edit</a>
+        </div>
+        <div className="artist-item-avatar" style={{backgroundImage: `url('${this.state.avatar}')` }}></div>
+        <div className="artist-item-name">{this.state.name}</div>
+        <div className="artist-item-created">{this.state.created_at && this.state.created_at.toString()}</div>
+        <div className="artist-item-updated">{this.state.updated_at && this.state.updated_at.toString()}</div>
+        {albumList}
+      </li>
     );
   }
 }

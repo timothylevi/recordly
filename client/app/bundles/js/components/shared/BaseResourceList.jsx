@@ -48,4 +48,27 @@ export default class BaseResourceList extends React.Component {
 
     return partialHandleResourceSelect.bind(this);
   }
+
+  mergeSelected(resources, selectedResources) {
+    if (!resources) return [];
+    if (!selectedResources) return artists;
+
+    function addResourceToHash(hsh, obj) {
+      obj.selected = true;
+      hsh[obj.id] = obj;
+      return hsh;
+    }
+
+    function getLatestResource(resource) {
+      if (this.hasOwnProperty(resource.id)) {
+        return this[resource.id];
+      }
+
+      return resource;
+    }
+
+    const resourcesHash = selectedResources.reduce(addResourceToHash, {});
+    return resources.map(getLatestResource.bind(resourcesHash));
+  }
+
 };

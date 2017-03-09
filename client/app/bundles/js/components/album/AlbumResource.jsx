@@ -1,59 +1,77 @@
 import React from 'react';
+import { ResourceForm } from './index';
 import { Resource } from '../shared';
+import { ResourceList as TrackList } from '../track';
 // import { ArtistList } from '../artist/Artists.jsx';
 
 export default class AlbumResource extends Resource {
-  static defaultProps = { form: false };
-
   constructor(props, _railsContext) {
     super(props);
 
+    this.resource = "album";
     this.state = {
-      // Config
-      form: props.form || false,
-
-      // Data
-      id: props.album.id || "",
-      name: props.album.name || "",
-      avatar: props.album.avatar || "",
-      artists: props.album.artists || []
+      id: props.id || "",
+      name: props.name || "",
+      avatar: props.avatar || "",
+      artists: props.artists || []
     };
 
-    this.resource = "album";
-    this.formComponent = {};
-    this.artistsComponent = {};
+    // this.artistsComponent = {};
   }
 
-  composeArtistList(artists, format) {
-    return (
-      <Artists
-        artists={artists}
-        albumArtists={this.props.album.artists}
-        artist={{}}
-        className="album-artists"
-        format={format}
-        ref={(artists) => this.artistsComponent = artists} />
-    );
+  // composeArtistList(artists, format) {
+  //   return (
+  //     <Artists
+  //       artists={artists}
+  //       albumArtists={this.props.album.artists}
+  //       artist={{}}
+  //       className="album-artists"
+  //       format={format}
+  //       ref={(artists) => this.artistsComponent = artists} />
+  //   );
+  // }
+
+  composeEditControl(disable) {
+    return disable ? null : <a className="album-item-controls-edit" onClick={this.handleEdit}>Edit</a>;
+  }
+
+  composeTrackList(tracks, disable) {
+    return disable ? null : <TrackList tracks={tracks} />;
   }
 
   render() {
-    if (this.props.album.deleted) return null;
+    if (this.props.deleted) return null;
 
-    const id = this.state.id;
-    const name = this.state.name;
-    const avatar = this.state.avatar;
-    const albumArtists = this.composeArtistList(this.state.artists, "ul");
+    if (this.state.form) {
+      return (
+        <ResourceForm
+          {...this.state}
+          container={this.props.container}
+          handleResourceUpdate={this.handleResourceUpdate}
+          handleResourceCancel={this.handleResourceCancel}
+          handleResourceDelete={this.props.handleResourceDelete}
+          ref={(form) => { this.formComponent = form; }} />
+      );
+    }
+
+    const className = "album-item" + (this.props.selected ? " selected" : "");
+    const editControl = this.composeEditControl(this.props.container === "artist");
+    const trackList = this.composeTrackList(this.props.tracks, !this.props.selected);
+    // const albumArtists = this.composeArtistList(this.state.artists, "ul");
 
     return (
-      <div className={"resource-album " + (this.props.album.selected ? "resource-selected" : null) }>
-        <div className="album-avatar" style={{backgroundImage: `url('${avatar}')`}} />
-        <h3 className="album-name">{name}</h3>
-        {albumArtists}
-        <ul className="album-actions">
-          { this.props.disableEdit ? null : <li className="album-action"><a onClick={this.handleEdit}>Edit</a></li> }
-          { this.props.disableSelect ? null : <li className="album-action"><a onClick={this.handleSelect}>Select</a></li> }
-        </ul>
-      </div>
+      <li key={this.state.id} onClick={this.handleSelect} className={className}>
+        <div className="album-item-controls">
+          {editControl}
+        </div>
+        <div className="album-item-avatar" style={{backgroundImage: `url('${this.state.avatar}')` }}></div>
+        <div className="album-item-name">{this.state.name}</div>
+        <div className="album-item-created">{this.state.created_at && this.state.created_at.toString()}</div>
+        <div className="album-item-updated">{this.state.updated_at && this.state.updated_at.toString()}</div>
+        <div className="album-tracks">
+          {trackList}
+        </div>
+      </li>
     );
   }
 }

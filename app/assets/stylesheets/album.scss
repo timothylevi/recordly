@@ -1,0 +1,43 @@
+// ResourceListPage
+.album-page {}
+
+// ResourceForm
+.album-form {
+  .album-error-list {
+    .album-error-item {}
+  }
+  .album-name {
+    .album-name-label {}
+    .album-name-input {}
+  }
+  .album-avatar {
+    .album-avatar-preview {
+      background-size: cover;
+      width: $FORM_AVATAR_WIDTH;
+      height: $FORM_AVATAR_WIDTH;
+    }
+    .album-avatar-label {}
+    .album-avatar-input {}
+  }
+  .album-controls {
+    .album-controls-save {}
+    .album-controls-delete {}
+    .album-controls-cancel {}
+  }
+}
+
+// ResourceList
+.album-list {
+  .album-item {
+    &.selected {}
+    .album-item-avatar {
+      background-size: cover;
+      width: $LIST_AVATAR_WIDTH;
+      height: $LIST_AVATAR_WIDTH;
+    }
+    .album-item-name {}
+    .album-item-albums {}
+    .album-item-created {}
+    .album-item-updated {}
+  }
+}

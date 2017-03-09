@@ -1,0 +1,49 @@
+// ResourceListPage
+.artist-page {}
+
+// ResourceForm
+.artist-form {
+  .artist-error-list {
+    .artist-error-item {}
+  }
+  .artist-name {
+    .artist-name-label {}
+    .artist-name-input {}
+  }
+  .artist-avatar {
+    .artist-avatar-preview {
+      background-size: cover;
+      width: $FORM_AVATAR_WIDTH;
+      height: $FORM_AVATAR_WIDTH;
+    }
+    .artist-avatar-label {}
+    .artist-avatar-input {}
+  }
+  .artist-controls {
+    .artist-controls-save {}
+    .artist-controls-delete {}
+    .artist-controls-cancel {}
+  }
+}
+
+// ResourceList
+.artist-list {
+  .artist-item {
+    &.selected {}
+    .artist-item-avatar {
+      background-size: cover;
+      width: $LIST_AVATAR_WIDTH;
+      height: $LIST_AVATAR_WIDTH;
+    }
+    .artist-item-name {}
+    .artist-item-albums {}
+    .artist-item-created {}
+    .artist-item-updated {}
+    .album-list {
+      margin-left: 2rem;
+      .track-list {
+        margin-left: 2rem;
+      }
+    }
+  }
+}

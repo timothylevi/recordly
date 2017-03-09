@@ -7,7 +7,7 @@ export default class Page extends React.Component {
 
   render() {
     return (
-      <main className={this.props.className + " page"}>
+      <main className={this.props.title + "-page page"}>
         <h2 className="page-title">{this.props.title}</h2>
         {this.props.children}
       </main>

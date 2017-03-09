@@ -26,6 +26,7 @@ class TracksForm extends Resource {
       if (this.state.album_id) track.album_id = this.stat.album_id;
       return trackAttributes;
     }
+
     return this.state.tracks.map(getTrackAttributes.bind(this));
   }
 
@@ -47,6 +48,7 @@ class TracksForm extends Resource {
 
     const value = event.target.value;
     const id = event.target.id;
+
     const tracks = this.state.tracks.map(function(track, index) {
       if (track.id === "track-num-" + index) track.track_num = value;
 
@@ -60,6 +62,7 @@ class TracksForm extends Resource {
 
     const value = event.target.value;
     const id = event.target.id;
+
     const tracks = this.state.tracks.map(function(track, index) {
       if (track.id === "track-name-" + index) track.name = value;
 

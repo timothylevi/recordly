@@ -1,10 +1,11 @@
 import React from 'react';
-import { Resource } from '../shared';
+import { ResourceForm } from '../shared';
 
-export default class ArtistResourceForm extends Resource {
+export default class ArtistResourceForm extends ResourceForm {
   constructor(props) {
     super(props)
 
+    this.resource = "artist";
     this.state = {
       id: props.id || "",
       name: props.name || "",
@@ -13,27 +14,44 @@ export default class ArtistResourceForm extends Resource {
     };
   }
 
+  resetForm() {
+    this.setState({
+      id: "",
+      name: "",
+      avatar: "",
+    });
+  }
+
+  buildRequestData(obj) {
+    return {
+      artist: {
+        id: obj.id,
+        name: obj.name,
+        avatar: obj.avatar
+      }
+    };
+  }
+
   render() {
     const name = this.state.name;
     const avatar = this.state.avatar;
-    const errors = this.composeErrorList(this.state.errors);
 
     return (
-      <form>
-        {errors}
-        <div>
-          <label>Name</label>
-          <input type="text" name="name" value={name} onChange={this.handleChange}/>
+      <form className="artist-form" ref={(form) => { this.formComponent = form }}>
+        {this.composeErrorList(this.state.errors)}
+        <div className="artist-name">
+          <label className="artist-name-label">Name</label>
+          <input className="artist-name-input" type="text" name="name" value={name} onChange={this.handleChange}/>
         </div>
-        <div>
-          <div style={{backgroundSize: 'cover', backgroundImage: `url('${avatar}')`, width: "200px", height: "200px" }} />
-          <label>Avatar</label>
-          <input type="file" name="avatar" onChange={this.handleFileUpload("avatar")}/>
+        <div className="artist-avatar">
+          <div className="artist-avatar-preview" style={{backgroundImage: `url('${avatar}')` }} />
+          <label className="artist-avatar-label">Avatar</label>
+          <input className="artist-avatar-input" type="file" name="avatar" onChange={this.handleFileUpload("avatar")}/>
         </div>
-        <div>
-          <input type="submit" value="Save" onClick={this.handleSubmit} />
-          <a onClick={this.handleDelete}>Delete</a>
-          <a onClick={this.handleCancel}>Cancel</a>
+        <div className="artist-controls">
+          <input className="artist-controls-save" type="submit" value="Save" onClick={this.handleSubmit} />
+          <a className="artist-controls-delete" onClick={this.handleDelete}>Delete</a>
+          <a className="artist-controls-cancel" onClick={this.handleCancel}>Cancel</a>
         </div>
       </form>
     );
