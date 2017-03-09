@@ -1,2 +1,2 @@
-// export ResourceForm from './TrackResourceListForm';
+export ResourceListForm from './TrackResourceListForm';
 export ResourceList from './TrackResourceList';

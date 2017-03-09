@@ -47,3 +47,16 @@
     }
   }
 }
+
+// ResourceListForm
+.artist-list-form {
+  .artist-item {
+    &.selected {}
+    .artist-item-avatar {
+      background-size: cover;
+      width: $LIST_AVATAR_WIDTH;
+      height: $LIST_AVATAR_WIDTH;
+    }
+    .artist-item-name {}
+  }
+}

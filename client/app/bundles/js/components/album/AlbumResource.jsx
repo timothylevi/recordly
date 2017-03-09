@@ -5,15 +5,22 @@ import { ResourceList as TrackList } from '../track';
 // import { ArtistList } from '../artist/Artists.jsx';
 
 export default class AlbumResource extends Resource {
+  static defaultProps = {
+    id: "",
+    name: "",
+    avatar: "",
+    artists: []
+  };
+
   constructor(props, _railsContext) {
     super(props);
 
     this.resource = "album";
     this.state = {
-      id: props.id || "",
-      name: props.name || "",
-      avatar: props.avatar || "",
-      artists: props.artists || []
+      id: props.id,
+      name: props.name,
+      avatar: props.avatar,
+      artists: props.artists
     };
 
     // this.artistsComponent = {};

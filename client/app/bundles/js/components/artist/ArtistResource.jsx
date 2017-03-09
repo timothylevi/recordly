@@ -4,16 +4,23 @@ import { Resource } from '../shared';
 import { ResourceList as AlbumList } from '../album';
 
 export default class Artist extends Resource {
+  static defaultProps = {
+    id: "",
+    name: "",
+    avatar: "",
+    updated_at: ""
+  };
+
   constructor(props, _railsContext) {
     super(props);
 
     this.resource = "artist";
     this.state = {
       form: false,
-      id: props.id || "",
-      name: props.name || "",
-      avatar: props.avatar || "",
-      updated_at: props.updatedAt || ""
+      id: props.id,
+      name: props.name,
+      avatar: props.avatar,
+      updated_at: props.updatedAt
     };
   }
 

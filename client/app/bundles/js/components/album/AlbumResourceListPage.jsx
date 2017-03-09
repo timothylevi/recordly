@@ -4,6 +4,10 @@ import { FilterableResourceList } from '../shared';
 import { Page } from '../layout';
 
 export default class AlbumResourceListPage extends FilterableResourceList {
+  static defaultProps = {
+    albums: []
+  };
+
   constructor(props, _railsContext) {
     super(props);
 
@@ -15,7 +19,7 @@ export default class AlbumResourceListPage extends FilterableResourceList {
 
   composeResourceForm() {
     return (
-      <ResourceForm handleResourceAdd={this.handleResourceAdd} />
+      <ResourceForm artists={this.props.artists} handleResourceAdd={this.handleResourceAdd} />
     );
   }
 

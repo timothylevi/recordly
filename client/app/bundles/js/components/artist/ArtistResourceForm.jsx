@@ -2,15 +2,22 @@ import React from 'react';
 import { ResourceForm } from '../shared';
 
 export default class ArtistResourceForm extends ResourceForm {
+  static defaultProps = {
+    id: "",
+    name: "",
+    avatar: "",
+    errors: []
+  };
+
   constructor(props) {
     super(props)
 
     this.resource = "artist";
     this.state = {
-      id: props.id || "",
-      name: props.name || "",
-      avatar: props.avatar || "",
-      errors: props.errors || []
+      id: props.id,
+      name: props.name,
+      avatar: props.avatar,
+      errors: props.errors
     };
   }
 

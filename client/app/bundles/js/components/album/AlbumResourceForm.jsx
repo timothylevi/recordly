@@ -1,19 +1,27 @@
 import React from 'react';
-import { Resource, ResourceForm } from '../shared';
-import { ResourceList as ArtistList } from '../artist';
-// import { TrackList } from '../track/Tracks.jsx';
+import { ResourceForm } from '../shared';
+import { ResourceListForm as ArtistListForm } from '../artist';
+import { ResourceListForm as TrackListForm } from '../track/';
 
 export default class AlbumResourceForm extends ResourceForm {
+  static defaultProps = {
+    id: "",
+    name: "",
+    avatar: "",
+    artists: "",
+    errors: []
+  };
+
   constructor(props) {
     super(props);
 
     this.resource = "album";
     this.state = {
-      id: props.id || "",
-      name: props.name || "",
-      avatar: props.avatar || "",
-      artists: props.artists || "",
-      errors: props.errors || []
+      id: props.id,
+      name: props.name,
+      avatar: props.avatar,
+      artists: props.artists,
+      errors: props.errors
     }
   }
 
@@ -22,19 +30,11 @@ export default class AlbumResourceForm extends ResourceForm {
       id: "",
       name: "",
       avatar: "",
-      artists: this.props.album.artists
+      artists: this.props.artists
+    }, function() {
+      this.artistsFormComponent.resetForm();
+      this.tracksFormComponent.resetForm();
     });
-  }
-
-  composeArtistList(artists, format) {
-    return []//(
-  //     <ArtistList
-  //       artists={artists}
-  //       albumArtists={this.props.album.artists}
-  //       className="album-artists"
-  //       format={format}
-  //       ref={(artists) => this.artistsComponent = artists} />
-  //   );
   }
 
   buildRequestData(obj) {
@@ -43,25 +43,33 @@ export default class AlbumResourceForm extends ResourceForm {
         id: obj.id,
         name: obj.name,
         avatar: obj.avatar,
-        // tracks_attributes: this.props.track_ids || this.tracksFormComponent.getTrackObjects(),
-        // artist_ids: this.props.artist_ids || this.artistsComponent.getSelectedArtistIds()
+        tracks_attributes: this.tracksFormComponent.getRequestData() || [],
+        artist_ids: this.artistsFormComponent.getRequestData() || []
       }
     };
   }
 
-  composeArtistField(artists, disable) {
+  composeArtistsField(artists, disable) {
     return disable ? null : (
       <div className="album-artists">
         <label className="album-artists-label">Artists</label>
-        <ArtistList artists={artists} />
+        <ArtistListForm artists={artists} ref={(form) => this.artistsFormComponent = form} />
+      </div>
+    );
+  }
+
+  composeTrackFields(tracks, disable) {
+    return disable ? null : (
+      <div className="album-tracks">
+        <label className="album-tracks-label">Tracks</label>
+        <TrackListForm ref={(form) => this.tracksFormComponent = form} />
       </div>
     );
   }
 
   render() {
-    const artistsField = this.composeArtistField(this.props.artists, this.props.container === "artist")
-    // const formArtists = this.composeArtistList(this.props.artists, "ul");
-    // const tracks = <TrackForm album={this.props.album} ref={(form) => this.tracksFormComponent = form}/>;
+    const artistsField = this.composeArtistsField(this.props.artists, this.props.container === "artist")
+    const trackFields = this.composeTrackFields();
 
     return (
       <form className="album-form" onClick={this.handleFormClick} ref={(form) => { this.formComponent = form; }}>
@@ -76,7 +84,7 @@ export default class AlbumResourceForm extends ResourceForm {
           <input className="album-avatar-input"  type="file" name="avatar" onChange={this.handleFileUpload("avatar")}/>
         </div>
         {artistsField}
-        {/*tracks*/}
+        {trackFields}
         <div className="album-controls">
           <input className="album-controls-save" type="submit" value="Save" onClick={this.handleSubmit} />
           <a className="album-controls-delete" onClick={this.handleDelete}>Delete</a>
