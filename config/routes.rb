@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   resources :artists, only: [:index, :create, :update, :destroy]
   resources :albums, only: [:index, :create, :update, :destroy]
-  # :favorites
+  resources :favorites, only: [:index, :create, :destroy]
   resources :users, only: [:new, :create, :update, :destroy]
 
   root to: 'artists#index'

@@ -1,0 +1,1 @@
+export ResourceListPage from './FavoriteResourceListPage';

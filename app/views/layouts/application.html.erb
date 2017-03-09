@@ -14,6 +14,7 @@
         <h1 class="header-nav-title">Recordly</h1>
         <ul class="header-nav-links">
           <% if current_user %>
+            <li class="header-nav-link <%= 'header-nav-link-active' if current_page?(favorites_path) %>"><%= link_to "Favorites", favorites_path %></li>
             <li class="header-nav-link <%= 'header-nav-link-active' if current_page?(artists_path) %>"><%= link_to "Artists", artists_path %></li>
             <li class="header-nav-link <%= 'header-nav-link-active' if current_page?(albums_path) %>"><%= link_to "Albums", albums_path %></li>
             <li class="header-nav-link"><%= link_to "Log out", logout_path, method: :delete %></li>
