@@ -1,7 +1,8 @@
 import React from 'react';
-// import { Resource } from './index'
 import { ResourceList } from '../shared';
 import { Resource as ArtistResource } from '../artist';
+import { Resource as AlbumResource } from '../album';
+// import { Resource as TrackResource } from '../track';
 
 export default class FavoriteResourceList extends ResourceList {
   static defaultProps = {
@@ -17,36 +18,32 @@ export default class FavoriteResourceList extends ResourceList {
 
   getResource(type) {
     if (type === "Artist") return ArtistResource;
+    if (type === "Album") return AlbumResource;
+    // if (type === "Track") return TrackResource;
   }
 
-  // getSelectedArtistIds() {
-    // return this.state.artists.filter(x => x.selected).map(x => x.id);
-  // }
+  composeFavoriteItem(favorite, index) {
+    const props = {
+      ...favorite,
+      favorite: favorite.favorite,
+      handleResourceAdd: this.handleResourceAdd,
+      handleResourceSelect: this.handleResourceSelect,
+      handleResourceDelete: this.handleResourceDelete
+    };
 
-  render() {
-    function composeFavoriteItem(favorite) {
-      debugger;
-      const props = {
-        ...favorite,
-        key: favorite.id,
-        favorited: true,
-        handleResourceAdd: this.handleResourceAdd,
-        handleResourceSelect: this.handleResourceSelect,
-        handleResourceDelete: this.handleResourceDelete
-      };
-
-      const resource = React.createElement(this.getResource(favorite.type), props);
-
-      return (
-        <li key={favorite.id}>
-          {resource}
-        </li>
-      );
-    }
+    const resource = React.createElement(this.getResource(favorite.type), props);
 
     return (
+      <li key={`${favorite.type}-${favorite.id}-${index}`}>
+        {resource}
+      </li>
+    );
+  }
+
+  render() {
+    return (
       <ul className="favorite-list">
-        {this.state.favorites.map(composeFavoriteItem.bind(this))}
+        {this.state.favorites.map(this.composeFavoriteItem.bind(this))}
       </ul>
     );
   }

@@ -40,7 +40,7 @@ export default class FavoriteResource extends ResourceForm {
   }
 
   handleRequestSuccess(data, err) {
-    // debugger;
+
   }
 
   render() {

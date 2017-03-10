@@ -3,6 +3,7 @@ import { ResourceForm } from './index';
 import { Resource } from '../shared';
 import { ResourceList as TrackList } from '../track';
 import { ResourceList as ArtistList } from '../artist';
+import { ResourceForm as FavoriteForm } from '../favorite';
 
 export default class AlbumResource extends Resource {
   static defaultProps = {
@@ -65,6 +66,7 @@ export default class AlbumResource extends Resource {
     return (
       <li key={this.state.id} onClick={this.handleSelect} className={className}>
         <div className="album-item-controls">
+          <FavoriteForm favorite={this.props.favorite} favoriteable_id={this.state.id} favoriteable_type="Album" />
           {editControl}
         </div>
         <div className="album-item-avatar" style={{backgroundImage: `url('${this.state.avatar}')` }}></div>

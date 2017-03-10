@@ -28,16 +28,19 @@
 
 // ResourceList
 .album-list {
-  .album-item {
-    &.selected {}
-    .album-item-avatar {
-      background-size: cover;
-      width: $LIST_AVATAR_WIDTH;
-      height: $LIST_AVATAR_WIDTH;
-    }
-    .album-item-name {}
-    .album-item-albums {}
-    .album-item-created {}
-    .album-item-updated {}
+
+}
+
+// Resource
+.album-item {
+  &.selected {}
+  .album-item-avatar {
+    background-size: cover;
+    width: $LIST_AVATAR_WIDTH;
+    height: $LIST_AVATAR_WIDTH;
   }
+  .album-item-name {}
+  .album-item-albums {}
+  .album-item-created {}
+  .album-item-updated {}
 }
