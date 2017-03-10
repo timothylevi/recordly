@@ -1,5 +1,7 @@
 module ApplicationHelper
-  def artist_api(artist, disabledProps=[], current_user)
+  extend SessionsHelper
+
+  def artist_api(artist, disabledProps=[])
     def getAlbums(resource, disabledProps)
       return nil if disabledProps.include?("albums")
 
@@ -11,7 +13,7 @@ module ApplicationHelper
       name: artist.name,
       avatar: artist.avatar.url(:square),
       albums: getAlbums(artist, disabledProps),
-      favorited: isFavorited(artist, current_user),
+      favorite: isFavorited(artist, current_user),
       errors: artist.errors.full_messages,
       created_at: artist.created_at,
       updated_at: artist.updated_at
@@ -55,6 +57,6 @@ module ApplicationHelper
   def isFavorited(artist, current_user)
     return nil if (!current_user);
     favorite = current_user.favorites.find_by(favoriteable_type: "Artist", favoriteable_id: artist.id)
-    return !!favorite
+    return favorite ? favorite.id : favorite
   end
 end

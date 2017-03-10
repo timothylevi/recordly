@@ -52,7 +52,7 @@ export default class Artist extends Resource {
     return (
       <li key={this.state.id} onClick={this.handleSelect} className={className}>
         <div className="artist-item-controls">
-          <FavoriteForm favorited={this.props.favorited} />
+          <FavoriteForm favorite={this.props.favorite} favoriteable_id={this.state.id} favoriteable_type="Artist" />
           <a className="artist-item-controls-edit" onClick={this.handleEdit}>Edit</a>
         </div>
         <div className="artist-item-avatar" style={{backgroundImage: `url('${this.state.avatar}')` }}></div>
