@@ -28,13 +28,15 @@ const config = {
       'react-dom': path.resolve('./node_modules/react-dom'),
     },
   },
+
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(nodeEnv),
       },
-    }),
+    })
   ],
+
   module: {
     loaders: [
       {
@@ -43,8 +45,23 @@ const config = {
       },
       {
         test: /\.jsx?$/,
-        loader: 'babel-loader',
+        loaders: ['babel-loader', 'eslint-loader'],
         exclude: /node_modules/,
+        options: {
+          emitWarning: true,
+          // Fail only on errors
+          failOnWarning: false,
+          failOnError: true,
+
+          // Disable/enable autofix
+          fix: false,
+
+          // Output to Jenkins compatible XML
+          outputReport: {
+            filePath: 'checkstyle.xml',
+            formatter: require('eslint/lib/formatters/checkstyle'),
+          },
+        },
       },
     ],
   },
