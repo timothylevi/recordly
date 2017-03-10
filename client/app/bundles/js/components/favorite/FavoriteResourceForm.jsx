@@ -19,6 +19,7 @@ export default class FavoriteResource extends ResourceForm {
     };
 
     this.handleFavorite = this.handleFavorite.bind(this);
+    this.handleRequestSuccess = this.handleRequestSuccess.bind(this);
   }
 
   getRequestData() {
@@ -36,6 +37,10 @@ export default class FavoriteResource extends ResourceForm {
     const request = this.buildRequestOptions(type, form, saved, callback.bind(this));
 
     $.ajax(request);
+  }
+
+  handleRequestSuccess(data, err) {
+    // debugger;
   }
 
   render() {

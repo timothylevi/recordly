@@ -10,7 +10,8 @@ export default class BaseResource extends React.Component {
       "handleChange",
       "handleDelete",
       "handleFileUpload",
-      "handleSubmit"
+      "handleSubmit",
+      "handleRequestSuccess"
     ]);
   }
 
@@ -103,14 +104,25 @@ export default class BaseResource extends React.Component {
     event.stopPropagation();
   }
 
+  handleRequestSuccess(data, err) {
+    // TODO: Refactor
+    if (data.errors.length) {
+      this.setState({...data, avatar: this.state.avatar});
+    } else {
+      this.setState({...data}, function() {
+        if (callback) callback(data);
+      });
+    }
+  };
+
   buildRequestOptions(type, form, saved, callback) {
     // TODO: Error handling from server
     const resource = this.resource;
 
     const request = {
       type: type,
-      success: success.bind(this),
-      error: success.bind(this),
+      success: this.handleRequestSuccess,
+      error: this.handleRequestSuccess,
       dataType: 'json',
       contentType: 'application/json',
       url: saved ? `/${resource}s/${form[resource].id}`: `/${resource}s`
@@ -119,17 +131,6 @@ export default class BaseResource extends React.Component {
     if (form[resource].avatar && !form[resource].avatar.includes('data:image')) {
       delete form[resource].avatar;
     }
-
-    function success(data, err) {
-      // TODO: Refactor
-      if (data.errors.length) {
-        this.setState({...data, avatar: this.state.avatar});
-      } else {
-        this.setState({...data}, function() {
-          if (callback) callback(data);
-        });
-      }
-    };
 
     request.data = JSON.stringify(form);
 

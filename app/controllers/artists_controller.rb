@@ -1,6 +1,4 @@
 class ArtistsController < ApplicationController
-  include ApplicationHelper
-
   def index
     @props = {
       artists: Artist.includes(albums: :tracks).all.map { |artist| artist_api(artist) },

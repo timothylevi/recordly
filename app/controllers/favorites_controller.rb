@@ -1,23 +1,33 @@
 class FavoritesController < ApplicationController
-  extend ApplicationHelper
-
   def index
     @props = {
-      favorites: current_user.favorites.all.map do |favorite|
-        record = favorite.favoriteable
-        type = favorite.favoriteable_type
-        type_symbol = (type.downcase + "_api").to_sym
-        json = FavoritesController.send type_symbol, record, []
-        json["type"] = type
-
-        json
-      end
+      favorites: current_user.favorites.all.map { |favorite| favorite_api(favorite) }
     }
   end
 
   def create
+    favorite = current_user.favorites.new(favorite_params)
+
+    respond_to do |format|
+      format.json do
+        favorite.save
+        render json: favorite.attributes
+      end
+    end
   end
 
   def destroy
+    favorite = current_user.favorites.find(params[:id]).destroy
+    respond_to do |format|
+      format.json do
+        render json: favorite.attributes
+      end
+    end
   end
+
+  private
+
+    def favorite_params
+      params.require(:favorite).permit(:id, :favoriteable_type, :favoriteable_id)
+    end
 end
