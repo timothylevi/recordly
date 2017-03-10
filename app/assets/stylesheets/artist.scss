@@ -28,22 +28,24 @@
 
 // ResourceList
 .artist-list {
-  .artist-item {
-    &.selected {}
-    .artist-item-avatar {
-      background-size: cover;
-      width: $LIST_AVATAR_WIDTH;
-      height: $LIST_AVATAR_WIDTH;
-    }
-    .artist-item-name {}
-    .artist-item-albums {}
-    .artist-item-created {}
-    .artist-item-updated {}
-    .album-list {
+}
+
+// Resource
+.artist-item {
+  &.selected {}
+  .artist-item-avatar {
+    background-size: cover;
+    width: $LIST_AVATAR_WIDTH;
+    height: $LIST_AVATAR_WIDTH;
+  }
+  .artist-item-name {}
+  .artist-item-albums {}
+  .artist-item-created {}
+  .artist-item-updated {}
+  .album-list {
+    margin-left: 2rem;
+    .track-list {
       margin-left: 2rem;
-      .track-list {
-        margin-left: 2rem;
-      }
     }
   }
 }

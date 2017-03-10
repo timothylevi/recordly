@@ -1,5 +1,5 @@
 import React from 'react';
-// import { ResourceForm, ResourceList } from './index';
+import { ResourceList } from './index';
 import { Page } from '../layout';
 import { FilterableResourceList } from '../shared';
 
@@ -22,17 +22,14 @@ export default class FavoriteResourceListPage extends FilterableResourceList {
   // }
 
   render() {
-    debugger;
     // const resourceFilter = this.composeResourceFilter(this.state.filteredResources);
-    // const resourceList = this.composeResourceList(this.props.artists, this.resourcesFilterMask.value);
+    const resourceList = <ResourceList favorites={this.props.favorites} />
     // const resourceForm = this.composeResourceForm();
 
-    // return (
-      // <Page title={this.resource}>
-        // {resourceFilter}
-        // {resourceList}
-        // {resourceForm}
-      // </Page>
-    // );
+    return (
+      <Page title={this.resource}>
+        {resourceList}
+      </Page>
+    );
   }
 }
