@@ -6,9 +6,9 @@ export default class BaseResourceList extends React.Component {
     super(props);
 
     registerHandlers.call(this, [
-      "handleResourceAdd",
-      "handleResourceDelete",
-      "handleResourceSelect"
+      'handleResourceAdd',
+      'handleResourceDelete',
+      'handleResourceSelect',
     ]);
   }
 
@@ -20,32 +20,32 @@ export default class BaseResourceList extends React.Component {
   }
 
   handleResourceDelete(objId) {
-    const resources = this.state[this.resource].map(function(resource) {
-      if (resource.id === objId) resource.deleted = true;
+    function getOrDeleteResource(resource) {
+      return (resource.id === objId) ?
+        { ...resource, deleted: true } :
+        resource;
+    }
 
-      return resource;
-    });
-
+    const resources = this.state[this.resource].map(getOrDeleteResource);
     this.setState({ [this.resource]: resources });
   }
 
   handleResourceSelect(objId) {
-    const resources = this.state[this.resource].map(function(resource) {
-      if (resource.id === objId) {
-        resource.selected = !resource.selected;
-      }
+    function getOrSelectResource(resource) {
+      return (resource.id === objId) ?
+        { ...resource, selected: !resource.selected } :
+        resource;
+    }
 
-      return resource;
-    });
-
+    const resources = this.state[this.resource].map(getOrSelectResource);
     this.setState({ [this.resource]: resources });
   }
 
   handleResourceSelectWithId(objId) {
-    function partialHandleResourceSelect(event) {
+    function partialHandleResourceSelect() {
       return this.handleResourceSelect(objId);
     }
 
     return partialHandleResourceSelect.bind(this);
   }
-};
+}

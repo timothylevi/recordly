@@ -1,15 +1,17 @@
-import React from 'react';
-import { registerHandlers } from '../../helpers';
+import React, { PropTypes } from 'react';
+import { registerHandlers, blankFunction } from '../../helpers';
 
 export default class BaseResource extends React.Component {
-  constructor(props, _railsContext) {
-    super(props)
+  static propTypes = { handleResourceSelect: PropTypes.func };
+  static defaultProps = { handleResourceSelect: blankFunction };
+  constructor(props) {
+    super(props);
 
     registerHandlers.call(this, [
-      "handleEdit",
-      "handleSelect",
-      "handleResourceUpdate",
-      "handleResourceCancel"
+      'handleEdit',
+      'handleSelect',
+      'handleResourceUpdate',
+      'handleResourceCancel',
     ]);
   }
 

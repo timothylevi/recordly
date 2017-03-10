@@ -5,36 +5,38 @@ import { ResourceListForm as TrackListForm } from '../track/';
 
 export default class AlbumResourceForm extends ResourceForm {
   static defaultProps = {
-    id: "",
-    name: "",
-    avatar: "",
-    artists: "",
-    errors: []
+    id: '',
+    name: '',
+    avatar: '',
+    artists: '',
+    errors: [],
   };
 
   constructor(props) {
     super(props);
 
-    this.resource = "album";
+    this.resource = 'album';
     this.state = {
       id: props.id,
       name: props.name,
       avatar: props.avatar,
       artists: props.artists,
-      errors: props.errors
-    }
+      errors: props.errors,
+    };
   }
 
   resetForm() {
-    this.setState({
-      id: "",
-      name: "",
-      avatar: "",
-      artists: this.props.artists
-    }, function() {
+    function resetChildForms() {
       this.artistsFormComponent.resetForm();
       this.tracksFormComponent.resetForm();
-    });
+    }
+
+    this.setState({
+      id: '',
+      name: '',
+      avatar: '',
+      artists: this.props.artists,
+    }, resetChildForms);
   }
 
   buildRequestData(obj) {
@@ -44,53 +46,104 @@ export default class AlbumResourceForm extends ResourceForm {
         name: obj.name,
         avatar: obj.avatar,
         tracks_attributes: this.tracksFormComponent.getRequestData() || [],
-        artist_ids: this.artistsFormComponent.getRequestData() || []
-      }
+        artist_ids: this.artistsFormComponent.getRequestData() || [],
+      },
     };
   }
 
-  composeArtistsField(artists, formArtists, disable) {
+  composeArtistsField(disable) {
     return disable ? null : (
       <div className="album-artists">
-        <label className="album-artists-label">Artists</label>
-        <ArtistListForm artists={artists} formArtists={formArtists} ref={(form) => this.artistsFormComponent = form} />
+        <h3 className="album-artists-title">
+          Artists
+        </h3>
+        <ArtistListForm
+          artists={this.props.artists}
+          formArtists={this.props.formArtists}
+          ref={form => this.artistsFormComponent = form}
+        />
       </div>
     );
   }
 
-  composeTrackFields(tracks, disable) {
+  composeTrackFields(disable) {
     return disable ? null : (
       <div className="album-tracks">
-        <label className="album-tracks-label">Tracks</label>
-        <TrackListForm tracks={tracks} ref={(form) => this.tracksFormComponent = form} />
+        <h3 className="album-tracks-title">Tracks</h3>
+        <TrackListForm
+          tracks={this.props.tracks}
+          ref={form => this.tracksFormComponent = form}
+        />
       </div>
     );
   }
 
   render() {
-    const artistsField = this.composeArtistsField(this.props.artists, this.props.formArtists, this.props.container === "artist")
-    const trackFields = this.composeTrackFields(this.props.tracks);
+    const isInArtistContainer = this.props.container === 'artist';
+    const artistsField = this.composeArtistsField(isInArtistContainer);
+    const trackFields = this.composeTrackFields();
 
     return (
-      <form className="album-form" onClick={this.handleFormClick} ref={(form) => { this.formComponent = form; }}>
+      <form
+        className="album-form"
+        onClick={this.handleFormClick}
+        ref={(form) => { this.formComponent = form; }}
+      >
+
         {this.composeErrorList(this.state.errors)}
+
         <div className="album-name">
-          <label className="album-name-label">Name</label>
-          <input className="album-name-input" type="text" name="name" value={this.state.name} onChange={this.handleChange}/>
+          <label
+            className="album-name-label"
+            htmlFor={`album-name-${this.state.id}`}
+          >
+            Name
+          </label>
+          <input
+            className="album-name-input"
+            id={`album-name-${this.state.id}`}
+            type="text"
+            name="name"
+            value={this.state.name}
+            onChange={this.handleChange}
+          />
         </div>
         <div className="album-avatar">
-          <div className="album-avatar-preview" style={{backgroundImage: `url('${this.state.avatar}')`}} />
-          <label className="album-avatar-label" >Avatar</label>
-          <input className="album-avatar-input"  type="file" name="avatar" onChange={this.handleFileUpload("avatar")}/>
+          <div
+            className="album-avatar-preview"
+            style={{ backgroundImage: `url('${this.state.avatar}')` }}
+          />
+          <label
+            className="album-avatar-label"
+            htmlFor={`album-avatar-${this.state.id}`}
+          >
+            Avatar
+          </label>
+          <input
+            className="album-avatar-input"
+            id={`album-avatar-${this.state.id}`}
+            type="file"
+            name="avatar"
+            onChange={this.handleFileUpload('avatar')}
+          />
         </div>
         {artistsField}
         {trackFields}
         <div className="album-controls">
-          <input className="album-controls-save" type="submit" value="Save" onClick={this.handleSubmit} />
-          <a className="album-controls-delete" onClick={this.handleDelete}>Delete</a>
-          <a className="album-controls-cancel" onClick={this.handleCancel}>Cancel</a>
+          <input
+            className="album-controls-save"
+            type="submit"
+            value="Save"
+            onClick={this.handleSubmit}
+          />
+          <a className="album-controls-delete" onClick={this.handleDelete}>
+            Delete
+          </a>
+          <a className="album-controls-cancel" onClick={this.handleCancel}>
+            Cancel
+          </a>
         </div>
       </form>
     );
   }
-};
+}

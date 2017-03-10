@@ -7,36 +7,40 @@ import { ResourceForm as FavoriteForm } from '../favorite';
 
 export default class AlbumResource extends Resource {
   static defaultProps = {
-    id: "",
-    name: "",
-    avatar: "",
+    id: '',
+    name: '',
+    avatar: '',
     artists: [],
-    tracks: [{}]
+    tracks: [{}],
   };
 
-  constructor(props, _railsContext) {
+  constructor(props) {
     super(props);
 
-    this.resource = "album";
+    this.resource = 'album';
     this.state = {
       id: props.id,
       name: props.name,
       avatar: props.avatar,
       artists: props.artists,
-      tracks: props.tracks
+      tracks: props.tracks,
     };
   }
 
   composeEditControl(disable) {
-    return disable ? null : <a className="album-item-controls-edit" onClick={this.handleEdit}>Edit</a>;
+    return disable ? null : (
+      <a className="album-item-controls-edit" onClick={this.handleEdit}>
+        Edit
+      </a>
+    );
   }
 
-  composeTrackList(tracks, disable) {
-    return disable ? null : <TrackList tracks={tracks} />;
+  composeTrackList(disable) {
+    return disable ? null : <TrackList tracks={this.props.tracks} />;
   }
 
-  composeArtistList(artists, disable) {
-    return disable ? null : <ArtistList artists={artists} container="album" />;
+  composeArtistList(disable) {
+    return disable ? null : <ArtistList artists={this.props.artists} container="album" />;
   }
 
   render() {
@@ -51,28 +55,42 @@ export default class AlbumResource extends Resource {
           handleResourceUpdate={this.handleResourceUpdate}
           handleResourceCancel={this.handleResourceCancel}
           handleResourceDelete={this.props.handleResourceDelete}
-          ref={(form) => { this.formComponent = form; }} />
+          ref={(form) => { this.formComponent = form; }}
+        />
       );
     }
 
-    const isInArtistContainer = this.props.container === "artist";
+    const isInArtistContainer = this.props.container === 'artist';
     const isSelected = this.props.selected;
 
-    const className = "album-item" + (this.props.selected ? " selected" : "");
-    const editControl = this.composeEditControl(isInArtistContainer);
-    const trackList = this.composeTrackList(this.props.tracks, !isSelected);
-    const artistList = this.composeArtistList(this.props.artists, isInArtistContainer || !isSelected);
+    const disableEditControl = isInArtistContainer;
+    const disableTrackList = !isSelected;
+    const disableArtistList = isInArtistContainer || !isSelected;
+
+    const className = `album-item ${this.props.selected ? ' selected' : ''}`;
+    const editControl = this.composeEditControl(disableEditControl);
+    const trackList = this.composeTrackList(disableTrackList);
+    const artistList = this.composeArtistList(disableArtistList);
 
     return (
       <li key={this.state.id} onClick={this.handleSelect} className={className}>
         <div className="album-item-controls">
-          <FavoriteForm favorite={this.props.favorite} favoriteable_id={this.state.id} favoriteable_type="Album" />
+          <FavoriteForm
+            favorite={this.props.favorite}
+            favoriteable_id={this.state.id}
+            favoriteable_type="Album"
+          />
           {editControl}
         </div>
-        <div className="album-item-avatar" style={{backgroundImage: `url('${this.state.avatar}')` }}></div>
+        <div
+          className="album-item-avatar"
+          style={{ backgroundImage: `url('${this.state.avatar}')` }}
+        />
         <div className="album-item-name">{this.state.name}</div>
+        {/*
         <div className="album-item-created">{this.state.created_at && this.state.created_at.toString()}</div>
         <div className="album-item-updated">{this.state.updated_at && this.state.updated_at.toString()}</div>
+        */}
         <div className="album-tracks">
           {artistList}
           {trackList}

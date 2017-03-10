@@ -1,16 +1,16 @@
 import React from 'react';
-import { Resource } from './index'
+import { Resource } from './index';
 import { ResourceList } from '../shared';
 
 export default class ArtistResourceList extends ResourceList {
   static defaultProps = {
-    artists: []
+    artists: [],
   };
 
   constructor(props) {
-    super(props)
+    super(props);
 
-    this.resource = "artists";
+    this.resource = 'artists';
     this.state = { artists: props.artists };
   }
 
@@ -27,7 +27,8 @@ export default class ArtistResourceList extends ResourceList {
           container={this.props.container}
           handleResourceAdd={this.handleResourceAdd}
           handleResourceSelect={this.handleResourceSelect}
-          handleResourceDelete={this.handleResourceDelete} />
+          handleResourceDelete={this.handleResourceDelete}
+        />
       );
     }
 

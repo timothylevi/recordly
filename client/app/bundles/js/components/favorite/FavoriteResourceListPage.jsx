@@ -4,30 +4,24 @@ import { Page } from '../layout';
 import { FilterableResourceList } from '../shared';
 
 export default class FavoriteResourceListPage extends FilterableResourceList {
-  constructor(props, _railsContext) {
+  constructor(props) {
     super(props);
 
-    this.resource = "favorites";
-    this.state = {
-      favorites: props.favorites
-    };
+    this.resource = 'favorites';
+    this.state = { favorites: props.favorites };
   }
 
-  // composeResourceList(artists, disable) {
-    // return disable ? null : <ResourceList artists={artists} />;
-  // }
-
-  // composeResourceForm() {
-    // return <ResourceForm handleResourceAdd={this.handleResourceAdd} />;
-  // }
+  composeResourceList(disable, favorites = this.props.favorites) {
+    return <ResourceList favorites={favorites} />;
+  }
 
   render() {
-    // const resourceFilter = this.composeResourceFilter(this.state.filteredResources);
-    const resourceList = <ResourceList favorites={this.props.favorites} />
-    // const resourceForm = this.composeResourceForm();
+    const resourceFilter = this.composeResourceFilter();
+    const resourceList = this.composeResourceList();
 
     return (
       <Page title={this.resource}>
+        {resourceFilter}
         {resourceList}
       </Page>
     );

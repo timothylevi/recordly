@@ -4,16 +4,14 @@ import { Page } from '../layout';
 import { FilterableResourceList } from '../shared';
 
 export default class ArtistResourceListPage extends FilterableResourceList {
-  constructor(props, _railsContext) {
+  constructor(props) {
     super(props);
 
-    this.resource = "artists";
-    this.state = {
-      artists: props.artists
-    };
+    this.resource = 'artists';
+    this.state = { artists: props.artists };
   }
 
-  composeResourceList(artists, disable) {
+  composeResourceList(disable, artists = this.props.artists) {
     return disable ? null : <ResourceList artists={artists} />;
   }
 
@@ -22,8 +20,10 @@ export default class ArtistResourceListPage extends FilterableResourceList {
   }
 
   render() {
-    const resourceFilter = this.composeResourceFilter(this.state.filteredResources);
-    const resourceList = this.composeResourceList(this.props.artists, this.resourcesFilterMask.value);
+    const isFiltering = this.resourcesFilterMask.value;
+
+    const resourceFilter = this.composeResourceFilter();
+    const resourceList = this.composeResourceList(isFiltering);
     const resourceForm = this.composeResourceForm();
 
     return (

@@ -4,32 +4,34 @@ import { FilterableResourceList } from '../shared';
 import { Page } from '../layout';
 
 export default class AlbumResourceListPage extends FilterableResourceList {
-  static defaultProps = {
-    albums: []
-  };
+  static defaultProps = { albums: [] };
 
-  constructor(props, _railsContext) {
+  constructor(props) {
     super(props);
 
-    this.resource = "albums";
-    this.state = {
-      albums: props.albums
-    };
+    this.resource = 'albums';
+    this.state = { albums: props.albums };
   }
 
   composeResourceForm() {
     return (
-      <ResourceForm formArtists={this.props.artists} handleResourceAdd={this.handleResourceAdd} />
+      <ResourceForm
+        formArtists={this.props.artists}
+        handleResourceAdd={this.handleResourceAdd}
+      />
     );
   }
 
-  composeResourceList(albums, disable) {
-    return disable ? null : <ResourceList albums={albums} formArtists={this.props.artists} />;
+  composeResourceList(disable, albums = this.props.albums) {
+    return disable ? null : (
+      <ResourceList albums={albums} formArtists={this.props.artists} />
+    );
   }
 
   render() {
-    const resourceFilter = this.composeResourceFilter(this.state.filteredResources);
-    const resourceList = this.composeResourceList(this.props.albums, this.resourcesFilterMask.value);
+    // TODO: Use state from inside of composeResourceFilter
+    const resourceFilter = this.composeResourceFilter();
+    const resourceList = this.composeResourceList(this.resourcesFilterMask.value);
     const resourceForm = this.composeResourceForm();
 
     return (

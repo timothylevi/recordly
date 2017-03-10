@@ -5,21 +5,21 @@ import { Resource as AlbumResource } from '../album';
 import { Resource as TrackResource } from '../track';
 
 export default class FavoriteResourceList extends ResourceList {
-  static defaultProps = {
-    favorites: []
-  };
+  static defaultProps = { favorites: [] };
 
   constructor(props) {
-    super(props)
+    super(props);
 
-    this.resource = "favorites";
+    this.resource = 'favorites';
     this.state = { favorites: props.favorites };
   }
 
-  getResource(type) {
-    if (type === "Artist") return ArtistResource;
-    if (type === "Album") return AlbumResource;
-    if (type === "Track") return TrackResource;
+  getResource() {
+    if (this.type === 'Artist') return ArtistResource;
+    if (this.type === 'Album') return AlbumResource;
+    if (this.type === 'Track') return TrackResource;
+
+    return null;
   }
 
   composeFavoriteItem(favorite, index) {
@@ -29,10 +29,10 @@ export default class FavoriteResourceList extends ResourceList {
       key: `${favorite.type}-${favorite.id}-${index}`,
       handleResourceAdd: this.handleResourceAdd,
       handleResourceSelect: this.handleResourceSelect,
-      handleResourceDelete: this.handleResourceDelete
+      handleResourceDelete: this.handleResourceDelete,
     };
 
-    return React.createElement(this.getResource(favorite.type), props);
+    return React.createElement(this.getResource.bind(favorite)(), props);
   }
 
   render() {

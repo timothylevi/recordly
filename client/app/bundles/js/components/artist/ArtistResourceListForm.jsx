@@ -3,35 +3,33 @@ import { ResourceListForm } from '../shared';
 import { registerHandlers } from '../../helpers';
 
 export default class ArtistResourceListForm extends ResourceListForm {
-  static defauultProps = {
+  static defaultProps = {
     artists: [],
-    formArtists: []
+    formArtists: [],
   }
 
   constructor(props) {
     super(props);
 
-    this.resource = "artists";
-    this.state = {
-      artists: this.mergeSelected(props.artists, props.formArtists)
-    };
+    this.resource = 'artists';
+    this.state = { artists: this.mergeSelected(props.artists, props.formArtists) };
 
-    registerHandlers.call(this, [
-      "handleSelect"
-    ]);
+    registerHandlers.call(this, ['handleSelect']);
   }
 
   handleSelect(event) {
     event.preventDefault();
 
     const objId = parseInt(event.currentTarget.id, 10);
-    const resources = this.state[this.resource].map(function(resource) {
-      if (resource.id === objId) {
-        resource.selected = !resource.selected;
-      }
 
-      return resource;
-    });
+    function selectCurrentResource(resource) {
+      return {
+        ...resource,
+        selected: objId === resource.id ? !resource.selected : resource.selected,
+      };
+    }
+
+    const resources = this.state[this.resource].map(selectCurrentResource);
 
     this.setState({ [this.resource]: resources });
   }
@@ -44,22 +42,19 @@ export default class ArtistResourceListForm extends ResourceListForm {
 
   resetForm() {
     function deselectArtist(artist) {
-      artist.selected = false;
-      return artist;
+      return { ...artist, selected: false };
     }
     const resetResources = this.state[this.resource].map(deselectArtist);
 
-    this.setState({
-      artists: resetResources
-    });
+    this.setState({ artists: resetResources });
   }
 
   composeArtistList(artists) {
     function composeArtistItem(artist) {
-      const className = "artist-item" + (artist.selected ? " selected" : "");
+      const className = `artist-item ${artist.selected ? ' selected' : ''}`;
       return (
         <li id={artist.id} key={artist.id} onClick={this.handleSelect} className={className}>
-          <div className="artist-item-avatar" style={{backgroundImage: `url('${artist.avatar}')` }}></div>
+          <div className="artist-item-avatar" style={{ backgroundImage: `url('${artist.avatar}')` }} />
           <div className="artist-item-name">{artist.name}</div>
         </li>
       );

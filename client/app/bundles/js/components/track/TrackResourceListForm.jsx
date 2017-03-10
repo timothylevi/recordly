@@ -3,21 +3,17 @@ import { ResourceListForm } from '../shared';
 import { registerHandlers } from '../../helpers';
 
 export default class TrackListForm extends ResourceListForm {
-  static defaultProps = {
-    tracks: [{}]
-  };
+  static defaultProps = { tracks: [{}] };
 
   constructor(props) {
     super(props);
 
-    this.resource = "tracks";
-    this.state = {
-      tracks: props.tracks
-    };
+    this.resource = 'tracks';
+    this.state = { tracks: props.tracks };
 
     registerHandlers.call(this, [
-      "getChangeHandler",
-      "handleAddTrack"
+      'getChangeHandler',
+      'handleAddTrack',
     ]);
   }
 
@@ -29,22 +25,19 @@ export default class TrackListForm extends ResourceListForm {
       tracks[index][event.target.name] = event.target.value;
 
       this.setState({ tracks });
-    }
+    };
   }
 
   getRequestData() {
     function assignTrackNumbers(track, index) {
-      track.track_num = index + 1;
-      return track;
+      return { ...track, track_num: index + 1 };
     }
 
     return this.state[this.resource].map(assignTrackNumbers);
   }
 
   resetForm() {
-    this.setState({
-      tracks: [{ name: "" }]
-    });
+    this.setState({ tracks: [{ name: '' }] });
   }
 
   handleAddTrack(event) {
@@ -56,7 +49,7 @@ export default class TrackListForm extends ResourceListForm {
     this.setState({ tracks });
   }
 
-  composeTrackInputsList(tracks) {
+  composeTrackInputsList() {
     // TODO: Use a unique key so that when the form resets, the single
     // input is blank instead of React reusing the track input
     function composeTrackInput(track, index) {
@@ -67,20 +60,21 @@ export default class TrackListForm extends ResourceListForm {
             type="text"
             className="track-item-name"
             value={track.name}
-            onChange={this.getChangeHandler(index).bind(this)} />
+            onChange={this.getChangeHandler(index).bind(this)}
+          />
         </li>
       );
     }
 
     return (
       <ol className="track-list">
-        {tracks.map(composeTrackInput.bind(this))}
+        {this.state.tracks.map(composeTrackInput.bind(this))}
       </ol>
     );
   }
 
   render() {
-    const trackInputs = this.composeTrackInputsList(this.state.tracks);
+    const trackInputs = this.composeTrackInputsList();
     return (
       <div className="track-list-form">
         {trackInputs}

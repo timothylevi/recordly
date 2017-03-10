@@ -1,11 +1,9 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Resource } from './index';
-import { ResourceForm as FavoriteForm } from '../favorite';
 
 export default class TrackResourceList extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+  static propTypes = { tracks: PropTypes.array };
+  static defaultProps = { tracks: [{}] };
 
   composeTrackItem(track) {
     return (

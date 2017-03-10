@@ -8,28 +8,28 @@ export default class FilterableResourceList extends BaseResourceList {
 
     this.resourcesFilterMask = {};
 
-    this.state = {
-      resourcesFilteredList: []
-    };
-
-    registerHandlers.call(this, [
-      "handleFilter"
-    ]);
+    this.state = { resourcesFilteredList: [] };
+    registerHandlers.call(this, ['handleFilter']);
   }
 
   handleFilter(event) {
     event.preventDefault();
+
     const resourcesFilterMask = this.resourcesFilterMask.value.toLowerCase();
-    const resources = this.state[this.resource].filter(function(resource) {
+
+    function nameIncludesFilterMask(resource) {
       return resource.name.toLowerCase().includes(resourcesFilterMask);
+    }
+
+    this.setState({
+      filteredResources: this.state[this.resource].filter(nameIncludesFilterMask),
     });
-    this.setState({ filteredResources: resources });
   }
 
-  composeResourceFilter(resources) {
+  composeResourceFilter(resources = this.state.filteredResources) {
     if (this.props.disableFilter) return;
 
-    const filteredResources = this.composeResourceList(this.state.filteredResources, !this.resourcesFilterMask.value);
+    const filteredResources = this.composeResourceList(!this.resourcesFilterMask.value, resources);
 
     return (
       <div className="resources-filter">
@@ -38,13 +38,10 @@ export default class FilterableResourceList extends BaseResourceList {
           placeholder={`Search ${this.resource}`}
           onChange={this.handleFilter}
           className="resources-filter-mask"
-          ref={(resourcesFilterMask) => { this.resourcesFilterMask = resourcesFilterMask; }}/>
+          ref={(resourcesFilterMask) => { this.resourcesFilterMask = resourcesFilterMask; }}
+        />
         {filteredResources}
       </div>
     );
   }
-
-  composeResourceList(resources) {
-    // Implement in sub classes
-  }
-};
+}

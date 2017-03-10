@@ -1,11 +1,6 @@
 import React from 'react';
-import { registerHandlers } from '../../helpers';
 
 export default class BaseResourceListForm extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
   mergeSelected(selectedResources, resources) {
     if (!resources) return [];
     if (!selectedResources) return resources;
@@ -17,7 +12,7 @@ export default class BaseResourceListForm extends React.Component {
     }
 
     function getLatestResource(resource) {
-      return this.hasOwnProperty(resource.id) ? this[resource.id] : resource;
+      return this[resource.id] ? this[resource.id] : resource;
     }
 
     const resourcesHash = selectedResources.reduce(addResourceToHash, {});
