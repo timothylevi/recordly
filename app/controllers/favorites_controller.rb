@@ -1,13 +1,14 @@
 class FavoritesController < ApplicationController
   extend ApplicationHelper
+  include SessionsHelper
 
   def index
     @props = {
-      favorites: Favorite.all.map do |favorite|
+      favorites: current_user.favorites.all.map do |favorite|
         record = favorite.favoriteable
         type = favorite.favoriteable_type
         type_symbol = (type.downcase + "_api").to_sym
-        json = FavoritesController.send type_symbol, record
+        json = FavoritesController.send type_symbol, record, [], current_user
         json["type"] = type
 
         json

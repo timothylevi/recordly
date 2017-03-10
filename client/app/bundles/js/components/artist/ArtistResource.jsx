@@ -2,6 +2,7 @@ import React from 'react';
 import { ResourceForm } from './index';
 import { Resource } from '../shared';
 import { ResourceList as AlbumList } from '../album';
+import { ResourceForm as FavoriteForm } from '../favorite';
 
 export default class Artist extends Resource {
   static defaultProps = {
@@ -51,6 +52,7 @@ export default class Artist extends Resource {
     return (
       <li key={this.state.id} onClick={this.handleSelect} className={className}>
         <div className="artist-item-controls">
+          <FavoriteForm favorited={this.props.favorited} />
           <a className="artist-item-controls-edit" onClick={this.handleEdit}>Edit</a>
         </div>
         <div className="artist-item-avatar" style={{backgroundImage: `url('${this.state.avatar}')` }}></div>
