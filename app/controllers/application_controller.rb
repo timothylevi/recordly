@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
     }
   end
 
-  def track_api(track)
+  def track_api(track, disabledProps=[])
     return {
       id: track.id,
       name: track.name,

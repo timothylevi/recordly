@@ -1,4 +1,6 @@
 import React from 'react';
+import { Resource } from './index';
+import { ResourceForm as FavoriteForm } from '../favorite';
 
 export default class TrackResourceList extends React.Component {
   constructor(props) {
@@ -7,11 +9,10 @@ export default class TrackResourceList extends React.Component {
 
   composeTrackItem(track) {
     return (
-      <li className="track-item" key={track.id}>
-        <span className="track-item-num">{track.track_num}</span>
-        <span className="track-item-name">{track.name}</span>
+      <li key={track.id}>
+        <Resource {...track} />
       </li>
-    )
+    );
   }
 
   render() {

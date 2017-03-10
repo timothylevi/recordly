@@ -2,7 +2,7 @@ import React from 'react';
 import { ResourceList } from '../shared';
 import { Resource as ArtistResource } from '../artist';
 import { Resource as AlbumResource } from '../album';
-// import { Resource as TrackResource } from '../track';
+import { Resource as TrackResource } from '../track';
 
 export default class FavoriteResourceList extends ResourceList {
   static defaultProps = {
@@ -19,25 +19,20 @@ export default class FavoriteResourceList extends ResourceList {
   getResource(type) {
     if (type === "Artist") return ArtistResource;
     if (type === "Album") return AlbumResource;
-    // if (type === "Track") return TrackResource;
+    if (type === "Track") return TrackResource;
   }
 
   composeFavoriteItem(favorite, index) {
     const props = {
       ...favorite,
       favorite: favorite.favorite,
+      key: `${favorite.type}-${favorite.id}-${index}`,
       handleResourceAdd: this.handleResourceAdd,
       handleResourceSelect: this.handleResourceSelect,
       handleResourceDelete: this.handleResourceDelete
     };
 
-    const resource = React.createElement(this.getResource(favorite.type), props);
-
-    return (
-      <li key={`${favorite.type}-${favorite.id}-${index}`}>
-        {resource}
-      </li>
-    );
+    return React.createElement(this.getResource(favorite.type), props);
   }
 
   render() {
