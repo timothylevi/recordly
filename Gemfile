@@ -5,7 +5,6 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'react_on_rails', '~>6'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.1'
 # Postgres in all environments to make deploying with Heroku more straightforward
@@ -16,8 +15,6 @@ gem 'puma', '~> 3.0'
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
-# Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.2'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -32,6 +29,11 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'paperclip'
 # Upload images to amazon s3
 gem 'aws-sdk', '~> 2.3'
+
+# Use React easily on Rails
+gem 'react_on_rails', '~>6'
+# Get font awesome as part of asset pipeline
+gem "font-awesome-rails"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
