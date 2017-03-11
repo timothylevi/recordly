@@ -13,7 +13,6 @@ export default class ArtistResourceListPage extends FilterableResourceList {
   }
 
   composeResourceList(disable, artists = this.props.artists) {
-    console.log(artists);
     return disable ? null : (
       <div className="page-section">
         <ResourceList artists={artists} container="page" />

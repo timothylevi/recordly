@@ -20,7 +20,6 @@ export default class ArtistResourceList extends ResourceList {
 
   render() {
     function composeArtistItem(artist) {
-      debugger;
       return (
         <Resource
           {...artist}
