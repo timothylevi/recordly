@@ -16,7 +16,7 @@ export default class ArtistResourceListPage extends FilterableResourceList {
     console.log(artists);
     return disable ? null : (
       <div className="page-section">
-        <ResourceList artists={artists} />
+        <ResourceList artists={artists} container="page" />
       </div>
     );
   }

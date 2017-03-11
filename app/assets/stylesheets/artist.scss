@@ -1,78 +1,99 @@
 // ResourceListPage
-.artist-page {}
+.artists-page {
+  .page-section {
+    .artist-item, .artist-form {
+      background: white;
+      padding: 1rem 1rem 1rem 0.5rem;
+      border-radius: 5px;
+    }
+  }
+}
 
 // ResourceForm
 .artist-form {
   display: flex;
   margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+
+  .item-new-title {
+    margin: 0 0 1rem 2rem;
+    display: block;
+  }
 
   .error-list {
     .error-item {}
   }
-  >.item-name {
-    font-size: 125%;
-    font-weight: bold;
-    align-self: flex-end;
-    flex-grow: 1;
-    position: relative;
-    overflow: hidden;
-    height: 100px;
 
-    .name-input {
-      opacity: 1;
-      position: absolute;
-      left: 0.5rem;
-      top: 0.5rem;
-      z-index: 10;
-      text-shadow: white 0 0 1rem;
-      border: none;
-      border-radius: 5px;
-      background: rgba(255, 255, 255, 0.75);
-      padding: 0 0.5rem;
-      width: 90%;
-    }
+  .item-row {
+    display: flex;
+    flex-basis: 100%;
+    flex-wrap: wrap;
 
-    .name-background {
-      pointer-events: none;
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      width: 100%;
-      min-width: 200px;
-      height: auto;
-      opacity: 0.4;
-      z-index: 1;
-    }
-  }
-  .item-avatar {
-    .avatar-preview {
-      background-size: cover;
-      width: $LIST_AVATAR_WIDTH;
-      height: $LIST_AVATAR_WIDTH;
-      border: none;
-      opacity: 1;
-      transition: opacity 500ms;
-      background-position: center center;
+    >.item-name {
+      font-size: 125%;
+      font-weight: bold;
+      align-self: flex-end;
+      flex-grow: 1;
+      position: relative;
+      overflow: hidden;
+      height: 100px;
 
-      .avatar-preview-icon {
-        opacity: 0;
-        font-size: 2.5rem;
-        color: rgba(255, 255, 255, 0.9);
-        text-shadow: rgba(100, 100, 100, 0.75) 0px 0px 1rem;
-        transition: opacity 500ms;
+      .name-input {
+        opacity: 1;
+        position: absolute;
+        left: 0.5rem;
+        top: 0.5rem;
+        z-index: 10;
+        text-shadow: white 0 0 1rem;
+        border: none;
+        border-radius: 5px;
+        background: rgba(255, 255, 255, 0.75);
+        padding: 0 0.5rem;
+        width: 90%;
       }
 
-      &:hover, &:focus {
-        opacity: 0.75;
-        cursor: pointer;
+      .name-background {
+        pointer-events: none;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        min-width: 200px;
+        height: auto;
+        opacity: 0.4;
+        z-index: 1;
+      }
+    }
+    .item-avatar {
+      .avatar-preview {
+        background-size: cover;
+        width: $LIST_AVATAR_WIDTH;
+        height: $LIST_AVATAR_WIDTH;
+        border: none;
+        opacity: 1;
+        transition: opacity 500ms;
+        background-position: center center;
 
         .avatar-preview-icon {
-          opacity: 1;
+          opacity: 0;
+          font-size: 2.5rem;
+          color: rgba(255, 255, 255, 0.9);
+          text-shadow: rgba(100, 100, 100, 0.75) 0px 0px 1rem;
+          transition: opacity 500ms;
+        }
+
+        &:hover, &:focus {
+          opacity: 0.75;
+          cursor: pointer;
+
+          .avatar-preview-icon {
+            opacity: 1;
+          }
         }
       }
+      .avatar-input { display: none; }
     }
-    .avatar-input { display: none; }
   }
 }
 
@@ -133,8 +154,6 @@
     width: 100%;
 
     .album-item {
-      border-left: 0.1rem solid lighten($WARNING, 20%);
-      padding-left: 0.25rem;
       margin-bottom: 0.5rem;
 
       .item-associations {

@@ -12,12 +12,16 @@ export default class FavoriteResourceListPage extends FilterableResourceList {
   }
 
   composeResourceList(disable, favorites = this.props.favorites) {
-    return <ResourceList favorites={favorites} />;
+    return disable ? null : (
+      <div className="page-section">
+        <ResourceList favorites={favorites} />
+      </div>
+    );
   }
 
   render() {
     const resourceFilter = this.composeResourceFilter();
-    const resourceList = this.composeResourceList();
+    const resourceList = this.composeResourceList(this.resourcesFilterMask.value);
 
     return (
       <Page title={this.resource}>

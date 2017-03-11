@@ -1,11 +1,23 @@
 // ResourceListPage
-.album-page {}
+.albums-page {
+  .page-section {
+    .album-item, .album-form {
+      background: white;
+      padding: 1rem 1rem 1rem 0.5rem;
+      border-radius: 5px;
+    }
+  }
+}
 
 // ResourceForm
 .album-form {
   display: flex;
   margin-bottom: 0.5rem;
   flex-wrap: wrap;
+
+  .item-new-title {
+    margin: 0 0 1rem 2rem;
+  }
 
   .error-list {
     .error-item {}
@@ -190,11 +202,10 @@
 
   &.selected {
     .item-associations {
-      margin: 0.5rem 0 0 2rem;
-      padding-left: 0.25rem;
-      border-left: 0.1rem solid lighten($WARNING, 20%);
+      margin: 0.5rem 0 0 0;
 
       .album-tracks {
+        margin-left: 2rem;
       }
       .album-artists {
         width: 50%;
@@ -205,7 +216,7 @@
       }
     }
   }
-  
+
   .item-row {
     display: flex;
     flex-basis: 100%;

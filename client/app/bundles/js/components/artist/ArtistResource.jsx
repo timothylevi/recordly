@@ -62,6 +62,14 @@ export default class Artist extends Resource {
       <li key={this.state.id} className={className}>
         <div className="item-row">
           <div className="item-controls">
+            {this.props.container === "page" ? null : (
+              <button
+                title="Artist"
+                className="item-control item-control-select static" disabled>
+                <i className="fa fa-user" />
+                <span className="no-web">Artist</span>
+              </button>
+            )}
             <FavoriteForm favorite={this.props.favorite} favoriteable_id={this.state.id} favoriteable_type="Artist" />
             {isInAlbumContainer ? null : (
               <button

@@ -1,5 +1,6 @@
 import React from 'react';
 import { ResourceForm } from '../shared';
+import { registerHandlers } from '../../helpers';
 
 export default class FavoriteResourceForm extends ResourceForm {
   static defaultProps = {
@@ -18,9 +19,10 @@ export default class FavoriteResourceForm extends ResourceForm {
       favoriteable_type: props.favoriteable_type,
     };
 
-// TODO registerhandlers
-    this.handleFavorite = this.handleFavorite.bind(this);
-    this.handleRequestSuccess = this.handleRequestSuccess.bind(this);
+    registerHandlers.call(this, [
+      "handleFavorite",
+      "handleRequestSuccess",
+    ]);
   }
 
   getRequestData() {

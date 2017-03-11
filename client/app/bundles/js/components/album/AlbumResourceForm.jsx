@@ -87,6 +87,7 @@ export default class AlbumResourceForm extends ResourceForm {
         onClick={this.handleFormClick}
         ref={(form) => { this.formComponent = form; }}
       >
+        {this.state.id ? null : <h4 className="item-new-title">New {this.resource}</h4>}
         <div className="item-row">
           <div className="item-controls">
             <button
@@ -113,7 +114,7 @@ export default class AlbumResourceForm extends ResourceForm {
               <i className="fa fa-upload" />
               <span className="no-web">Upload avatar</span>
             </button>
-            {isInPage ? null : (
+            {!this.state.id ? null : (
               <button
                 className="item-control item-control-cancel"
                 onClick={this.handleCancel}

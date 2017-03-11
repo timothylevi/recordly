@@ -90,6 +90,14 @@ export default class AlbumResource extends Resource {
       <li key={this.state.id} className={className}>
         <div className="item-row">
           <div className="item-controls">
+            {this.props.container === "page" ? null : (
+              <button
+                title="Album"
+                className="item-control item-control-select static" disabled>
+                <i className="fa fa-music" />
+                <span className="no-web">Album</span>
+              </button>
+            )}
             <FavoriteForm
               favorite={this.props.favorite}
               favoriteable_id={this.state.id}

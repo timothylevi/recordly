@@ -100,8 +100,7 @@ ul {
 
   .page-section {
     margin-top: 1rem;
-    background-color: rgba(255, 255, 255, 0.75);
-    padding: 1rem 1rem 0.5rem 0.5rem;
+    padding: 0 0 0.5rem 0;
     margin-bottom: 1rem;
   }
 
@@ -173,15 +172,12 @@ ul {
     font-weight: bold;
     padding: 2px 6px 3px;
 
-    &.item-control-edit {}
-    &.item-control-favorite {}
-    &.item-control-select {}
-    &.item-control-save {}
-    &.item-control-delete {}
-    &.item-control-cancel {}
-    &.item-control-avatar-upload {}
+    &.static {
+      color: rgba(0, 0, 0, 0.5);
+      cursor: auto;
+    }
 
-    &:hover, &:focus {
+    &:hover:not(.static), &:focus:not(.static) {
       color: lighten($WARNING, 20%);
       margin-left: -0.25rem;
     }

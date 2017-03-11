@@ -1,0 +1,44 @@
+.favorite-list {
+  >.track-item,
+  >.artist-item,
+  >.album-item,
+  >.album-form {
+    background: white;
+    padding: 1rem 1rem 1rem 0.5rem;
+    border-radius: 5px;
+  }
+  >.artist-item.selected {
+    .album-list {
+      .album-item.selected {
+        .item-associations {
+          margin-left: 0;
+          padding-left: 0;
+        }
+      }
+    }
+  }
+  >.track-item {
+    margin-bottom: 0.5rem;
+    .item-name {
+      font-size: 100% !important;
+      align-self: auto;
+      flex-basis: 30%;
+      font-weight: bold;
+    }
+    .item-associations {
+      flex-basis: 60%;
+      display: flex;
+
+      .item-association {
+        flex-basis: 50%;
+        display: flex;
+        color: rgba(0, 0, 0, 0.65);
+
+        .item-association-icon, .item-association-icon {
+          margin-right: 0.5rem;
+          color: rgba(0, 0, 0, 0.25);
+        }
+      }
+    }
+  }
+}
