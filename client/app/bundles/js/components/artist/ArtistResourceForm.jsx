@@ -25,7 +25,7 @@ export default class ArtistResourceForm extends ResourceForm {
     this.setState({
       id: '',
       name: '',
-      avatar: '',
+      avatar: this.props.avatar,
     });
   }
 

@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def artist_api(artist, disabledProps=[])
+    return nil if !artist
     return {
       id: artist.id,
       name: artist.name,
@@ -17,6 +18,7 @@ class ApplicationController < ActionController::Base
   end
 
   def album_api(album, disabledProps=[])
+    return nil if !album
     return {
       id: album.id,
       name: album.name,
@@ -30,9 +32,8 @@ class ApplicationController < ActionController::Base
     }
   end
 
-  # track > album_api(track.album, ["favorite"]) >
-
   def track_api(track, disabledProps=[])
+    return nil if !track
     return {
       id: track.id,
       name: track.name,
@@ -77,7 +78,7 @@ class ApplicationController < ActionController::Base
       return nil if (!current_user)
       return nil if disabledProps.include?("favorite")
 
-      favorite = current_user.favorites.find_by(favoriteable_type: type, favoriteable_id: resource.id)
+      favorite = current_user.favorites.includes([:favoriteable]).find_by(favoriteable_type: type, favoriteable_id: resource.id)
       return favorite ? favorite.id : favorite
     end
 end

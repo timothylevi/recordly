@@ -20,8 +20,8 @@ export default class FavoriteResourceForm extends ResourceForm {
     };
 
     registerHandlers.call(this, [
-      "handleFavorite",
-      "handleRequestSuccess",
+      'handleFavorite',
+      'getHandleRequestSuccess',
     ]);
   }
 
@@ -33,16 +33,21 @@ export default class FavoriteResourceForm extends ResourceForm {
     event.preventDefault();
     event.stopPropagation();
 
+    const create = function() {}
+    const update = function() {
+      this.setState({ id: null });
+    }
+
     const saved = !!this.state.id;
     const type = saved ? 'DELETE' : 'POST';
     const form = this.getRequestData();
-    const callback = function callback() {};
+    const callback = saved ? update : create;
     const request = this.buildRequestOptions(type, form, saved, callback.bind(this));
 
     $.ajax(request);
   }
 
-  handleRequestSuccess() {}
+  // getHandleRequestSuccess(callback) {}
 
   render() {
     const isFavorited = !!this.state.id;

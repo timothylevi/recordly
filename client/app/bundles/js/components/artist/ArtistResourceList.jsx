@@ -14,10 +14,6 @@ export default class ArtistResourceList extends ResourceList {
     this.state = { artists: props.artists };
   }
 
-  getSelectedArtistIds() {
-    return this.state.artists.filter(x => x.selected).map(x => x.id);
-  }
-
   render() {
     function composeArtistItem(artist) {
       return (

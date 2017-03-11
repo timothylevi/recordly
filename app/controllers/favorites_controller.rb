@@ -1,7 +1,8 @@
 class FavoritesController < ApplicationController
   def index
     @props = {
-      favorites: current_user.favorites.includes([[:favoriteable]]).all.map { |favorite| favorite_api(favorite) }#:artist, :album, :track
+      favorites: current_user.favorites.all.map { |favorite| favorite_api(favorite) },
+      artists: Artist.all.map { |artist| artist_api(artist, ["albums"]) }
     }
   end
 

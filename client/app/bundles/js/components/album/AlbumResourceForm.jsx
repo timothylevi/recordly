@@ -34,7 +34,7 @@ export default class AlbumResourceForm extends ResourceForm {
     this.setState({
       id: '',
       name: '',
-      avatar: '',
+      avatar: this.props.avatar,
       artists: this.props.artists,
     }, resetChildForms);
   }

@@ -23,7 +23,7 @@ export default class BaseResource extends React.Component {
       'handleDelete',
       'handleFileUpload',
       'handleSubmit',
-      'handleRequestSuccess',
+      'getHandleRequestSuccess',
       'handleUploadLabelClick',
     ]);
   }
@@ -127,12 +127,15 @@ export default class BaseResource extends React.Component {
     $(`#${this.resource}-avatar-${this.state.id}`).trigger("click");
   }
 
-  handleRequestSuccess(data) {
-    // TODO: Refactor
-    if (data.errors.length) {
-      this.setState({ ...data, avatar: this.state.avatar });
-    } else {
-      this.setState({ ...data }, callback);
+  getHandleRequestSuccess(callback) {
+    return function handleSuccess(data) {
+      if (data.errors && data.errors.length) {
+        this.setState({ ...data, avatar: this.state.avatar });
+      } else {
+        this.setState({ ...data }, function() {
+          callback(data);
+        });
+      }
     }
   }
 
@@ -142,8 +145,8 @@ export default class BaseResource extends React.Component {
 
     const request = {
       type,
-      success: this.handleRequestSuccess,
-      error: this.handleRequestSuccess,
+      success: this.getHandleRequestSuccess(callback).bind(this),
+      error: this.getHandleRequestSuccess(callback).bind(this),
       dataType: 'json',
       contentType: 'application/json',
       url: saved ? `/${resource}s/${form[resource].id}` : `/${resource}s`,
