@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { ResourceForm, ResourceList } from './index';
 import { Page } from '../layout';
@@ -12,11 +13,24 @@ export default class ArtistResourceListPage extends FilterableResourceList {
   }
 
   composeResourceList(disable, artists = this.props.artists) {
-    return disable ? null : <ResourceList artists={artists} />;
+    console.log(artists);
+    return disable ? null : (
+      <div className="page-section">
+        <ResourceList artists={artists} />
+      </div>
+    );
   }
 
-  composeResourceForm() {
-    return <ResourceForm handleResourceAdd={this.handleResourceAdd} />;
+  composeResourceForm(disable) {
+    return disable ? null : (
+      <div className="page-section">
+        <ResourceForm
+          container="page"
+          filterMask={this.resourcesFilterMask.value}
+          handleResourceAdd={this.handleResourceAdd}
+        />
+      </div>
+    );
   }
 
   render() {

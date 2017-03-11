@@ -54,7 +54,11 @@ export default class ArtistResourceListForm extends ResourceListForm {
       const className = `artist-item ${artist.selected ? ' selected' : ''}`;
       return (
         <li id={artist.id} key={artist.id} onClick={this.handleSelect} className={className}>
-          <div className="artist-item-avatar" style={{ backgroundImage: `url('${artist.avatar}')` }} />
+          <div className="artist-item-avatar" style={{ backgroundImage: `url('${artist.avatar}')` }}>
+            <div className="checkmark-container">
+              <i className="fa fa-check-circle checkmark" />
+            </div>
+          </div>
           <div className="artist-item-name">{artist.name}</div>
         </li>
       );
@@ -71,6 +75,7 @@ export default class ArtistResourceListForm extends ResourceListForm {
     const artistList = this.composeArtistList(this.state.artists);
     return (
       <div>
+        <h3 className="album-artists-title">Artists</h3>
         {artistList}
       </div>
     );

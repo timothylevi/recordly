@@ -24,6 +24,7 @@ export default class BaseResource extends React.Component {
       'handleFileUpload',
       'handleSubmit',
       'handleRequestSuccess',
+      'handleUploadLabelClick',
     ]);
   }
 
@@ -32,14 +33,14 @@ export default class BaseResource extends React.Component {
 
     function composeErrorItem(error, index) {
       return (
-        <li className={`${this.resource}-error-item`} key={index}>
+        <li className="error-item" key={index}>
           {error}
         </li>
       );
     }
 
     return (
-      <ul className={`${this.resource}-error-list`}>
+      <ul className="error-list">
         {errors.map(composeErrorItem.bind(this))}
       </ul>
     );
@@ -118,6 +119,12 @@ export default class BaseResource extends React.Component {
 
   handleFormClick(event) {
     event.stopPropagation();
+  }
+
+  handleUploadLabelClick(event) {
+    event.preventDefault();
+
+    $(`#${this.resource}-avatar-${this.state.id}`).trigger("click");
   }
 
   handleRequestSuccess(data) {

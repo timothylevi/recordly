@@ -7,7 +7,7 @@ export default class AlbumResourceForm extends ResourceForm {
   static defaultProps = {
     id: '',
     name: '',
-    avatar: '',
+    avatar: '/images/missing_album.png',
     artists: '',
     errors: [],
   };
@@ -54,9 +54,6 @@ export default class AlbumResourceForm extends ResourceForm {
   composeArtistsField(disable) {
     return disable ? null : (
       <div className="album-artists">
-        <h3 className="album-artists-title">
-          Artists
-        </h3>
         <ArtistListForm
           artists={this.props.artists}
           formArtists={this.props.formArtists}
@@ -69,7 +66,6 @@ export default class AlbumResourceForm extends ResourceForm {
   composeTrackFields(disable) {
     return disable ? null : (
       <div className="album-tracks">
-        <h3 className="album-tracks-title">Tracks</h3>
         <TrackListForm
           tracks={this.props.tracks}
           ref={form => this.tracksFormComponent = form}
@@ -79,7 +75,9 @@ export default class AlbumResourceForm extends ResourceForm {
   }
 
   render() {
+    const isInPage = this.props.container === "page";
     const isInArtistContainer = this.props.container === 'artist';
+
     const artistsField = this.composeArtistsField(isInArtistContainer);
     const trackFields = this.composeTrackFields();
 
@@ -89,60 +87,72 @@ export default class AlbumResourceForm extends ResourceForm {
         onClick={this.handleFormClick}
         ref={(form) => { this.formComponent = form; }}
       >
-
+        <div className="item-row">
+          <div className="item-controls">
+            <button
+              className="item-control item-control-save"
+              type="submit"
+              onClick={this.handleSubmit}
+              title={`Save ${isInPage ? "new " : ""}${this.resource}`}>
+              <i className="fa fa-floppy-o" />
+              <span className="no-web">Save</span>
+            </button>
+            {isInPage ? null : (
+              <button
+                className="item-control item-control-delete"
+                onClick={this.handleDelete}
+                title={`Delete ${this.resource}`}>
+                <i className="fa fa-trash-o" />
+                <span className="no-web">Delete</span>
+              </button>
+            )}
+            <button
+              onClick={this.handleUploadLabelClick}
+              className="item-control item-control-upload-avatar"
+              title="Upload avatar" >
+              <i className="fa fa-upload" />
+              <span className="no-web">Upload avatar</span>
+            </button>
+            {isInPage ? null : (
+              <button
+                className="item-control item-control-cancel"
+                onClick={this.handleCancel}
+                title="Cancel edit">
+                <i className="fa fa-times" />
+                <span className="no-web">Cancel</span>
+              </button>
+            )}
+          </div>
+          <div className="item-avatar">
+            <button
+              className="avatar-preview"
+              onClick={this.handleUploadLabelClick}
+              style={{ backgroundImage: `url('${this.state.avatar}')` }}
+              title="Upload avatar"
+            >
+              <i className="fa fa-upload avatar-preview-icon" />
+              <span className="no-web">Upload avatar</span>
+            </button>
+            <input
+              className="avatar-input"
+              id={`album-avatar-${this.state.id}`}
+              type="file"
+              name="avatar"
+              onChange={this.handleFileUpload('avatar')}
+            />
+          </div>
+          <div className="item-name">
+            <img className="name-background" src={this.state.avatar} />
+            <label className="name-label no-web" htmlFor={`album-name-${this.state.id}`} placeholder="Name">Name</label>
+            <input className="name-input" id={`album-name-${this.state.id}`} placeholder="Name" type="text" name="name" value={this.state.name} onChange={this.handleChange} />
+            <input type="submit" style={{ display: 'none' }} onClick={this.handleSubmit} />
+          </div>
+        </div>
+        <div className="item-associations item-row">
+          {trackFields}
+          {artistsField}
+        </div>
         {this.composeErrorList(this.state.errors)}
-
-        <div className="album-name">
-          <label
-            className="album-name-label"
-            htmlFor={`album-name-${this.state.id}`}
-          >
-            Name
-          </label>
-          <input
-            className="album-name-input"
-            id={`album-name-${this.state.id}`}
-            type="text"
-            name="name"
-            value={this.state.name}
-            onChange={this.handleChange}
-          />
-        </div>
-        <div className="album-avatar">
-          <div
-            className="album-avatar-preview"
-            style={{ backgroundImage: `url('${this.state.avatar}')` }}
-          />
-          <label
-            className="album-avatar-label"
-            htmlFor={`album-avatar-${this.state.id}`}
-          >
-            Avatar
-          </label>
-          <input
-            className="album-avatar-input"
-            id={`album-avatar-${this.state.id}`}
-            type="file"
-            name="avatar"
-            onChange={this.handleFileUpload('avatar')}
-          />
-        </div>
-        {artistsField}
-        {trackFields}
-        <div className="album-controls">
-          <input
-            className="album-controls-save"
-            type="submit"
-            value="Save"
-            onClick={this.handleSubmit}
-          />
-          <a className="album-controls-delete" onClick={this.handleDelete}>
-            Delete
-          </a>
-          <a className="album-controls-cancel" onClick={this.handleCancel}>
-            Cancel
-          </a>
-        </div>
       </form>
     );
   }

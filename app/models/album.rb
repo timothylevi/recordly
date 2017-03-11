@@ -4,7 +4,8 @@ class Album < ApplicationRecord
     square: '200x200#',
     medium: '300x300>'
   },
-  path: "avatar/:id/:style/:basename.:extension"
+  path: "avatar/:id/:style/:basename.:extension",
+  default_url: "/images/missing_album.png"
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 255 }
   validates :artists, presence: true

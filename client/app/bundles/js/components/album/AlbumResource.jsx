@@ -9,7 +9,7 @@ export default class AlbumResource extends Resource {
   static defaultProps = {
     id: '',
     name: '',
-    avatar: '',
+    avatar: '/images/missing_album.png',
     artists: [],
     tracks: [{}],
   };
@@ -29,18 +29,30 @@ export default class AlbumResource extends Resource {
 
   composeEditControl(disable) {
     return disable ? null : (
-      <a className="album-item-controls-edit" onClick={this.handleEdit}>
-        Edit
-      </a>
+      <button
+        className="item-control item-control-edit"
+        onClick={this.handleEdit}
+        title={`Edit ${this.resource}`}>
+        <i className="fa fa-pencil-square-o" />
+        <span className="no-web">Edit {this.resource}</span>
+      </button>
     );
   }
 
   composeTrackList(disable) {
-    return disable ? null : <TrackList tracks={this.props.tracks} />;
+    return disable ? null : (
+      <div className="album-tracks">
+        <TrackList tracks={this.props.tracks} />
+      </div>
+    );
   }
 
   composeArtistList(disable) {
-    return disable ? null : <ArtistList artists={this.props.artists} container="album" />;
+    return disable ? null : (
+      <div className="album-artists">
+        <ArtistList artists={this.props.artists} container="album" />
+      </div>
+    );
   }
 
   render() {
@@ -67,33 +79,45 @@ export default class AlbumResource extends Resource {
     const disableTrackList = !isSelected;
     const disableArtistList = isInArtistContainer || !isSelected;
 
-    const className = `album-item ${this.props.selected ? ' selected' : ''}`;
+    const className = `album-item ${isSelected ? ' selected' : ''}`;
     const editControl = this.composeEditControl(disableEditControl);
     const trackList = this.composeTrackList(disableTrackList);
     const artistList = this.composeArtistList(disableArtistList);
 
+    const selectText = isSelected ? `Close ${this.resource}` : `View more from this ${this.resource}`;
+
     return (
-      <li key={this.state.id} onClick={this.handleSelect} className={className}>
-        <div className="album-item-controls">
-          <FavoriteForm
-            favorite={this.props.favorite}
-            favoriteable_id={this.state.id}
-            favoriteable_type="Album"
+      <li key={this.state.id} className={className}>
+        <div className="item-row">
+          <div className="item-controls">
+            <FavoriteForm
+              favorite={this.props.favorite}
+              favoriteable_id={this.state.id}
+              favoriteable_type="Album"
+            />
+            <button
+              className="item-control item-control-select"
+              onClick={this.handleSelect}
+              title={selectText}>
+              <i className={`fa ${isSelected ? 'fa-outdent' : 'fa-indent'}`} />
+              <span className="no-web">{selectText}</span>
+            </button>
+            {editControl}
+          </div>
+          <div
+            className="item-avatar"
+            style={{ backgroundImage: `url('${this.state.avatar}')` }}
           />
-          {editControl}
+          <div className="item-name">
+            <img className="item-name-background" src={this.state.avatar} />
+            <div className="item-name-text">{this.state.name}</div>
+              <div className="item-created">{this.state.created_at && this.state.created_at.toString()}</div>
+              <div className="item-updated">{this.state.updated_at && this.state.updated_at.toString()}</div>
+          </div>
         </div>
-        <div
-          className="album-item-avatar"
-          style={{ backgroundImage: `url('${this.state.avatar}')` }}
-        />
-        <div className="album-item-name">{this.state.name}</div>
-        {/*
-        <div className="album-item-created">{this.state.created_at && this.state.created_at.toString()}</div>
-        <div className="album-item-updated">{this.state.updated_at && this.state.updated_at.toString()}</div>
-        */}
-        <div className="album-tracks">
-          {artistList}
+        <div className="item-row item-associations">
           {trackList}
+          {artistList}
         </div>
       </li>
     );

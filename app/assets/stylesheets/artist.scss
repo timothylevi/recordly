@@ -3,49 +3,146 @@
 
 // ResourceForm
 .artist-form {
-  .artist-error-list {
-    .artist-error-item {}
-  }
-  .artist-name {
-    .artist-name-label {}
-    .artist-name-input {}
-  }
-  .artist-avatar {
-    .artist-avatar-preview {
-      background-size: cover;
-      width: $FORM_AVATAR_WIDTH;
-      height: $FORM_AVATAR_WIDTH;
-    }
-    .artist-avatar-label {}
-    .artist-avatar-input {}
-  }
-  .artist-controls {
-    .artist-controls-save {}
-    .artist-controls-delete {}
-    .artist-controls-cancel {}
-  }
-}
+  display: flex;
+  margin-bottom: 0.5rem;
 
-// ResourceList
-.artist-list {
+  .error-list {
+    .error-item {}
+  }
+  >.item-name {
+    font-size: 125%;
+    font-weight: bold;
+    align-self: flex-end;
+    flex-grow: 1;
+    position: relative;
+    overflow: hidden;
+    height: 100px;
+
+    .name-input {
+      opacity: 1;
+      position: absolute;
+      left: 0.5rem;
+      top: 0.5rem;
+      z-index: 10;
+      text-shadow: white 0 0 1rem;
+      border: none;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.75);
+      padding: 0 0.5rem;
+      width: 90%;
+    }
+
+    .name-background {
+      pointer-events: none;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      min-width: 200px;
+      height: auto;
+      opacity: 0.4;
+      z-index: 1;
+    }
+  }
+  .item-avatar {
+    .avatar-preview {
+      background-size: cover;
+      width: $LIST_AVATAR_WIDTH;
+      height: $LIST_AVATAR_WIDTH;
+      border: none;
+      opacity: 1;
+      transition: opacity 500ms;
+      background-position: center center;
+
+      .avatar-preview-icon {
+        opacity: 0;
+        font-size: 2.5rem;
+        color: rgba(255, 255, 255, 0.9);
+        text-shadow: rgba(100, 100, 100, 0.75) 0px 0px 1rem;
+        transition: opacity 500ms;
+      }
+
+      &:hover, &:focus {
+        opacity: 0.75;
+        cursor: pointer;
+
+        .avatar-preview-icon {
+          opacity: 1;
+        }
+      }
+    }
+    .avatar-input { display: none; }
+  }
 }
 
 // Resource
 .artist-item {
-  &.selected {}
-  .artist-item-avatar {
-    background-size: cover;
-    width: $LIST_AVATAR_WIDTH;
-    height: $LIST_AVATAR_WIDTH;
+  display: flex;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+
+  &.selected {
   }
-  .artist-item-name {}
-  .artist-item-albums {}
-  .artist-item-created {}
-  .artist-item-updated {}
+  .item-row {
+    display: flex;
+    flex-basis: 100%;
+
+    .item-avatar {
+      background-size: cover;
+      min-width: $LIST_AVATAR_WIDTH;
+      height: $LIST_AVATAR_WIDTH;
+    }
+    >.item-name {
+      font-size: 125%;
+      font-weight: bold;
+      align-self: flex-end;
+      flex-grow: 1;
+      position: relative;
+      overflow: hidden;
+      height: 100px;
+
+      .item-name-text {
+        opacity: 1;
+        position: absolute;
+        left: 0.5rem;
+        top: 0.5rem;
+        z-index: 10;
+        text-shadow: white 0 0 1rem;
+      }
+
+      .item-name-background {
+        pointer-events: none;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        min-width: 200px;
+        height: auto;
+        opacity: 0.4;
+        z-index: 1;
+      }
+    }
+    .item-albums {}
+    .item-created {}
+    .item-updated {}
+  }
   .album-list {
-    margin-left: 2rem;
+    margin: 0.5rem 0 0 2rem;
+    width: 100%;
+
+    .album-item {
+      border-left: 0.1rem solid lighten($WARNING, 20%);
+      padding-left: 0.25rem;
+      margin-bottom: 0.5rem;
+
+      .item-associations {
+        border: none;
+      }
+    }
+
     .track-list {
-      margin-left: 2rem;
     }
   }
 }
@@ -56,9 +153,11 @@
     &.selected {}
     .artist-item-avatar {
       background-size: cover;
-      width: $LIST_AVATAR_WIDTH;
+      min-width: $LIST_AVATAR_WIDTH;
       height: $LIST_AVATAR_WIDTH;
     }
-    .artist-item-name {}
+    .artist-item-name {
+
+    }
   }
 }

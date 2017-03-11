@@ -47,7 +47,7 @@ const config = {
         test: /\.jsx?$/,
         loaders: [
           'babel-loader',
-          'eslint-loader'
+          // 'eslint-loader'
         ],
         exclude: /node_modules/,
         options: {

@@ -29,7 +29,7 @@ export default class AlbumResourceList extends ResourceList {
 
     return (
       <ul className="album-list">
-        {this.props.albums.map(composeAlbumItem.bind(this))}
+        {this.state.albums.map(composeAlbumItem.bind(this))}
       </ul>
     );
   }

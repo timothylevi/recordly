@@ -19,15 +19,15 @@ export default class TrackResource extends React.Component {
   render() {
     return (
       <li className="track-item" key={this.props.id}>
-        <div className="track-item-controls">
+        <div className="item-controls">
           <FavoriteForm
             favorite={this.props.favorite}
             favoriteable_id={this.props.id}
             favoriteable_type="Track"
           />
         </div>
-        <span className="track-item-num">{this.props.track_num}</span>
-        <span className="track-item-name">{this.props.name}</span>
+        <span className="item-num">{this.props.track_num}</span>
+        <span className="item-name">{this.props.name}</span>
       </li>
     );
   }

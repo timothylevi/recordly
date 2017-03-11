@@ -20,6 +20,7 @@ export default class ArtistResourceList extends ResourceList {
 
   render() {
     function composeArtistItem(artist) {
+      debugger;
       return (
         <Resource
           {...artist}
@@ -34,7 +35,7 @@ export default class ArtistResourceList extends ResourceList {
 
     return (
       <ul className="artist-list">
-        {this.props.artists.map(composeArtistItem.bind(this))}
+        {this.state.artists.map(composeArtistItem.bind(this))}
       </ul>
     );
   }

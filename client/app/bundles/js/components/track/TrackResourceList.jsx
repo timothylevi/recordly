@@ -6,11 +6,7 @@ export default class TrackResourceList extends React.Component {
   static defaultProps = { tracks: [{}] };
 
   composeTrackItem(track) {
-    return (
-      <li key={track.id}>
-        <Resource {...track} />
-      </li>
-    );
+    return <Resource key={track.id} {...track} />;
   }
 
   render() {

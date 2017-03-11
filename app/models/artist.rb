@@ -4,7 +4,8 @@ class Artist < ApplicationRecord
     square: '200x200#',
     medium: '300x300>'
   },
-  path: "avatar/:id/:style/:basename.:extension"
+  path: "avatar/:id/:style/:basename.:extension",
+  default_url: "/images/missing_artist.png"
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 255 }
   validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/

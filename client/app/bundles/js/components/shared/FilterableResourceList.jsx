@@ -26,9 +26,10 @@ export default class FilterableResourceList extends BaseResourceList {
     });
   }
 
-  composeResourceFilter(resources = this.state.filteredResources) {
-    if (this.props.disableFilter) return;
+  composeResourceFilter(disable) {
+    if (disable) return null;
 
+    const resources =  this.state.filteredResources;
     const filteredResources = this.composeResourceList(!this.resourcesFilterMask.value, resources);
 
     return (

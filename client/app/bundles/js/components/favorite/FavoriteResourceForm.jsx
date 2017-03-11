@@ -1,7 +1,7 @@
 import React from 'react';
 import { ResourceForm } from '../shared';
 
-export default class FavoriteResource extends ResourceForm {
+export default class FavoriteResourceForm extends ResourceForm {
   static defaultProps = {
     favorite: null,
     favoriteable_id: '',
@@ -43,8 +43,19 @@ export default class FavoriteResource extends ResourceForm {
   handleRequestSuccess() {}
 
   render() {
+    const isFavorited = !!this.state.id;
+
+    const resource = this.props.favoriteable_type.toLowerCase();
+    const favoriteText = isFavorited ? `Unfavorite ${resource}` : `Favorite ${resource}`;
+
     return (
-      <div onClick={this.handleFavorite}>favorite</div>
+      <button
+        title={favoriteText}
+        className={`item-control item-control-favorite ${isFavorited ? 'favorited' : ''}`}
+        onClick={this.handleFavorite}>
+        <i className={`fa fa-heart${isFavorited ? '' : '-o'}`} />
+        <span className="no-web">{favoriteText}</span>
+      </button>
     );
   }
 }
