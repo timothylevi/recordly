@@ -1,11 +1,12 @@
 import React from 'react';
-import { registerHandlers } from '../../helpers';
+import { bindHandlers } from '../../helpers';
+import * as stateFunctions from '../../state-functions';
 
 export default class BaseResourceList extends React.Component {
   constructor(props) {
     super(props);
 
-    registerHandlers.call(this, [
+    bindHandlers.call(this, [
       'handleResourceAdd',
       'handleResourceDelete',
       'handleResourceSelect',
@@ -13,39 +14,14 @@ export default class BaseResourceList extends React.Component {
   }
 
   handleResourceAdd(object) {
-    const resources = this.state[this.resource];
-    resources.push(object);
-
-    this.setState({ [this.resource]: resources });
+    this.setState(stateFunctions.addToList(this.state, this.resource, object));
   }
 
   handleResourceDelete(objId) {
-    function getOrDeleteResource(resource) {
-      return (resource.id === objId) ?
-        { ...resource, deleted: true } :
-        resource;
-    }
-
-    const resources = this.state[this.resource].map(getOrDeleteResource);
-    this.setState({ [this.resource]: resources });
+    this.setState(stateFunctions.markDeleted(this.state, this.resource, objId));
   }
 
   handleResourceSelect(objId) {
-    function getOrSelectResource(resource) {
-      return (resource.id === objId) ?
-        { ...resource, selected: !resource.selected } :
-        resource;
-    }
-
-    const resources = this.state[this.resource].map(getOrSelectResource);
-    this.setState({ [this.resource]: resources });
-  }
-
-  handleResourceSelectWithId(objId) {
-    function partialHandleResourceSelect() {
-      return this.handleResourceSelect(objId);
-    }
-
-    return partialHandleResourceSelect.bind(this);
+    this.setState(stateFunctions.markSelected(this.state, this.resource, objId));
   }
 }

@@ -1,14 +1,15 @@
 import React from 'react';
 
 export default class BaseResourceListForm extends React.Component {
-  mergeSelected(selectedResources, resources) {
+  static mergeSelected(selectedResources, resources) {
     if (!resources) return [];
     if (!selectedResources) return resources;
 
     function addResourceToHash(hsh, obj) {
-      obj.selected = true;
-      hsh[obj.id] = obj;
-      return hsh;
+      const newObj = { ...obj, selected: true };
+      const newHsh = { ...hsh, [newObj.id]: newObj };
+
+      return newHsh;
     }
 
     function getLatestResource(resource) {

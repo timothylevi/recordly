@@ -2,10 +2,16 @@ import React, { PropTypes } from 'react';
 import { Resource } from './index';
 
 export default class TrackResourceList extends React.Component {
-  static propTypes = { tracks: PropTypes.array };
+  static propTypes = {
+    tracks: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+    })),
+  };
+
   static defaultProps = { tracks: [{}] };
 
-  composeTrackItem(track) {
+  static composeTrackItem(track) {
     return <Resource key={track.id} {...track} />;
   }
 

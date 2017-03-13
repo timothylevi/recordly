@@ -1,13 +1,15 @@
 import React, { PropTypes } from 'react';
-import { registerHandlers, blankFunction } from '../../helpers';
+import { bindHandlers, blankFunction } from '../../helpers';
+import * as stateFunctions from '../../state-functions';
 
 export default class BaseResource extends React.Component {
   static propTypes = { handleResourceSelect: PropTypes.func };
   static defaultProps = { handleResourceSelect: blankFunction };
+
   constructor(props) {
     super(props);
 
-    registerHandlers.call(this, [
+    bindHandlers.call(this, [
       'handleEdit',
       'handleSelect',
       'handleResourceUpdate',
@@ -15,19 +17,11 @@ export default class BaseResource extends React.Component {
     ]);
   }
 
-  handleResourceCancel() {
-    this.setState({ form: false });
-  }
-
-  handleResourceUpdate(data) {
-    this.setState({ ...data, form: false });
-  }
-
   handleEdit(event) {
     event.preventDefault();
     event.stopPropagation();
 
-    this.setState({ form: true });
+    this.setState(stateFunctions.setFormOpen(this.state));
   }
 
   handleSelect(event) {
@@ -35,5 +29,13 @@ export default class BaseResource extends React.Component {
     event.stopPropagation();
 
     this.props.handleResourceSelect(this.state.id);
+  }
+
+  handleResourceCancel() {
+    this.setState(stateFunctions.setFormClose(this.state));
+  }
+
+  handleResourceUpdate(data) {
+    this.setState(stateFunctions.setFormCloseAndData(this.state, data));
   }
 }

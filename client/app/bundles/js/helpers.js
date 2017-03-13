@@ -1,4 +1,4 @@
-export const registerHandlers = function registerHandlers(handlers) {
+export const bindHandlers = function bindHandlers(handlers) {
   for (let i = 0; i < handlers.length; i += 1) {
     this[handlers[i]] = this[handlers[i]].bind(this);
   }

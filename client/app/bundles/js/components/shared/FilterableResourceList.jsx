@@ -1,6 +1,7 @@
 import React from 'react';
 import BaseResourceList from './BaseResourceList';
-import { registerHandlers } from '../../helpers';
+import { bindHandlers } from '../../helpers';
+import * as stateFunctions from '../../state-functions';
 
 export default class FilterableResourceList extends BaseResourceList {
   constructor(props) {
@@ -9,20 +10,14 @@ export default class FilterableResourceList extends BaseResourceList {
     this.resourcesFilterMask = {};
 
     this.state = { resourcesFilteredList: [] };
-    registerHandlers.call(this, ['handleFilter']);
+    bindHandlers.call(this, ['handleFilter']);
   }
 
   handleFilter(event) {
     event.preventDefault();
 
-    const resourcesFilterMask = this.resourcesFilterMask.value.toLowerCase();
-    function nameIncludesFilterMask(resource) {
-      return resource.name.toLowerCase().includes(resourcesFilterMask);
-    }
-
-    this.setState({
-      filteredResources: this.state[this.resource].filter(nameIncludesFilterMask),
-    });
+    const mask = this.resourcesFilterMask.value;
+    this.setState(stateFunctions.markFiltered(this.state, this.resource, mask));
   }
 
   composeResourceFilter(disable) {

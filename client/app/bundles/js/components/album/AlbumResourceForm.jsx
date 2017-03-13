@@ -75,7 +75,7 @@ export default class AlbumResourceForm extends ResourceForm {
   }
 
   render() {
-    const isInPage = this.props.container === "page";
+    const isInPage = this.props.container === 'page';
     const isInArtistContainer = this.props.container === 'artist';
 
     const artistsField = this.composeArtistsField(isInArtistContainer);
@@ -84,7 +84,6 @@ export default class AlbumResourceForm extends ResourceForm {
     return (
       <form
         className="album-form"
-        onClick={this.handleFormClick}
         ref={(form) => { this.formComponent = form; }}
       >
         {this.state.id ? null : <h4 className="item-new-title">New {this.resource}</h4>}
@@ -94,7 +93,8 @@ export default class AlbumResourceForm extends ResourceForm {
               className="item-control item-control-save"
               type="submit"
               onClick={this.handleSubmit}
-              title={`Save ${isInPage ? "new " : ""}${this.resource}`}>
+              title={`Save ${isInPage ? 'new ' : ''}${this.resource}`}
+            >
               <i className="fa fa-floppy-o" />
               <span className="no-web">Save</span>
             </button>
@@ -102,7 +102,8 @@ export default class AlbumResourceForm extends ResourceForm {
               <button
                 className="item-control item-control-delete"
                 onClick={this.handleDelete}
-                title={`Delete ${this.resource}`}>
+                title={`Delete ${this.resource}`}
+              >
                 <i className="fa fa-trash-o" />
                 <span className="no-web">Delete</span>
               </button>
@@ -110,7 +111,8 @@ export default class AlbumResourceForm extends ResourceForm {
             <button
               onClick={this.handleUploadLabelClick}
               className="item-control item-control-upload-avatar"
-              title="Upload avatar" >
+              title="Upload avatar"
+            >
               <i className="fa fa-upload" />
               <span className="no-web">Upload avatar</span>
             </button>
@@ -118,7 +120,8 @@ export default class AlbumResourceForm extends ResourceForm {
               <button
                 className="item-control item-control-cancel"
                 onClick={this.handleCancel}
-                title="Cancel edit">
+                title="Cancel edit"
+              >
                 <i className="fa fa-times" />
                 <span className="no-web">Cancel</span>
               </button>
@@ -143,7 +146,7 @@ export default class AlbumResourceForm extends ResourceForm {
             />
           </div>
           <div className="item-name">
-            <img className="name-background" src={this.state.avatar} />
+            <img className="name-background" alt={`${this.resource} avatar`}src={this.state.avatar} />
             <label className="name-label no-web" htmlFor={`album-name-${this.state.id}`} placeholder="Name">Name</label>
             <input className="name-input" id={`album-name-${this.state.id}`} placeholder="Name" type="text" name="name" value={this.state.name} onChange={this.handleChange} />
             <input type="submit" style={{ display: 'none' }} onClick={this.handleSubmit} />

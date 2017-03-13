@@ -1,6 +1,7 @@
 import React from 'react';
 import { Resource } from './index';
 import { ResourceList } from '../shared';
+import { bindHandlers } from '../../helpers';
 
 export default class AlbumResourceList extends ResourceList {
   static defaultProps = { albums: [] };
@@ -10,26 +11,27 @@ export default class AlbumResourceList extends ResourceList {
 
     this.resource = 'albums';
     this.state = { albums: props.albums };
+    bindHandlers.call(this, ['composeAlbumItem']);
+  }
+
+  composeAlbumItem(album) {
+    return (
+      <Resource
+        {...album}
+        key={album.id}
+        formArtists={this.props.formArtists}
+        container={this.props.container}
+        handleResourceAdd={this.handleResourceAdd}
+        handleResourceSelect={this.handleResourceSelect}
+        handleResourceDelete={this.handleResourceDelete}
+      />
+    );
   }
 
   render() {
-    function composeAlbumItem(album) {
-      return (
-        <Resource
-          {...album}
-          key={album.id}
-          formArtists={this.props.formArtists}
-          container={this.props.container}
-          handleResourceAdd={this.handleResourceAdd}
-          handleResourceSelect={this.handleResourceSelect}
-          handleResourceDelete={this.handleResourceDelete}
-        />
-      );
-    }
-
     return (
       <ul className="album-list">
-        {this.state.albums.map(composeAlbumItem.bind(this))}
+        {this.state.albums.map(this.composeAlbumItem)}
       </ul>
     );
   }

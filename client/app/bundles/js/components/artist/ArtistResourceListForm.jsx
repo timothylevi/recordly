@@ -1,6 +1,7 @@
 import React from 'react';
 import { ResourceListForm } from '../shared';
-import { registerHandlers } from '../../helpers';
+import { bindHandlers } from '../../helpers';
+import { markSelected, markAllDeselected } from '../../state-functions';
 
 export default class ArtistResourceListForm extends ResourceListForm {
   static defaultProps = {
@@ -12,26 +13,16 @@ export default class ArtistResourceListForm extends ResourceListForm {
     super(props);
 
     this.resource = 'artists';
-    this.state = { artists: this.mergeSelected(props.artists, props.formArtists) };
+    this.state = { artists: ResourceListForm.mergeSelected(props.artists, props.formArtists) };
 
-    registerHandlers.call(this, ['handleSelect']);
+    bindHandlers.call(this, ['handleSelect']);
   }
 
   handleSelect(event) {
     event.preventDefault();
 
     const objId = parseInt(event.currentTarget.id, 10);
-
-    function selectCurrentResource(resource) {
-      return {
-        ...resource,
-        selected: objId === resource.id ? !resource.selected : resource.selected,
-      };
-    }
-
-    const resources = this.state[this.resource].map(selectCurrentResource);
-
-    this.setState({ [this.resource]: resources });
+    this.setState(markSelected(this.state, this.resource, objId));
   }
 
   getRequestData() {
@@ -41,12 +32,7 @@ export default class ArtistResourceListForm extends ResourceListForm {
   }
 
   resetForm() {
-    function deselectArtist(artist) {
-      return { ...artist, selected: false };
-    }
-    const resetResources = this.state[this.resource].map(deselectArtist);
-
-    this.setState({ artists: resetResources });
+    this.setState(markAllDeselected(this.state, this.resource));
   }
 
   composeArtistList(artists) {

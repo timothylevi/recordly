@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
-import { registerHandlers, blankFunction } from '../../helpers';
+import { bindHandlers, blankFunction } from '../../helpers';
+import * as stateFunctions from '../../state-functions';
 
 export default class BaseResource extends React.Component {
   static propTypes = {
@@ -8,42 +9,41 @@ export default class BaseResource extends React.Component {
     handleResourceAdd: PropTypes.func,
     handleResourceUpdate: PropTypes.func,
   };
+
   static defaultProps = {
     handleResourceCancel: blankFunction,
     handleResourceDelete: blankFunction,
     handleResourceAdd: blankFunction,
     handleResourceUpdate: blankFunction,
   };
+
+  static getHandleRequestSuccess(callback) {
+    function handleSuccess(data) {
+      function callCallback() {
+        if (callback) callback(data);
+      }
+
+      if (data.errors && data.errors.length) {
+        this.setState(stateFunctions.setErrors(this.state, data));
+      } else {
+        this.setState(stateFunctions.setData(this.state, data), callCallback);
+      }
+    }
+
+    return handleSuccess;
+  }
+
   constructor(props) {
     super(props);
 
-    registerHandlers.call(this, [
+    bindHandlers.call(this, [
       'handleCancel',
       'handleChange',
       'handleDelete',
       'handleFileUpload',
       'handleSubmit',
-      'getHandleRequestSuccess',
       'handleUploadLabelClick',
     ]);
-  }
-
-  composeErrorList(errors) {
-    if (!errors || !errors.length) return null;
-
-    function composeErrorItem(error, index) {
-      return (
-        <li className="error-item" key={index}>
-          {error}
-        </li>
-      );
-    }
-
-    return (
-      <ul className="error-list">
-        {errors.map(composeErrorItem.bind(this))}
-      </ul>
-    );
   }
 
   handleCancel(event) {
@@ -61,7 +61,7 @@ export default class BaseResource extends React.Component {
     event.preventDefault();
     event.stopPropagation();
 
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState(stateFunctions.setFormInputValue(this.state, event.target));
   }
 
   handleDelete(event) {
@@ -85,7 +85,7 @@ export default class BaseResource extends React.Component {
       const file = this.formComponent.elements[elName].files[0];
 
       function onLoad() {
-        this.setState({ [elName]: reader.result });
+        this.setState(stateFunctions.setFormFileValue(this.state, elName, reader.result));
       }
 
       reader.addEventListener('load', onLoad.bind(this), false);
@@ -117,26 +117,29 @@ export default class BaseResource extends React.Component {
     $.ajax(request);
   }
 
-  handleFormClick(event) {
-    event.stopPropagation();
-  }
 
   handleUploadLabelClick(event) {
     event.preventDefault();
 
-    $(`#${this.resource}-avatar-${this.state.id}`).trigger("click");
+    $(`#${this.resource}-avatar-${this.state.id}`).trigger('click');
   }
 
-  getHandleRequestSuccess(callback) {
-    return function handleSuccess(data) {
-      if (data.errors && data.errors.length) {
-        this.setState({ ...data, avatar: this.state.avatar });
-      } else {
-        this.setState({ ...data }, function() {
-          callback(data);
-        });
-      }
+  composeErrorList(errors) {
+    if (!errors || !errors.length) return null;
+
+    function composeErrorItem(error, index) {
+      return (
+        <li className="error-item" key={index}>
+          {error}
+        </li>
+      );
     }
+
+    return (
+      <ul className="error-list">
+        {errors.map(composeErrorItem.bind(this))}
+      </ul>
+    );
   }
 
   buildRequestOptions(type, form, saved, callback) {

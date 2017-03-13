@@ -3,6 +3,7 @@ import { ResourceList } from '../shared';
 import { Resource as ArtistResource } from '../artist';
 import { Resource as AlbumResource } from '../album';
 import { Resource as TrackResource } from '../track';
+import { bindHandlers } from '../../helpers';
 
 export default class FavoriteResourceList extends ResourceList {
   static defaultProps = { favorites: [] };
@@ -12,6 +13,7 @@ export default class FavoriteResourceList extends ResourceList {
 
     this.resource = 'favorites';
     this.state = { favorites: props.favorites };
+    bindHandlers.call(this, ['composeFavoriteItem']);
   }
 
   getResource() {
@@ -39,7 +41,7 @@ export default class FavoriteResourceList extends ResourceList {
   render() {
     return (
       <ul className="favorite-list">
-        {this.state.favorites.map(this.composeFavoriteItem.bind(this))}
+        {this.state.favorites.map(this.composeFavoriteItem)}
       </ul>
     );
   }

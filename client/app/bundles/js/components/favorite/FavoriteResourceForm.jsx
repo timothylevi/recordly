@@ -1,6 +1,6 @@
 import React from 'react';
 import { ResourceForm } from '../shared';
-import { registerHandlers } from '../../helpers';
+import { bindHandlers, blankFunction } from '../../helpers';
 
 export default class FavoriteResourceForm extends ResourceForm {
   static defaultProps = {
@@ -19,11 +19,15 @@ export default class FavoriteResourceForm extends ResourceForm {
       favoriteable_type: props.favoriteable_type,
     };
 
-    registerHandlers.call(this, [
+    bindHandlers.call(this, [
       'handleFavorite',
-      'getHandleRequestSuccess',
     ]);
   }
+
+  static getHandleRequestSuccess() {
+    return blankFunction;
+  }
+
 
   getRequestData() {
     return { favorite: this.state };
@@ -33,21 +37,18 @@ export default class FavoriteResourceForm extends ResourceForm {
     event.preventDefault();
     event.stopPropagation();
 
-    const create = function() {}
-    const update = function() {
+    function update() {
       this.setState({ id: null });
     }
 
     const saved = !!this.state.id;
     const type = saved ? 'DELETE' : 'POST';
     const form = this.getRequestData();
-    const callback = saved ? update : create;
+    const callback = saved ? update : blankFunction;
     const request = this.buildRequestOptions(type, form, saved, callback.bind(this));
 
     $.ajax(request);
   }
-
-  // getHandleRequestSuccess(callback) {}
 
   render() {
     const isFavorited = !!this.state.id;
@@ -59,7 +60,8 @@ export default class FavoriteResourceForm extends ResourceForm {
       <button
         title={favoriteText}
         className={`item-control item-control-favorite ${isFavorited ? 'favorited' : ''}`}
-        onClick={this.handleFavorite}>
+        onClick={this.handleFavorite}
+      >
         <i className={`fa fa-heart${isFavorited ? '' : '-o'}`} />
         <span className="no-web">{favoriteText}</span>
       </button>

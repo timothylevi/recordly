@@ -21,7 +21,7 @@ export default class AlbumResourceListPage extends FilterableResourceList {
           formArtists={this.props.artists}
           handleResourceAdd={this.handleResourceAdd}
         />
-    </div>
+      </div>
     );
   }
 
