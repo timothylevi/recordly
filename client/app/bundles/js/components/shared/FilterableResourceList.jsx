@@ -16,7 +16,6 @@ export default class FilterableResourceList extends BaseResourceList {
     event.preventDefault();
 
     const resourcesFilterMask = this.resourcesFilterMask.value.toLowerCase();
-
     function nameIncludesFilterMask(resource) {
       return resource.name.toLowerCase().includes(resourcesFilterMask);
     }
@@ -29,17 +28,21 @@ export default class FilterableResourceList extends BaseResourceList {
   composeResourceFilter(disable) {
     if (disable) return null;
 
-    const resources =  this.state.filteredResources;
+    function setResourcesFilterMask(resourcesFilterMask) {
+      this.resourcesFilterMask = resourcesFilterMask;
+    }
+
+    const resources = this.state.filteredResources;
     const filteredResources = this.composeResourceList(!this.resourcesFilterMask.value, resources);
 
     return (
       <div className="resources-filter">
         <input
           type="search"
-          placeholder={`Search ${this.resource}`}
+          placeholder={`Search ${this.resource} by name or title`}
           onChange={this.handleFilter}
           className="resources-filter-mask"
-          ref={(resourcesFilterMask) => { this.resourcesFilterMask = resourcesFilterMask; }}
+          ref={setResourcesFilterMask.bind(this)}
         />
         {filteredResources}
       </div>

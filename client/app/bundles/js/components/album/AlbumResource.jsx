@@ -32,7 +32,8 @@ export default class AlbumResource extends Resource {
       <button
         className="item-control item-control-edit"
         onClick={this.handleEdit}
-        title={`Edit ${this.resource}`}>
+        title={`Edit ${this.resource}`}
+      >
         <i className="fa fa-pencil-square-o" />
         <span className="no-web">Edit {this.resource}</span>
       </button>
@@ -90,10 +91,12 @@ export default class AlbumResource extends Resource {
       <li key={this.state.id} className={className}>
         <div className="item-row">
           <div className="item-controls">
-            {this.props.container === "page" ? null : (
+            {this.props.container === 'page' ? null : (
               <button
                 title="Album"
-                className="item-control item-control-select static" disabled>
+                className="item-control item-control-select static"
+                disabled
+              >
                 <i className="fa fa-music" />
                 <span className="no-web">Album</span>
               </button>
@@ -106,7 +109,8 @@ export default class AlbumResource extends Resource {
             <button
               className="item-control item-control-select"
               onClick={this.handleSelect}
-              title={selectText}>
+              title={selectText}
+            >
               <i className={`fa ${isSelected ? 'fa-outdent' : 'fa-indent'}`} />
               <span className="no-web">{selectText}</span>
             </button>
@@ -117,10 +121,18 @@ export default class AlbumResource extends Resource {
             style={{ backgroundImage: `url('${this.state.avatar}')` }}
           />
           <div className="item-name">
-            <img className="item-name-background" src={this.state.avatar} />
+            <img
+              className="item-name-background"
+              alt={`${this.resource} avatar`}
+              src={this.state.avatar}
+            />
             <div className="item-name-text">{this.state.name}</div>
-              <div className="item-created">{this.state.created_at && this.state.created_at.toString()}</div>
-              <div className="item-updated">{this.state.updated_at && this.state.updated_at.toString()}</div>
+            <div className="item-created">
+              {this.state.created_at && this.state.created_at.toString()}
+            </div>
+            <div className="item-updated">
+              {this.state.updated_at && this.state.updated_at.toString()}
+            </div>
           </div>
         </div>
         <div className="item-row item-associations">
