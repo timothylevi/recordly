@@ -19,15 +19,8 @@ export default class BaseResource extends React.Component {
 
   static getHandleRequestSuccess(callback) {
     function handleSuccess(data) {
-      function callCallback() {
-        if (callback) callback(data);
-      }
-
-      if (data.errors && data.errors.length) {
-        this.setState(stateFunctions.setErrors(this.state, data));
-      } else {
-        this.setState(stateFunctions.setData(this.state, data), callCallback);
-      }
+      function callCallback() { if (callback) callback(data); }
+      this.setState(stateFunctions.setErrorsOrData(this.state, data), callCallback);
     }
 
     return handleSuccess;
@@ -85,7 +78,8 @@ export default class BaseResource extends React.Component {
       const file = this.formComponent.elements[elName].files[0];
 
       function onLoad() {
-        this.setState(stateFunctions.setFormFileValue(this.state, elName, reader.result));
+        const target = { name: elName, value: reader.result };
+        this.setState(stateFunctions.setFormInputValue(this.state, target));
       }
 
       reader.addEventListener('load', onLoad.bind(this), false);
