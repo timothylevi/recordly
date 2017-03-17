@@ -7,10 +7,12 @@ class Album < ApplicationRecord
   path: "avatar/:id/:style/:basename.:extension",
   default_url: "/images/missing_album.png"
 
-  validates :name, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 255 }
-  validates :artists, presence: true
   validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
+  validates :name, presence: true, uniqueness: { scope: :collection, case_sensitive: false }, length: { maximum: 255 }
+  validates :artists, presence: true
+  validates :collection, presence: true
 
+  belongs_to :collection
   has_and_belongs_to_many :artists, join_table: :artists_albums
   has_many :tracks, inverse_of: :album
 

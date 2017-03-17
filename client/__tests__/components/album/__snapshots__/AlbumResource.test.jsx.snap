@@ -1,0 +1,207 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AlbumResource behaves correctly 1`] = `
+<li
+  className="album-item "
+>
+  <div
+    className="item-row"
+  >
+    <div
+      className="item-controls"
+    >
+      <button
+        className="item-control item-control-select static"
+        disabled={true}
+        title="Album"
+      >
+        <i
+          className="fa fa-music"
+        />
+        <span
+          className="no-web"
+        >
+          Album
+        </span>
+      </button>
+      <button
+        className="item-control item-control-favorite "
+        onClick={[Function]}
+        title="Favorite album"
+      >
+        <i
+          className="fa fa-heart-o"
+        />
+        <span
+          className="no-web"
+        >
+          Favorite album
+        </span>
+      </button>
+      <button
+        className="item-control item-control-select"
+        onClick={[Function]}
+        title="View more from this album"
+      >
+        <i
+          className="fa fa-indent"
+        />
+        <span
+          className="no-web"
+        >
+          View more from this album
+        </span>
+      </button>
+      <button
+        className="item-control item-control-edit"
+        onClick={[Function]}
+        title="Edit album"
+      >
+        <i
+          className="fa fa-pencil-square-o"
+        />
+        <span
+          className="no-web"
+        >
+          Edit 
+          album
+        </span>
+      </button>
+    </div>
+    <div
+      className="item-avatar"
+      style={
+        Object {
+          "backgroundImage": "url('/images/missing_album.png')",
+        }
+      }
+    />
+    <div
+      className="item-name"
+    >
+      <img
+        alt="album avatar"
+        className="item-name-background"
+        src="/images/missing_album.png"
+      />
+      <div
+        className="item-name-text"
+      >
+        Example Album
+      </div>
+      <div
+        className="item-created"
+      />
+      <div
+        className="item-updated"
+      />
+    </div>
+  </div>
+  <div
+    className="item-row item-associations"
+  />
+</li>
+`;
+
+exports[`undefined 1`] = `
+<li
+  className="album-item "
+>
+  <div
+    className="item-row"
+  >
+    <div
+      className="item-controls"
+    >
+      <button
+        className="item-control item-control-select static"
+        disabled={true}
+        title="Album"
+      >
+        <i
+          className="fa fa-music"
+        />
+        <span
+          className="no-web"
+        >
+          Album
+        </span>
+      </button>
+      <button
+        className="item-control item-control-favorite "
+        onClick={[Function]}
+        title="Favorite album"
+      >
+        <i
+          className="fa fa-heart-o"
+        />
+        <span
+          className="no-web"
+        >
+          Favorite album
+        </span>
+      </button>
+      <button
+        className="item-control item-control-select"
+        onClick={[Function]}
+        title="View more from this album"
+      >
+        <i
+          className="fa fa-indent"
+        />
+        <span
+          className="no-web"
+        >
+          View more from this album
+        </span>
+      </button>
+      <button
+        className="item-control item-control-edit"
+        onClick={[Function]}
+        title="Edit album"
+      >
+        <i
+          className="fa fa-pencil-square-o"
+        />
+        <span
+          className="no-web"
+        >
+          Edit 
+          album
+        </span>
+      </button>
+    </div>
+    <div
+      className="item-avatar"
+      style={
+        Object {
+          "backgroundImage": "url('/images/missing_album.png')",
+        }
+      }
+    />
+    <div
+      className="item-name"
+    >
+      <img
+        alt="album avatar"
+        className="item-name-background"
+        src="/images/missing_album.png"
+      />
+      <div
+        className="item-name-text"
+      >
+        Example Album
+      </div>
+      <div
+        className="item-created"
+      />
+      <div
+        className="item-updated"
+      />
+    </div>
+  </div>
+  <div
+    className="item-row item-associations"
+  />
+</li>
+`;

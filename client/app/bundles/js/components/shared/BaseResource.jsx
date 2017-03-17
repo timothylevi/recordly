@@ -10,25 +10,27 @@ export default class BaseResource extends React.Component {
     super(props);
 
     bindHandlers.call(this, [
-      'handleEdit',
       'handleSelect',
-      'handleResourceUpdate',
+      'handleEdit',
       'handleResourceCancel',
+      'handleResourceUpdate',
     ]);
   }
 
-  handleEdit(event) {
-    event.preventDefault();
-    event.stopPropagation();
-
-    this.setState(stateFunctions.setFormOpen(this.state));
-  }
-
+  // Parent
   handleSelect(event) {
     event.preventDefault();
     event.stopPropagation();
 
     this.props.handleResourceSelect(this.state.id);
+  }
+
+  // Self
+  handleEdit(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.setState(stateFunctions.setFormOpen(this.state));
   }
 
   handleResourceCancel() {

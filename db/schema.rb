@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170309220642) do
+ActiveRecord::Schema.define(version: 20170315174734) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,8 @@ ActiveRecord::Schema.define(version: 20170309220642) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
+    t.integer  "collection_id"
+    t.index ["collection_id"], name: "index_albums_on_collection_id", using: :btree
   end
 
   create_table "artists", force: :cascade do |t|
@@ -33,6 +35,8 @@ ActiveRecord::Schema.define(version: 20170309220642) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
+    t.integer  "collection_id"
+    t.index ["collection_id"], name: "index_artists_on_collection_id", using: :btree
   end
 
   create_table "artists_albums", id: false, force: :cascade do |t|
@@ -40,6 +44,13 @@ ActiveRecord::Schema.define(version: 20170309220642) do
     t.integer "album_id"
     t.index ["album_id"], name: "index_artists_albums_on_album_id", using: :btree
     t.index ["artist_id"], name: "index_artists_albums_on_artist_id", using: :btree
+  end
+
+  create_table "collections", force: :cascade do |t|
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_collections_on_user_id", using: :btree
   end
 
   create_table "favorites", force: :cascade do |t|
@@ -70,5 +81,8 @@ ActiveRecord::Schema.define(version: 20170309220642) do
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
   end
 
+  add_foreign_key "albums", "collections"
+  add_foreign_key "artists", "collections"
+  add_foreign_key "collections", "users"
   add_foreign_key "favorites", "users"
 end

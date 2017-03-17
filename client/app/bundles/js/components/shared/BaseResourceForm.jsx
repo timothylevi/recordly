@@ -46,6 +46,7 @@ export default class BaseResource extends React.Component {
     if (this.state.id) {
       this.props.handleResourceCancel();
     } else {
+      // TODO: Don't hide cancel button for new form, you can use as reset (pick diff icon)
       this.resetForm();
     }
   }

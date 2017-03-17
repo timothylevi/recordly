@@ -40,6 +40,9 @@ group :development, :test do
   gem 'byebug', platform: :mri
   # To use assert_template in integration test
   gem 'rails-controller-testing'
+
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
 end
 
 group :development do
@@ -53,7 +56,12 @@ group :development do
   gem 'rack-mini-profiler'
 end
 
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+group :test do
+  gem 'faker'
+  gem 'capybara'
+  gem 'guard-rspec'
+  gem 'launchy'
+  gem 'simplecov', :require => false
+end
 
 gem 'mini_racer', platforms: :ruby
