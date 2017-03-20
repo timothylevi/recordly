@@ -3,6 +3,13 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :exception
 
+  def require_login
+    unless logged_in?
+      flash[:error] = "You must be logged in first."
+      redirect_to login_url
+    end
+  end
+
   def artist_api(artist, disabledProps=[])
     return nil if !artist
     return {

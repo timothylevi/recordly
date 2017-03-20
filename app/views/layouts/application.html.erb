@@ -32,9 +32,11 @@
             </li>
           <% else %>
             <li class="header-nav-link <%= 'header-nav-link-active' if current_page?(new_user_path) %>">
+              <i class="fa fa-fw fa-user-plus" style="opacity: <%= current_page?(new_user_path) ? '1' : '0.5'%>;"></i>
               <%= link_to "Register", new_user_path %>
             </li>
-            <li class="header-nav-link <%= 'header-nav-link-active' if current_page?(login_path) %>">
+            <li class="header-nav-link <%= 'header-nav-link-active' if current_page?(login_path) or current_page?(root_path) %>">
+              <i class="fa fa-fw fa-sign-in" style="opacity: <%= current_page?(login_path) or current_page?(root_path) ? '1' : '0.5'%>;"></i>
               <%= link_to "Log in", login_path %>
             </li>
           <% end %>

@@ -33,7 +33,7 @@ export default class ArtistResourceListPage extends FilterableResourceList {
   }
 
   render() {
-    const isFiltering = this.resourcesFilterMask.value;
+    const isFiltering = !!this.resourcesFilterMask.value;
 
     const resourceFilter = this.composeResourceFilter();
     const resourceList = this.composeResourceList(isFiltering);

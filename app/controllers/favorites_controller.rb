@@ -1,13 +1,14 @@
 class FavoritesController < ApplicationController
+  before_filter :require_login
+
   def index
     @props = {
-      favorites: current_user.favorites.all.map { |favorite| favorite_api(favorite) },
-      artists: Artist.all.map { |artist| artist_api(artist, ["albums"]) }
+      favorites: current_user.favorites.all.map { |favorite| favorite_api(favorite) }
     }
   end
 
   def create
-    favorite = current_user.favorites.new(favorite_params)
+    favorite = current_user.favorites.build(favorite_params)
 
     respond_to do |format|
       format.json do

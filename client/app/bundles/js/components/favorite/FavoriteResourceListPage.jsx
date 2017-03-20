@@ -20,8 +20,10 @@ export default class FavoriteResourceListPage extends FilterableResourceList {
   }
 
   render() {
+    const isFiltering = !!this.resourcesFilterMask.value;
+
     const resourceFilter = this.composeResourceFilter();
-    const resourceList = this.composeResourceList(this.resourcesFilterMask.value);
+    const resourceList = this.composeResourceList(isFiltering);
 
     return (
       <Page title={this.resource}>

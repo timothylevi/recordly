@@ -98,7 +98,7 @@ export default class AlbumResourceForm extends ResourceForm {
               <i className="fa fa-floppy-o" />
               <span className="no-web">Save</span>
             </button>
-            {isInPage ? null : (
+            {this.state.id ? (
               <button
                 className="item-control item-control-delete"
                 onClick={this.handleDelete}
@@ -107,7 +107,7 @@ export default class AlbumResourceForm extends ResourceForm {
                 <i className="fa fa-trash-o" />
                 <span className="no-web">Delete</span>
               </button>
-            )}
+            ) : null}
             <button
               onClick={this.handleUploadLabelClick}
               className="item-control item-control-upload-avatar"

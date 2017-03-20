@@ -18,18 +18,20 @@ ul {
   background-color: lighten($SUCCESS, 40%);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23a0d9c0' fill-opacity='0.25'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   border-radius: 0rem 0rem 0.5rem 0.5rem;
-  border-bottom: 0.5rem solid darken($SUCCESS, 5%);
+  box-shadow: 0.25rem 0.25rem darken($SUCCESS, 5%);
 
   .header-nav {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
     padding: 0 2rem 0 2rem;
     color: darken($SUCCESS, 35%);
+    padding-bottom: 1.5rem;
 
     .header-nav-title {
       margin: 0;
-      padding: 0 0 2rem 0;
+      padding: 0;
+      text-shadow: 0.1rem 0.1rem transparentize(darken($SUCCESS, 5%), 0.5);
     }
 
     .header-nav-links {
@@ -76,7 +78,7 @@ ul {
   margin: 0.5rem 0 1rem 0;
   padding: 2rem;
   background-color: lighten($WARNING, 50%);
-  border-bottom: 0.5rem solid lighten($WARNING, 10%);
+  box-shadow: 0.25rem 0.25rem  lighten($WARNING, 10%);
   background-attachment: fixed;
   border-radius: 0.5rem;
 
@@ -92,10 +94,51 @@ ul {
     background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffb050' fill-opacity='0.25'%3E%3Cpath d='M50 50c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10zM10 10c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10S0 25.523 0 20s4.477-10 10-10zm10 8c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm40 40c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   }
 
+  &.register-page,
+  &.login-page {
+    label {
+      display: block;
+      margin-top: 0.5rem;
+    }
+
+    a,
+    input[type="submit"] {
+      border: none;
+      border-radius: 5px;
+      padding: 0.5rem 1rem;
+      color: white;
+    }
+
+    input[type="submit"] {
+      margin-top: 0.75rem;
+      display: block;
+      background: lighten($WARNING, 10%);
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    p {
+      margin: 0;
+
+      a {
+        display: inline-block;
+        margin-top: 0.25rem;
+        background: desaturate($WARNING, 90%);
+        text-decoration: none;
+      }
+    }
+
+  }
+
+  &.register-page {
+
+  }
+
   .page-title {
     margin: 0 0 0.5rem 0;
     text-transform: capitalize;
     color: darken($WARNING, 35%);
+    text-shadow: 0.1rem 0.1rem transparentize(lighten($WARNING, 10%), 0.65);
   }
 
   .page-section {

@@ -58,6 +58,7 @@ export default class AlbumResource extends Resource {
 
   render() {
     if (this.props.deleted) return null;
+    if (this.props.hasOwnProperty('filtered') && !this.props.filtered) return null;
 
     if (this.state.form) {
       return (

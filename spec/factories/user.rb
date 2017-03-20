@@ -1,7 +1,14 @@
 require 'faker'
 
 FactoryGirl.define do
-  factory :user do
+  factory :new_user, class: User do
+    name nil
+    email nil
+    password nil
+    password_confirmation nil
+  end
+
+  factory :user, class: User do
     transient do
       artists []
       albums []

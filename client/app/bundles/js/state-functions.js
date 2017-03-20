@@ -15,7 +15,7 @@ function setErrorsOrData(state, data) {
 
   // Reset avatar to data/image because the data returned
   // may not have a saved image URI to use.
-  if (state.avatar && data.errors && data.errors.length) {
+  if (state.avatar && newState.errors && newState.errors.length) {
     newState.avatar = state.avatar;
   }
 

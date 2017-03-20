@@ -1,24 +1,27 @@
 class AlbumsController < ApplicationController
+  before_filter :require_login
+
   def index
+    # byebug
     @props = {
-      artists: Artist.all.map { |artist| artist_api(artist, ["albums"]) },
-      albums: Album.includes(:artists, :tracks).all.map { |album| album_api(album) }
+      artists: current_user.collection.artists.map { |artist| artist_api(artist, ["albums"]) },
+      albums: current_user.collection.albums.map { |album| album_api(album) }
     }
   end
 
   def create
-    album = Album.new(album_params)
+    album = current_user.collection.albums.build(album_params)
 
     respond_to do |format|
       format.json do
         album.save
-        render json: album_api(album)
+        render status: 201, json: album_api(album)
       end
     end
   end
 
   def update
-    album = Album.find(params[:id])
+    album = current_user.collection.albums.find(params[:id])
 
     respond_to do |format|
       format.json do
@@ -29,9 +32,10 @@ class AlbumsController < ApplicationController
   end
 
   def destroy
-    album = Album.find(params[:id]).destroy
+    album = current_user.collection.albums.find(params[:id])
     respond_to do |format|
       format.json do
+        album.destroy
         render json: album_api(album).except(:avatar)
       end
     end

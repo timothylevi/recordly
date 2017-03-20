@@ -4,7 +4,8 @@ module SessionsHelper
   end
 
   def current_user
-    @current_user ||= User.includes(:favorites).find_by(id: session[:user_id])
+    # This is a little ugly
+    @current_user ||= User.includes(favorites: :favoriteable, collection: {artists: {albums: [:tracks]}, albums: []}).find_by(id: session[:user_id])
   end
 
   def logged_in?

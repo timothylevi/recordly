@@ -180,6 +180,8 @@
         cursor: pointer;
         color: rgba(0, 0, 0, 0.5);
         transition: color 500ms;
+        background: none;
+        border: none;
 
         &:hover {
           color: black;

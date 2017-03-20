@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  get 'albums/index'
-
   get     '/login',   to: 'sessions#new'
   post    '/login',   to: 'sessions#create'
   delete  '/logout',  to: 'sessions#destroy'
@@ -8,7 +6,7 @@ Rails.application.routes.draw do
   resources :artists, only: [:index, :create, :update, :destroy]
   resources :albums, only: [:index, :create, :update, :destroy]
   resources :favorites, only: [:index, :create, :destroy]
-  resources :users, only: [:new, :create, :update, :destroy]
+  resources :users, only: [:new, :create]
 
-  root to: 'artists#index'
+  root to: 'favorites#index'
 end

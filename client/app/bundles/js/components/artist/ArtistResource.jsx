@@ -36,6 +36,7 @@ export default class Artist extends Resource {
 
   render() {
     if (this.props.deleted) return null;
+    if (this.props.hasOwnProperty('filtered') && !this.props.filtered) return null;
 
     if (this.state.form) {
       return (
@@ -62,10 +63,11 @@ export default class Artist extends Resource {
       <li key={this.state.id} className={className}>
         <div className="item-row">
           <div className="item-controls">
-            {this.props.container === "page" ? null : (
+            {this.props.container === 'page' ? null : (
               <button
                 title="Artist"
-                className="item-control item-control-select static" disabled>
+                className="item-control item-control-select static" disabled
+              >
                 <i className="fa fa-user" />
                 <span className="no-web">Artist</span>
               </button>
@@ -75,7 +77,8 @@ export default class Artist extends Resource {
               <button
                 className="item-control item-control-select"
                 onClick={this.handleSelect}
-                title={selectText}>
+                title={selectText}
+              >
                 <i className={`fa ${isSelected ? 'fa-outdent' : 'fa-indent'}`} />
                 <span className="no-web">{selectText}</span>
               </button>
@@ -84,7 +87,8 @@ export default class Artist extends Resource {
               <button
                 className="item-control item-control-edit"
                 onClick={this.handleEdit}
-                title={`Edit ${this.resource}`}>
+                title={`Edit ${this.resource}`}
+              >
                 <i className="fa fa-pencil-square-o" />
                 <span className="no-web">Edit {this.resource}</span>
               </button>
@@ -92,7 +96,7 @@ export default class Artist extends Resource {
           </div>
           <div className="item-avatar" style={{ backgroundImage: `url('${this.state.avatar}')` }} />
           <div className="item-name">
-            <img className="item-name-background" src={this.state.avatar} />
+            <img className="item-name-background" src={this.state.avatar} alt={`${this.state.name} avatar`} />
             <div className="item-name-text">{this.state.name}</div>
             <div className="item-created">{this.state.created_at && this.state.created_at.toString()}</div>
             <div className="item-updated">{this.state.updated_at && this.state.updated_at.toString()}</div>

@@ -10,18 +10,10 @@ class UsersController < ApplicationController
     if @user.save
       log_in @user
       flash[:success] = "Welcome to Recordly, #{@user.name}!"
-      redirect_to root_path
+      redirect_to root_path, status: 301
     else
-      render 'new'
+      render 'new', status: 409
     end
-  end
-
-  def update
-
-  end
-
-  def destroy
-
   end
 
   private

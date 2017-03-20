@@ -26,6 +26,8 @@ export default class TrackResource extends React.Component {
   };
 
   render() {
+    if (this.props.hasOwnProperty('filtered') && !this.props.filtered) return null;
+
     const album = this.props.album.name;
     const artists = this.props.album.artists.map(artist => artist.name).join(', ');
 

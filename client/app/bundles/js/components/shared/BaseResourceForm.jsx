@@ -17,15 +17,6 @@ export default class BaseResource extends React.Component {
     handleResourceUpdate: blankFunction,
   };
 
-  static getHandleRequestSuccess(callback) {
-    function handleSuccess(data) {
-      function callCallback() { if (callback) callback(data); }
-      this.setState(stateFunctions.setErrorsOrData(this.state, data), callCallback);
-    }
-
-    return handleSuccess;
-  }
-
   constructor(props) {
     super(props);
 
@@ -36,6 +27,7 @@ export default class BaseResource extends React.Component {
       'handleFileUpload',
       'handleSubmit',
       'handleUploadLabelClick',
+      'getHandleRequestSuccess',
     ]);
   }
 
@@ -67,7 +59,7 @@ export default class BaseResource extends React.Component {
     }
 
     const saved = true;
-    const form = this.buildRequestData();
+    const form = this.buildRequestData(this.state);
     const request = this.buildRequestOptions('delete', form, saved, callback.bind(this));
 
     $.ajax(request);
@@ -112,11 +104,19 @@ export default class BaseResource extends React.Component {
     $.ajax(request);
   }
 
-
   handleUploadLabelClick(event) {
     event.preventDefault();
 
     $(`#${this.resource}-avatar-${this.state.id}`).trigger('click');
+  }
+
+  getHandleRequestSuccess(callback) {
+    function handleSuccess(data) {
+      function callCallback() { if (callback) callback(data); }
+      this.setState(stateFunctions.setErrorsOrData(this.state, data), callCallback);
+    }
+
+    return handleSuccess;
   }
 
   composeErrorList(errors) {

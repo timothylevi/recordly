@@ -18,7 +18,7 @@ export default class TrackResourceList extends React.Component {
   render() {
     return (
       <ul className="track-list">
-        {this.props.tracks.map(this.composeTrackItem)}
+        {this.props.tracks.map(this.constructor.composeTrackItem)}
       </ul>
     );
   }

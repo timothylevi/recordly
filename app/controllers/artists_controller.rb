@@ -1,12 +1,14 @@
 class ArtistsController < ApplicationController
+  before_filter :require_login
+
   def index
     @props = {
-      artists: Artist.includes(albums: :tracks).all.map { |artist| artist_api(artist) },
+      artists: current_user.collection.artists.map { |artist| artist_api(artist) },
     }
   end
 
   def create
-    artist = Artist.new(artist_params)
+    artist = current_user.collection.artists.build(artist_params)
 
     respond_to do |format|
       format.json do
@@ -17,7 +19,7 @@ class ArtistsController < ApplicationController
   end
 
   def update
-    artist = Artist.find(params[:id])
+    artist = current_user.collection.artists.find(params[:id])
 
     respond_to do |format|
       format.json do
@@ -28,7 +30,7 @@ class ArtistsController < ApplicationController
   end
 
   def destroy
-    artist = Artist.find(params[:id]).destroy
+    artist = current_user.collection.artists.find(params[:id]).destroy
     respond_to do |format|
       format.json do
         render json: artist_api(artist).except(:avatar)

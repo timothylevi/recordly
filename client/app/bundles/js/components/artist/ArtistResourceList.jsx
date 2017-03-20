@@ -22,7 +22,6 @@ export default class ArtistResourceList extends ResourceList {
         {...artist}
         key={artist.id}
         container={this.props.container}
-        handleResourceAdd={this.handleResourceAdd}
         handleResourceSelect={this.handleResourceSelect}
         handleResourceDelete={this.handleResourceDelete}
       />
@@ -32,7 +31,7 @@ export default class ArtistResourceList extends ResourceList {
   render() {
     return (
       <ul className="artist-list">
-        {this.state.artists.map(this.composeArtistItem)}
+        {this.props.artists.map(this.composeArtistItem)}
       </ul>
     );
   }

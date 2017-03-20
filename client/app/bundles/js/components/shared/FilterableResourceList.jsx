@@ -9,7 +9,6 @@ export default class FilterableResourceList extends BaseResourceList {
 
     this.resourcesFilterMask = {};
 
-    this.state = { resourcesFilteredList: [] };
     bindHandlers.call(this, ['handleFilter']);
   }
 
@@ -27,7 +26,7 @@ export default class FilterableResourceList extends BaseResourceList {
       this.resourcesFilterMask = resourcesFilterMask;
     }
 
-    const resources = this.state.filteredResources;
+    const resources = this.state[this.resource];
     const filteredResources = this.composeResourceList(!this.resourcesFilterMask.value, resources);
 
     return (
