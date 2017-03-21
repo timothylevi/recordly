@@ -31,7 +31,7 @@ export default class ArtistResourceList extends ResourceList {
   render() {
     return (
       <ul className="artist-list">
-        {this.props.artists.map(this.composeArtistItem)}
+        {this.state.artists.map(this.composeArtistItem)}
       </ul>
     );
   }

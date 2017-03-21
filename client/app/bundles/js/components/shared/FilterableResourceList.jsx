@@ -26,8 +26,10 @@ export default class FilterableResourceList extends BaseResourceList {
       this.resourcesFilterMask = resourcesFilterMask;
     }
 
+    const isFiltering = !!this.resourcesFilterMask.value;
+
     const resources = this.state[this.resource];
-    const filteredResources = this.composeResourceList(!this.resourcesFilterMask.value, resources);
+    const filteredResources = this.composeResourceList(!isFiltering, resources);
 
     return (
       <div className="resources-filter">

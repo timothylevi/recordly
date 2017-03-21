@@ -41,7 +41,7 @@ export default class FavoriteResourceList extends ResourceList {
   render() {
     return (
       <ul className="favorite-list">
-        {this.props.favorites.map(this.composeFavoriteItem)}
+        {this.state.favorites.map(this.composeFavoriteItem)}
       </ul>
     );
   }

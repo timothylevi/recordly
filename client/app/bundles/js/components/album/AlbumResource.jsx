@@ -75,7 +75,7 @@ export default class AlbumResource extends Resource {
     }
 
     const isInArtistContainer = this.props.container === 'artist';
-    const isSelected = this.props.selected;
+    const isSelected = !!this.props.selected;
 
     const disableEditControl = isInArtistContainer;
     const disableTrackList = !isSelected;

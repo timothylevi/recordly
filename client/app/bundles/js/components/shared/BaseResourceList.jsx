@@ -24,4 +24,15 @@ export default class BaseResourceList extends React.Component {
   handleResourceSelect(objId) {
     this.setState(stateFunctions.markSelected(this.state, this.resource, objId));
   }
+
+  componentWillReceiveProps(nextProps) {
+    const newResources = [];
+    const key = this.resource;
+    const resources = this.state[this.resource];
+    for (let i = 0; i < resources.length; i++) {
+      newResources[i] = { ...this.state[key][i], ...nextProps[key][i] };
+    }
+
+    this.setState({ [key]: newResources });
+  }
 }
