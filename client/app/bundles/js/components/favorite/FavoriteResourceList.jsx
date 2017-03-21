@@ -28,7 +28,7 @@ export default class FavoriteResourceList extends ResourceList {
     const props = {
       ...favorite,
       favorite: favorite.favorite,
-      container: 'favorite',
+      container: 'favorites',
       key: `${favorite.type}-${favorite.id}-${index}`,
       handleResourceAdd: this.handleResourceAdd,
       handleResourceSelect: this.handleResourceSelect,

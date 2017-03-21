@@ -52,6 +52,7 @@ export default class Artist extends Resource {
       );
     }
 
+    const isInFavoritesContainer = this.props.container === 'favorites';
     const isInAlbumContainer = this.props.container === 'album';
     const isSelected = this.props.selected;
 
@@ -83,7 +84,7 @@ export default class Artist extends Resource {
                 <span className="no-web">{selectText}</span>
               </button>
             )}
-            {isInAlbumContainer ? null : (
+            {isInAlbumContainer || isInFavoritesContainer ? null : (
               <button
                 className="item-control item-control-edit"
                 onClick={this.handleEdit}

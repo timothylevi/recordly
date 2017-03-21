@@ -2,27 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import { album } from '../../refs';
 
-describe('AlbumResource', () => {
-  test('behaves correctly', () => {
-    const props = {
-      id: 1,
-      name: 'Example Album',
-      artists: [{ id: 1, name: 'Example artist' }],
-      tracks: [{ id: 1, name: 'Example track', track_num: 1 }],
-    };
-
-    const component = renderer.create(<album.Resource {...props} />);
-
-    const tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
-
-    component.handleSelect(props.id);
-    expect(tree).toMatchSnapshot();
-
-    component.handleEdit({});
-    expect(tree).toMatchSnapshot();
-  });
-});
+describe('AlbumResource', () => {});
 
 // import React from 'react';
 // import { ResourceForm } from './index';
