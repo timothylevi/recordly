@@ -35,6 +35,8 @@ ul {
     }
 
     .header-nav-links {
+      text-align: right;
+      
       .header-nav-link {
         display: inline-block;
         margin: 0 0 0 0.25rem;
@@ -57,18 +59,19 @@ ul {
       padding: 0.25rem 2rem;
       color: white;
       text-align: right;
+      border-radius: 0 0 5px 5px;
 
-      &.header-message-danger {
-        background-color: darken($DANGER, 5%);
+      &.header-message-error {
+        background-color: lighten($DANGER, 5%);
       }
       &.header-message-info {
-        background-color: darken($INFO, 5%);
+        background-color: lighten($INFO, 5%);
       }
       &.header-message-warning {
-        background-color: darken($WARNING, 5%);
+        background-color: lighten($WARNING, 5%);
       }
       &.header-message-success {
-        background-color: darken($SUCCESS, 5%);
+        background-color: lighten($SUCCESS, 5%);
       }
     }
   }

@@ -1,24 +1,14 @@
-# README
-
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+# Recordly App
+## Requirements
+## Features
+## Architecture
+### Ruby
+The server is a Rails application configured to serve ReactJS on the front end.
+### HTML/JS
+### CSS
+### Tests
+## Duration
+## Limitations
+## Improvements
+### Error statuses, messages and pages
+### More complete UI state representation
