@@ -40,6 +40,14 @@ export default class AlbumResourceListPage extends FilterableResourceList {
     const resourceList = this.composeResourceList(isFiltering);
     const resourceForm = this.composeResourceForm();
 
+    if (!this.props.artists.length) {
+      return (
+        <Page title={this.resource}>
+          Add an artist to create an album!
+        </Page>
+      );
+    }
+
     return (
       <Page title={this.resource}>
         {resourceFilter}

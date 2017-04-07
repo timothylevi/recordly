@@ -25,6 +25,14 @@ export default class FavoriteResourceListPage extends FilterableResourceList {
     const resourceFilter = this.composeResourceFilter();
     const resourceList = this.composeResourceList(isFiltering);
 
+    if (!this.props.favorites.length) {
+      return (
+        <Page title={this.resource}>
+          Favorite artists, albums, and tracks to show them here!
+        </Page>
+      );
+    }
+
     return (
       <Page title={this.resource}>
         {resourceFilter}
